@@ -2,6 +2,7 @@
 using Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace API.Controllers;
 
@@ -14,7 +15,8 @@ public class CommentController(IServiceManager _serviceManager):ApiController(_s
         var user = await _serviceManager.UserService.GetUserWithClaim(User);
         await _serviceManager.CommentService.CreateComment(user.Id,commentDto);
 
-        return Ok("Comment Added Succesfully");
+        _response = new ApiResponse("Comment Added Succesfully", true, null, Convert.ToInt32(HttpStatusCode.Created));
+        return StatusCode(_response.StatusCode, _response);
 
     }
     [Authorize(Roles = "User")]
@@ -23,7 +25,8 @@ public class CommentController(IServiceManager _serviceManager):ApiController(_s
     {
         await _serviceManager.CommentService.UpdateComment(commentId, commentDto);
 
-        return Ok("Comment updated Succesfully");
+        _response = new ApiResponse("Comment updated Succesfully", true, null, Convert.ToInt32(HttpStatusCode.OK));
+        return StatusCode(_response.StatusCode, _response);
 
     }
     [Authorize(Roles = "User")]
@@ -32,7 +35,8 @@ public class CommentController(IServiceManager _serviceManager):ApiController(_s
     {
         await _serviceManager.CommentService.DeleteComment(commentId);
 
-        return Ok("Comment deleted Succesfully");
+        _response = new ApiResponse("Comment deleted Succesfully", true, null, Convert.ToInt32(HttpStatusCode.OK));
+        return StatusCode(_response.StatusCode, _response);
 
     }
 }

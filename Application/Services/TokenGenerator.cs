@@ -30,6 +30,11 @@ public class TokenGenerator : ITokenGenerator
         return await _userManager.GenerateEmailConfirmationTokenAsync(user);
     }
 
+    public async Task<string> GeneratePasswordResetToken(User user)
+    {
+        return await _userManager.GeneratePasswordResetTokenAsync(user);
+    }
+
     public async Task<string> GenerateToken(User user)
     {
 

@@ -1,12 +1,10 @@
 ﻿using Contracts;
 using Domain.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace API.Controllers;
 
-[Route("api/[controller]")]
-[ApiController]
 public class AccountController(IServiceManager _serviceManager) : ApiController(_serviceManager)
 {
     [HttpPost("register")]
@@ -15,14 +13,21 @@ public class AccountController(IServiceManager _serviceManager) : ApiController(
         var registrationCheckUp = await _serviceManager.AuthorizationService.Register(registerDto);
 
         if (!registrationCheckUp.Succeeded)
-            return BadRequest(registrationCheckUp.Errors);
+        {
+
+            _response = new ApiResponse(registrationCheckUp.Errors.First().Description, false, null, Convert.ToInt32(HttpStatusCode.BadRequest));
+            return StatusCode(_response.StatusCode, _response);
+        }
+
 
         var emailSent = await _serviceManager.EmailService.SendConfirmationMail(Url, registerDto.Username);
 
-        if (!emailSent.IsSuccess)
-            return BadRequest(emailSent.ErrorMessage);
-
-        return Ok("Registration successful. Please check your email to confirm your account.");
+        if (!emailSent.IsSuccess){
+            _response = new ApiResponse(emailSent.ErrorMessage, false, null, Convert.ToInt32(HttpStatusCode.BadRequest));
+            return StatusCode(_response.StatusCode, _response);
+        }
+        _response = new ApiResponse("Registration successful. Please check your email to confirm your account.", true, null, Convert.ToInt32(HttpStatusCode.Created));
+        return StatusCode(_response.StatusCode, _response);
     }
 
 
@@ -30,12 +35,18 @@ public class AccountController(IServiceManager _serviceManager) : ApiController(
     public async Task<IActionResult> Login(LoginDto loginDto)
     {
         var loginCheckUp = await _serviceManager.AuthorizationService.Login(loginDto);
-
+        
         if (!loginCheckUp.Succeeded)
-            return BadRequest(loginCheckUp.Errors);
+        {
+            _response = new ApiResponse(loginCheckUp.Errors.First().Description, false, null, Convert.ToInt32(HttpStatusCode.BadRequest));
+            return StatusCode(_response.StatusCode, _response);
+        }
 
-
-        return Ok(await _serviceManager.AuthorizationService.Authenticate(user => user.UserName == loginDto.Username));
+        _response = new ApiResponse("User logged in successfully", 
+            true, 
+            await _serviceManager.AuthorizationService.Authenticate(user => user.UserName == loginDto.Username), 
+            Convert.ToInt32(HttpStatusCode.OK));
+        return StatusCode(_response.StatusCode, _response);
     }
 
     [HttpGet("confirm-email")]
@@ -45,28 +56,75 @@ public class AccountController(IServiceManager _serviceManager) : ApiController(
 
         if (!result.Succeeded)
         {
-            return BadRequest("Error confirming email.");
+            return Redirect($"https://localhost:5003/confirmation?errormassage={"Email confirmation Failed"}");
         }
-
-        return Ok(await _serviceManager.AuthorizationService.Authenticate(user => user.Id == userId));
+        return Redirect("https://localhost:5003/login");
 
     }
 
-    [HttpPost("resend-confirmation")]
-    public async Task<IActionResult> ResendConfirmation(string Username)
+    [HttpPost("resend-confirmation/{username}")]
+    public async Task<IActionResult> ResendConfirmation(string username)
     {
-        var alreadyConfirmed = await _serviceManager.EmailService.CheckMailConfirmation(Username);
+        var alreadyConfirmed = await _serviceManager.EmailService.CheckMailConfirmation(username);
 
         if (alreadyConfirmed.IsSuccess)
-            return BadRequest(alreadyConfirmed.ErrorMessage);
+        {
+            _response = new ApiResponse(alreadyConfirmed.ErrorMessage, false, null, Convert.ToInt32(HttpStatusCode.BadRequest));
+            return StatusCode(_response.StatusCode, _response);
+        }
 
 
-        var emailSent = await _serviceManager.EmailService.SendConfirmationMail(Url, Username);
+        var emailSent = await _serviceManager.EmailService.SendConfirmationMail(Url, username);
 
         if (!emailSent.IsSuccess)
-            return BadRequest(emailSent.ErrorMessage);
+        {
+            _response = new ApiResponse(alreadyConfirmed.ErrorMessage, false, null, Convert.ToInt32(HttpStatusCode.BadRequest));
+            return StatusCode(_response.StatusCode, _response);
+        }
 
-        return Ok("Registration successful. Please check your email to confirm your account.");
+        _response = new ApiResponse("Please check your email to confirm your account.", true, null, Convert.ToInt32(HttpStatusCode.OK));
+        return StatusCode(_response.StatusCode, _response);
+    }
+
+    [HttpPost]
+    [Route("request-password-reset/{email}")]
+    public async Task<IActionResult> RequestPasswordReset(string email)
+    {
+        var emailSent = await _serviceManager.EmailService.SendPasswordResetEmail(Url,email);
+
+        if (!emailSent.IsSuccess)
+        {
+            _response = new ApiResponse(emailSent.ErrorMessage, false, null, Convert.ToInt32(HttpStatusCode.BadRequest));
+            return StatusCode(_response.StatusCode, _response);
+        }
+        _response = new ApiResponse("Please check your email to for password reset.", true, null, Convert.ToInt32(HttpStatusCode.Created));
+        return StatusCode(_response.StatusCode, _response);
+
+    }
+
+    [HttpGet]
+    [Route("reset-password-page")]
+    public async Task<IActionResult> ResetPasswordPage(string token, string email)
+    {
+
+        var encodedToken = Uri.EscapeDataString(token);
+        return Redirect($"https://localhost:5003/reset-password?token={encodedToken}&email={Uri.EscapeDataString(email)}");
+    }
+
+    [HttpPut]
+    [Route("reset-password")]
+    public async Task<IActionResult> ResetPassword(ResetPasswordDto resetPasswordDto)
+    {
+
+        var result = await _serviceManager.AuthorizationService.ResetPassword(resetPasswordDto);
+        if (!result.Succeeded)
+        {
+            _response = new ApiResponse(result.Errors.First().Description, false, null, Convert.ToInt32(HttpStatusCode.BadRequest));
+            return StatusCode(_response.StatusCode, _response);
+        }
+        _response = new ApiResponse("Password reset success.", true, null, Convert.ToInt32(HttpStatusCode.OK));
+        return StatusCode(_response.StatusCode, _response);
+
     }
 
 

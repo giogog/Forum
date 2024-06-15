@@ -1,7 +1,9 @@
-﻿using Contracts;
+﻿using Application.Exceptions;
+using Contracts;
 using Domain.Exception;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace Application.Services;
 public class EmailService : IEmailService
@@ -67,6 +69,32 @@ public class EmailService : IEmailService
         return new EmailResult { IsSuccess = true, ErrorMessage = "Mail is Confirmed" };
 
 
+    }
+
+    public async Task<EmailResult> SendPasswordResetEmail(IUrlHelper urlHelper,string email)
+    {
+        var user = await _repositoryManager.UserRepository.GetUser(u => u.Email == email);
+        if (user == null)
+            throw new NotFoundException("User not found");
+        if (!user.EmailConfirmed)
+            throw new MailNotConfirmedException("Email is not confirmed");
+
+        string token =  await _tokenGenerator.GeneratePasswordResetToken(user);
+        var callbackUrl = urlHelper.Action(
+            action: "ResetPasswordPage",
+            controller: "Account",
+            values: new { token, email },
+            protocol: "https");
+
+
+        if (string.IsNullOrEmpty(callbackUrl))
+        {
+            // Handle the case where the URL generation fails
+            return new EmailResult { IsSuccess = false, ErrorMessage = "Callback URL generation failed." };
+        }
+
+        return await _emailSender.SendEmailAsync(email, "Reset Password",
+      $"Please Reset your password <a href='{callbackUrl}'>clicking here</a>.");
     }
 
     // Method to confirm the user's email

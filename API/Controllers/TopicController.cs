@@ -2,6 +2,7 @@
 using Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace API.Controllers;
 
@@ -13,7 +14,8 @@ public class TopicController(IServiceManager _serviceManager) : ApiController(_s
     {
         var topics = await _serviceManager.TopicService.GetTopics();
 
-        return Ok(topics);
+        _response = new ApiResponse("Topics", true, topics, Convert.ToInt32(HttpStatusCode.OK));
+        return StatusCode(_response.StatusCode, _response);
     }
     [Authorize(Roles = "User")]
     [HttpGet("with-content")]
@@ -21,7 +23,8 @@ public class TopicController(IServiceManager _serviceManager) : ApiController(_s
     {
         var topics = await _serviceManager.TopicService.GetTopicsWithContent();
 
-        return Ok(topics);
+        _response = new ApiResponse("Topics with Content", true, topics, Convert.ToInt32(HttpStatusCode.OK));
+        return StatusCode(_response.StatusCode, _response);
     }
     [Authorize(Roles = "User")]
     [HttpPost("add-topic")]
@@ -30,7 +33,8 @@ public class TopicController(IServiceManager _serviceManager) : ApiController(_s
         var user = await _serviceManager.UserService.GetUserWithClaim(User);
         await _serviceManager.TopicService.CreateTopic(user.Id,createTopicDto);
 
-        return Ok("Topic add Successfully");
+        _response = new ApiResponse("Topic add Successfully", true, null, Convert.ToInt32(HttpStatusCode.Created));
+        return StatusCode(_response.StatusCode, _response);
     }
 
 
@@ -41,8 +45,8 @@ public class TopicController(IServiceManager _serviceManager) : ApiController(_s
         
 
         await _serviceManager.TopicService.UpdateTopic(topicId, updateTopicDto);
-
-        return Ok("Topic Updated Successfully");
+        _response = new ApiResponse("Topic Updated Successfully", true, null, Convert.ToInt32(HttpStatusCode.OK));
+        return StatusCode(_response.StatusCode, _response);
     }
     [Authorize(Roles = "User")]
     [HttpDelete("delete-topic/{topicId}")]
@@ -50,24 +54,25 @@ public class TopicController(IServiceManager _serviceManager) : ApiController(_s
     {
 
         await _serviceManager.TopicService.DeleteTopic(topicId);
-
-        return Ok("Topic Deleted Successfully");
+        _response = new ApiResponse("Topic Deleted Successfully", true, null, Convert.ToInt32(HttpStatusCode.OK));
+        return StatusCode(_response.StatusCode, _response);
     }
     [Authorize(Roles = "Admin")]
     [HttpPut("change-topic-state/{topicId}/{state}")]
     public async Task<IActionResult> ChangeTopicState(int topicId, State state)
     {
-
         await _serviceManager.TopicService.ChangeTopicState(topicId, state);
-        return Ok($"Topic state updated to: {state.ToString()}");
+
+        _response = new ApiResponse($"Topic state updated to: {state.ToString()}", true, null, Convert.ToInt32(HttpStatusCode.OK));
+        return StatusCode(_response.StatusCode, _response);
     }
     [Authorize(Roles = "Admin")]
     [HttpPut("change-topic-status/{topicId}/{status}")]
     public async Task<IActionResult> ChangeTopicStatus(int topicId, Status status) 
     {
-
         await _serviceManager.TopicService.ChangeTopicStatus(topicId, status);
-        return Ok($"Topic status updated to: {status.ToString()}");
+        _response = new ApiResponse($"Topic status updated to: {status.ToString()}", true, null, Convert.ToInt32(HttpStatusCode.OK));
+        return StatusCode(_response.StatusCode, _response);
     }
 
 }

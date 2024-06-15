@@ -17,4 +17,5 @@ public interface IUserRepository
     Task<IdentityResult> ConfirmEmail(User user, string token);
     Task UpdateUser(User user);
     void CheckUserBanStatus(User user);
+    Task<IdentityResult> ResetPassword(User user, string token, string newPassword);
 }

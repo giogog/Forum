@@ -29,6 +29,8 @@ public class UserRepository:IUserRepository
     public async Task<User> GetUserFromClaim(ClaimsPrincipal claimsPrincipal) => await _userManager.GetUserAsync(claimsPrincipal);
 
     public async Task<IdentityResult> ConfirmEmail(User user, string token) => await _userManager.ConfirmEmailAsync(user, token);
+
+    public async Task<IdentityResult> ResetPassword(User user, string token,string newPassword) => await _userManager.ResetPasswordAsync(user, token, newPassword);
     public async Task UpdateUser(User user) => await _userManager.UpdateAsync(user);
     public void CheckUserBanStatus(User user)
     {

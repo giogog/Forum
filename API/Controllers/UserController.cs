@@ -1,7 +1,9 @@
 ﻿using Contracts;
+using Domain.Entities;
 using Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace API.Controllers;
 
@@ -11,13 +13,17 @@ public class UserController(IServiceManager _serviceManager) : ApiController(_se
     public async Task<IActionResult> GetUsers()
     {
         var users = await _serviceManager.UserService.GetUsers();
-        return Ok(users);
+
+        _response = new ApiResponse("Users", true, users, Convert.ToInt32(HttpStatusCode.OK));
+        return StatusCode(_response.StatusCode, _response);
     }
     [HttpGet("{email}")]
     public async Task<IActionResult> GetUserWithMail(string email)
     {
         var user = await _serviceManager.UserService.GetUserWithEmail(email);
-        return Ok(user);
+
+        _response = new ApiResponse("User with Email", true, user, Convert.ToInt32(HttpStatusCode.OK));
+        return StatusCode(_response.StatusCode, _response);
     }
 
     [Authorize(Roles = "Admin")]
@@ -25,7 +31,9 @@ public class UserController(IServiceManager _serviceManager) : ApiController(_se
     public async Task<IActionResult> BanUser(int userId ,Ban ban)
     {
         await _serviceManager.UserService.UserBanStatusChange(userId, ban);
-        return Ok($"User {ban} Successfully");
+
+        _response = new ApiResponse($"User {ban} Successfully", true, null, Convert.ToInt32(HttpStatusCode.OK));
+        return StatusCode(_response.StatusCode, _response);
     }
 
 

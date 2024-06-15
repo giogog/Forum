@@ -1,4 +1,4 @@
-﻿public class InvalidArgumentException:Exception
+﻿public class InvalidArgumentException: Exception
 {
     public InvalidArgumentException(string message):base(message)
     {

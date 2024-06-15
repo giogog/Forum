@@ -1,4 +1,5 @@
-﻿using Contracts;
+﻿using Application.Exceptions;
+using Contracts;
 using Domain.Entities;
 using Domain.Models;
 using Microsoft.AspNetCore.Identity;
@@ -97,5 +98,14 @@ public class AuthorizationService : IAuthorizationService
         };
         return await _roleManager.CreateAsync(role);
             
+    }
+
+    public async Task<IdentityResult> ResetPassword(ResetPasswordDto resetPasswordDto)
+    {
+        var user = await _repositoryManager.UserRepository.GetUser(u=>u.Email==resetPasswordDto.email);
+        if (user == null)
+            throw new NotFoundException("User not found");
+
+        return await _repositoryManager.UserRepository.ResetPassword(user, resetPasswordDto.token, resetPasswordDto.NewPassword);
     }
 }

@@ -1,0 +1,7 @@
+C:\Users\Geekster PC\Desktop\Programming\MyForum\Test\obj\Debug\net8.0\Test.csproj.AssemblyReference.cache
+C:\Users\Geekster PC\Desktop\Programming\MyForum\Test\obj\Debug\net8.0\Test.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Geekster PC\Desktop\Programming\MyForum\Test\obj\Debug\net8.0\Test.AssemblyInfoInputs.cache
+C:\Users\Geekster PC\Desktop\Programming\MyForum\Test\obj\Debug\net8.0\Test.AssemblyInfo.cs
+C:\Users\Geekster PC\Desktop\Programming\MyForum\Test\obj\Debug\net8.0\Test.csproj.CoreCompileInputs.cache
+C:\Users\Geekster PC\Desktop\Programming\MyForum\Test\obj\Debug\net8.0\Test.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Geekster PC\Desktop\Programming\MyForum\Test\obj\Debug\net8.0\Test.sourcelink.json
