@@ -1,10 +1,7 @@
-﻿using Application.Exceptions;
-using Contracts;
+﻿using Contracts;
 using Domain.Entities;
 using Domain.Models;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Linq.Expressions;
 
 namespace Application.Services;

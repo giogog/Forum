@@ -1,6 +1,6 @@
 ﻿@page "/register"
 @using System.ComponentModel.DataAnnotations
-@inject IAuthService AuthService
+@inject IAccountService AccountService
 @inject NavigationManager Navigation
 <PageTitle>Register</PageTitle>
 
@@ -59,7 +59,7 @@
     public async Task RegisterUser()
     {
 
-        var result = await AuthService.Register(Input);
+        var result = await AccountService.Register(Input);
 
         if (result.IsSuccess)
         {

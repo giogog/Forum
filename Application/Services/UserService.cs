@@ -27,6 +27,35 @@ public class UserService : IUserService
         return _mapper.Map<IEnumerable<UserDto>>(users);
 
     }
+    public async Task<AuthorizedUserDto> GetAuthorizedUserData(int id)
+    {
+        var user = await _repositoryManager.UserRepository
+            .GetUser(u => u.Id == id);
+        if (user == null)
+            throw new NotFoundException("User On this id not found");
+
+
+        return _mapper.Map<AuthorizedUserDto>(user);
+    }
+
+    public async Task UpdateAuthorizedUser(int id, AuthorizedUserDto authorizedUserDto)
+    {
+        var user = await _repositoryManager.UserRepository
+            .GetUser(u => u.Id == id);
+        if (user == null)
+            throw new NotFoundException("User On this id not found");
+        var checkUser = await _repositoryManager.UserRepository.GetUser(u=>u.UserName.ToLower() == authorizedUserDto.Username.ToLower() && u.UserName != user.UserName);
+        if (checkUser != null)
+            throw new UsernameIsTakenException("You can't take this Username");
+        user.Name = authorizedUserDto.Name;
+        user.Surname = authorizedUserDto.Surname;
+        user.UserName = authorizedUserDto.Username;
+
+        await _repositoryManager.UserRepository.UpdateUser(user);
+        
+
+        
+    }
 
     public async Task<UserDto> GetUserWithEmail(string email)
     {

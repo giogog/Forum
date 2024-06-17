@@ -1,6 +1,4 @@
 ﻿using API;
-using Application.Exceptions;
-using Domain.Models;
 using System.Net;
 
 
@@ -30,6 +28,12 @@ public class GlobalExceptionHandlingMiddleware
 
         switch (exception)
         {
+            case UsernameIsTakenException usernameIsTakenException:
+                apiResponse.StatusCode = Convert.ToInt32(HttpStatusCode.Forbidden);
+                apiResponse.IsSuccess = false;
+                apiResponse.Message = usernameIsTakenException.Message;
+                apiResponse.Result = null;
+                break;
             case MailNotConfirmedException mailNotConfirmedException:
                 apiResponse.StatusCode = Convert.ToInt32(HttpStatusCode.BadRequest);
                 apiResponse.IsSuccess = false;

@@ -1,9 +1,7 @@
-﻿using Application.Exceptions;
-using Contracts;
+﻿using Contracts;
 using Domain.Exception;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
 
 namespace Application.Services;
 public class EmailService : IEmailService

@@ -36,9 +36,9 @@ public class JwtService:IJwtService
         return await _localStorage.GetItemAsync<string>("authToken");
     }
 
-    public void SetAuthorizationHeader(string token)
+    public AuthenticationHeaderValue SetAuthorizationHeader(string token)
     {
-        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
+        return new AuthenticationHeaderValue("Bearer", token);
     }
 
     public string? GetRoleFromToken(string token)
@@ -47,13 +47,17 @@ public class JwtService:IJwtService
         return claims.FirstOrDefault(c => c.Type == "role")?.Value;
 
     }
-    public string GetRoleFromClaim(IEnumerable<Claim> claims) 
+    public string GetRoleFromClaims(IEnumerable<Claim> claims) 
     { 
         return claims.FirstOrDefault(c => c.Type == "role")?.Value;
     }
 
-    public string GetUsernameFromClaim(IEnumerable<Claim> claims)
+    public string GetUsernameFromClaims(IEnumerable<Claim> claims)
     {
         return claims.FirstOrDefault(c => c.Type == "unique_name")?.Value;
+    }
+    public int GetIdFromClaims(IEnumerable<Claim> claims)
+    {
+        return Int32.Parse(claims.FirstOrDefault(c => c.Type == "nameid")?.Value);
     }
 }

@@ -1,8 +1,11 @@
 ﻿using Client.Contracts;
 using Client.Models;
+using Microsoft.AspNetCore.Components.Authorization;
 using Newtonsoft.Json;
 using System;
 using System.Net;
+using System.Net.Http.Headers;
+using System.Net.Http;
 using System.Text;
 //using System.Text.Json;
 
@@ -11,11 +14,16 @@ namespace Client.Services;
 public class HttpRequestService<T> : IHttpRequestService<T>
 {
     private readonly IHttpClientFactory _httpClientFactory;
+    private readonly IJwtService _jwtService;
+    private readonly IAuthenticationService _authService;
     private readonly string _url;
-    public HttpRequestService(IHttpClientFactory httpClientFactory,IConfiguration config)
+    public HttpRequestService(IHttpClientFactory httpClientFactory,IConfiguration config, IJwtService jwtService,IAuthenticationService authService)
     {
+        this._jwtService = jwtService;
+        this._authService = authService;
         _httpClientFactory = httpClientFactory;
         _url = config["ApiUrl"];
+
     }
     public async Task<ApiResponse<T>> SendAsync<T>(ApiRequest request)
     {
@@ -24,7 +32,19 @@ public class HttpRequestService<T> : IHttpRequestService<T>
         {
             var loginAsJson = JsonConvert.SerializeObject(request.Data);
             var requestUrl = $"{_url}{request.Endpoint}";
-            HttpClient client = _httpClientFactory.CreateClient("API");
+            HttpClient client = _httpClientFactory.CreateClient(requestUrl);
+
+            var authState = await _authService.GetAuthenticationStateAsync();
+            var user = authState.User;
+
+            if (user.Identity.IsAuthenticated)
+            {
+                var token = await _jwtService.GetAuthToken(); 
+                client.DefaultRequestHeaders.Authorization = _jwtService.SetAuthorizationHeader(token);
+            }
+
+            
+            var headers = client.DefaultRequestHeaders;
             HttpRequestMessage message = new();
 
             message.RequestUri = new Uri(requestUrl);
@@ -59,9 +79,23 @@ public class HttpRequestService<T> : IHttpRequestService<T>
             apiResponse = await client.SendAsync(message);
 
 
-            var apiContent = await apiResponse.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<ApiResponse<T>>(apiContent);
-            return result;
+            switch (apiResponse.StatusCode)
+            {
+                case HttpStatusCode.NotFound:
+                    return new ApiResponse<T>() { IsSuccess = false, Message = "Not Found" };
+                case HttpStatusCode.Forbidden:
+                    return new ApiResponse<T>() { IsSuccess = false, Message = "Access denied" };
+                case HttpStatusCode.BadRequest:
+                    return new ApiResponse<T>() { IsSuccess = false, Message = "Invalid parameter" };
+                case HttpStatusCode.Unauthorized:
+                    return new ApiResponse<T>() { IsSuccess = false, Message = "Unauthorized" };
+                case HttpStatusCode.InternalServerError:
+                    return new ApiResponse<T>() { IsSuccess = false, Message = "Internal server error" };
+                default:
+                    var apiContent = await apiResponse.Content.ReadAsStringAsync();
+                    var result = JsonConvert.DeserializeObject<ApiResponse<T>>(apiContent);
+                    return result;
+            }
 
         }
         catch (Exception ex)

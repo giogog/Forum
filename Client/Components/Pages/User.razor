@@ -1,6 +1,131 @@
 ﻿@page "/user"
-<h3>User</h3>
+@using Microsoft.AspNetCore.Components.Authorization
+@inject IUserService UserService
+@inject IAuthenticationService AuthService
+@inject IJwtService JwtService
+@inject NavigationManager NavigationManager
+
+<AuthorizeView>
+    <Authorized>
+        <StatusMessage Message="@errorMessage" />
+        @if (!isEditing)
+        {
+            <div class="user-profile-container">
+                <h1>@authorizedUserResult.UserName</h1>
+                <div class="user-details">
+                    <table class="details-table">
+                        <tr>
+                            <td><strong>Name:</strong></td>
+                            <td>@authorizedUserResult.Name</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Surname:</strong></td>
+                            <td>@authorizedUserResult.Surname</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Username:</strong></td>
+                            <td>@authorizedUserResult.UserName</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Email:</strong></td>
+                            <td>@authorizedUserResult.Email</td>
+                        </tr>
+                    </table>
+                </div>
+                <button class="edit-button" @onclick="EnableEdit">Edit</button>
+            </div>
+        }
+        else
+        {
+            
+            <form class="user-profile-container">
+                <h1>Edit Profile</h1>
+                <table class="edit-table">
+                    <tr>
+                        <td><label for="name">Name:</label></td>
+                        <td><input id="name" type="text" @bind="authorizedUserResult.Name" /></td>
+                    </tr>
+                    <tr>
+                        <td><label for="surname">Surname:</label></td>
+                        <td><input id="surname" type="text" @bind="authorizedUserResult.Surname" /></td>
+                    </tr>
+                    <tr>
+                        <td><label for="username">Username:</label></td>
+                        <td><input id="username" type="text" @bind="authorizedUserResult.UserName" /></td>
+                    </tr>
+                    <tr>
+                        <td><label for="email">Email:</label></td>
+                        <td><input id="email" type="email" @bind="authorizedUserResult.Email" /></td>
+                    </tr>
+                </table>
+                <div class="form-buttons">
+                    <button class="save-button" @onclick="Save">Save</button>
+                    <button class="abandon-button" @onclick="Abandon">Abandon</button>
+                </div>
+            </form>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <p>You are not authorized to view this page.</p>
+    </NotAuthorized>
+</AuthorizeView>
 
 @code {
+    public AuthorizedUserResult authorizedUserResult { get; set; } = new AuthorizedUserResult();
+    private string? errorMessage;
+    private int userId;
+    private bool isEditing = false;
 
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthService.GetAuthenticationStateAsync();
+        if (authState.User.Identity.IsAuthenticated)
+        {
+            var user = authState.User;
+            userId = JwtService.GetIdFromClaims(user.Claims);
+            var response = await UserService.GetAuthorizedUserData(userId);
+            if (response.IsSuccess)
+            {
+                authorizedUserResult = response.Result;
+            }
+        }
+
+    }
+
+    private void EnableEdit()
+    {
+        isEditing = true;
+    }
+
+    private async Task Save()
+    {
+        var response = await UserService.UpdateAuthrizedUserData(userId, authorizedUserResult);
+        if (!response.IsSuccess)
+        {
+            errorMessage = response.Message;
+
+        }
+
+        isEditing = false;
+        if (response.IsSuccess)
+        {
+            NavigationManager.NavigateTo("/user");
+        }
+    }
+    private void CloseModal()
+    {
+        errorMessage = null;
+        if (isEditing)
+        {
+            isEditing = false;
+            StateHasChanged(); // Refresh the component to close the edit form
+        }
+    }
+
+
+    private void Abandon()
+    {
+        // Implement the abandon logic here
+        isEditing = false;
+    }
 }

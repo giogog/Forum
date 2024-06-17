@@ -1,7 +1,8 @@
 ﻿@page "/login"
 @using Microsoft.AspNetCore.Components.Authorization
 <PageTitle>Log in</PageTitle>
-@inject IAuthService AuthService
+@inject IAuthenticationService AuthService
+@inject IAccountService AccountService
 @inject IJwtService jwtService
 @inject NavigationManager Navigation
 
@@ -44,7 +45,7 @@
 
     public async Task LoginUser()
     {
-        var loginResult = await AuthService.Login(Input);
+        var loginResult = await AccountService.Login(Input);
 
         if (loginResult.IsSuccess)
         {

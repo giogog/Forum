@@ -25,6 +25,7 @@ public class MappingProfile : Profile
 
         CreateMap<User, UserDto>()
             .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => $"{src.Name} {src.Surname}"));
+        CreateMap<User, AuthorizedUserDto>().ReverseMap();
     }
 
 }

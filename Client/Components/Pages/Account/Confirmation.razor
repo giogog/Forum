@@ -1,7 +1,6 @@
 ﻿@page "/confirmation"
-@inject HttpClient Http
 @inject NavigationManager Navigation
-@inject IAuthService AuthService
+@inject IAccountService AccountService
 @if (!string.IsNullOrEmpty(Message))
 {
     <div class="alert alert-danger" role="alert">
@@ -35,7 +34,7 @@
     private async Task ResendConfirmation()
     {
         // Send POST request to resend confirmation
-        var response = await AuthService.ResendConfiramtionsMail(Username);
+        var response = await AccountService.ResendConfiramtionsMail(Username);
         if (response.IsSuccess)
         {
             Message = "A new confirmation email has been sent.";

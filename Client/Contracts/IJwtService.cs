@@ -1,13 +1,15 @@
-﻿using System.Security.Claims;
+﻿using System.Net.Http.Headers;
+using System.Security.Claims;
 
 namespace Client.Contracts;
 
 public interface IJwtService
 {
-    public void SetAuthorizationHeader(string token);
+    AuthenticationHeaderValue SetAuthorizationHeader(string token);
     string? GetRoleFromToken(string token);
     Task SetAuthToken(string token);
     Task<string> GetAuthToken();
-    string GetRoleFromClaim(IEnumerable<Claim> claims);
-    string GetUsernameFromClaim(IEnumerable<Claim> claims);
+    string GetRoleFromClaims(IEnumerable<Claim> claims);
+    string GetUsernameFromClaims(IEnumerable<Claim> claims);
+    int GetIdFromClaims(IEnumerable<Claim> claims);
 }
