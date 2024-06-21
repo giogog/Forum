@@ -14,16 +14,13 @@ public class TopicRepository(ApplicationDataContext context) : BaseRepository<To
 
     public async Task UpdateTopicAsync(Topic topic) => Update(topic);
 
-    public async Task<IEnumerable<Topic>> GetAllTopicAsync() => 
-        await FindAll()
-        .Include(t => t.User)
-        .ToArrayAsync();
     public async Task<IEnumerable<Topic>> GetAllTopicWithContentAsync() =>
     await FindAll()
         .Include(t=>t.Comments)
             .ThenInclude(c=>c.User)
         .Include(t=>t.User)
         .ToArrayAsync();
+    public IQueryable<Topic> Topics() => FindAll();
 
     public async Task<Topic> GetTopicByIdAsync(int id) => 
         await FindByCondition(t => t.Id == id).FirstOrDefaultAsync();

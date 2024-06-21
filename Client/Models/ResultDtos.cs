@@ -41,6 +41,7 @@ public record TopicWithContentResult : Result
     public string Body { get; init; }
     public int CommentNum { get; init; }
     public DateTime Created { get; init; }
+    public string Username { get; init; }
     public string AuthorFullName { get; init; }
     public State State { get; init; }
     public Status Status { get; init; }
@@ -54,19 +55,3 @@ public record CommentResult : Result
     public string AuthorFullName { get; set; }
 }
 
-public class PagedList<T>
-{
-    public PagedList(IEnumerable<T> items, int count, int pageNumber, int pageSize)
-    {
-        SelectedPage = pageNumber;
-        TotalPages = (int)Math.Ceiling(count / (double)pageSize);
-        ItemCount = count;
-        PageSize = pageSize;
-        Data = items;
-    }
-    public IEnumerable<T> Data { get; set; }
-    public int SelectedPage { get; set; }
-    public int TotalPages { get; set; }
-    public int PageSize { get; set; }
-    public int ItemCount { get; set; }
-}

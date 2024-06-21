@@ -15,6 +15,8 @@ public class MappingProfile : Profile
         CreateMap<Topic, TopicWithContentDto>()
             .ForMember(dest => dest.AuthorFullName, opt => opt.MapFrom(src => $"{src.User.Name} {src.User.Surname}"))
             .ForMember(dest => dest.Comments, opt => opt.MapFrom(src => src.Comments));
+        // AutoMapper configuration
+
 
         CreateMap<CreateTopicDto, Topic>();
 

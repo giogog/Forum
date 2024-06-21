@@ -4,8 +4,8 @@ namespace Contracts;
 
 public interface ITopicService
 {
-    Task<IEnumerable<TopicDto>> GetTopics();
-    Task<IEnumerable<TopicWithContentDto>> GetTopicsWithContent(int pageNum);
+    Task<PagedList<TopicDto>> GetTopics(int page);
+    Task<PagedList<TopicWithContentDto>> GetTopicsWithContent(int page);
     Task CreateTopic(int userId,CreateTopicDto createTopicDto);
     Task UpdateTopic(int topicId, UpdateTopicDto updateTopicDto);
     Task DeleteTopic(int topicId);

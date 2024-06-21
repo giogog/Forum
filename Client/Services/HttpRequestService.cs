@@ -25,60 +25,98 @@ public class HttpRequestService<T> : IHttpRequestService<T>
         _url = config["ApiUrl"];
 
     }
-    public async Task<ApiResponse<T>> SendAsync<T>(ApiRequest request)
+
+    private async Task<HttpResponseMessage> BuildUpRequest(ApiRequest request)
+    {
+        var loginAsJson = JsonConvert.SerializeObject(request.Data);
+        var requestUrl = $"{_url}{request.Endpoint}";
+        HttpClient client = _httpClientFactory.CreateClient(requestUrl);
+
+        var authState = await _authService.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            var token = await _jwtService.GetAuthToken();
+            client.DefaultRequestHeaders.Authorization = _jwtService.SetAuthorizationHeader(token);
+        }
+
+
+        var headers = client.DefaultRequestHeaders;
+        HttpRequestMessage message = new();
+
+        message.RequestUri = new Uri(requestUrl);
+
+        if (request.Data != null)
+        {
+            message.Content = new StringContent(loginAsJson, Encoding.UTF8, "application/json");
+        }
+
+        HttpResponseMessage apiResponse = new();
+
+        switch (request.ApiType)
+        {
+            case ApiType.POST:
+                message.Method = HttpMethod.Post;
+                break;
+            case ApiType.PUT:
+                message.Method = HttpMethod.Put;
+                break;
+            case ApiType.PATCH:
+                message.Method = HttpMethod.Patch;
+                break;
+            case ApiType.DELETE:
+                message.Method = HttpMethod.Delete;
+                break;
+            default:
+                message.Method = HttpMethod.Get;
+                break;
+        }
+
+        apiResponse = await client.SendAsync(message);
+        return apiResponse;
+    }
+
+    public async Task<PaginatedApiResponse<T>> PaginatedRequestAsync<T>(ApiRequest request)
+    {
+        try
+        {
+            var apiResponse = await BuildUpRequest(request);
+            switch (apiResponse.StatusCode)
+            {
+                case HttpStatusCode.NotFound:
+                    return new PaginatedApiResponse<T>() { IsSuccess = false, Message = "Not Found" };
+                case HttpStatusCode.Forbidden:
+                    return new PaginatedApiResponse<T>() { IsSuccess = false, Message = "Access denied" };
+                case HttpStatusCode.Unauthorized:
+                    return new PaginatedApiResponse<T>() { IsSuccess = false, Message = "Unauthorized" };
+                case HttpStatusCode.InternalServerError:
+                    return new PaginatedApiResponse<T>() { IsSuccess = false, Message = "Internal server error" };
+                default:
+                    var apiContent = await apiResponse.Content.ReadAsStringAsync();
+                    var result = JsonConvert.DeserializeObject<PaginatedApiResponse<T>>(apiContent);
+                    return result;
+            }
+
+        }
+        catch (Exception ex)
+        {
+            PaginatedApiResponse<T> result = new()
+            {
+                Message = ex.Message,
+                IsSuccess = false
+            };
+
+            return result;
+        }
+    }
+
+    public async Task<ApiResponse<T>> RequestAsync<T>(ApiRequest request)
     {
 
         try
-        {
-            var loginAsJson = JsonConvert.SerializeObject(request.Data);
-            var requestUrl = $"{_url}{request.Endpoint}";
-            HttpClient client = _httpClientFactory.CreateClient(requestUrl);
-
-            var authState = await _authService.GetAuthenticationStateAsync();
-            var user = authState.User;
-
-            if (user.Identity.IsAuthenticated)
-            {
-                var token = await _jwtService.GetAuthToken(); 
-                client.DefaultRequestHeaders.Authorization = _jwtService.SetAuthorizationHeader(token);
-            }
-
-            
-            var headers = client.DefaultRequestHeaders;
-            HttpRequestMessage message = new();
-
-            message.RequestUri = new Uri(requestUrl);
-
-            if (request.Data != null)
-            {
-                message.Content = new StringContent(loginAsJson, Encoding.UTF8, "application/json");
-            }
-
-            HttpResponseMessage apiResponse = new();
-
-            switch (request.ApiType)
-            {
-                case ApiType.POST:
-                    message.Method = HttpMethod.Post;
-                    break;
-                case ApiType.PUT:
-                    message.Method = HttpMethod.Put;
-                    break;
-                case ApiType.PATCH:
-                    message.Method = HttpMethod.Patch;
-                    break; 
-                case ApiType.DELETE:
-                    message.Method = HttpMethod.Delete;
-                    break;
-                default:
-                    message.Method = HttpMethod.Get;
-                    break;
-            }
-
-
-            apiResponse = await client.SendAsync(message);
-
-
+        { 
+             var apiResponse = await BuildUpRequest(request); 
             switch (apiResponse.StatusCode)
             {
                 case HttpStatusCode.NotFound:

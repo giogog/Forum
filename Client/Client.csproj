@@ -7,10 +7,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Components\CreateTopicForm.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
     <PackageReference Include="Blazorise.Icons.FontAwesome" Version="1.5.3" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.6.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Components\CreateTopicForm.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Components\CreateTopicForm.razor" />
   </ItemGroup>
 
 </Project>

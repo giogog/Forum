@@ -49,5 +49,11 @@ h1:focus {
 .darker-border-checkbox.form-check-input {
     border-color: #929292;
 }
+textarea {
+    font-family: 'Arial', sans-serif;
+    font-size: 1em;
+    color: #333;
+}
+
 
 

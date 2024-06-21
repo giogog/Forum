@@ -1,0 +1,51 @@
+/* CreateTopicForm.razor.css */
+
+.create-topic[b-f7ck71ukvm] {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+    .create-topic h2[b-f7ck71ukvm] {
+        margin-top: 0;
+        font-family: 'Arial', sans-serif;
+        font-size: 1.5em;
+        color: #333;
+    }
+
+.create-topic-form[b-f7ck71ukvm] {
+    margin-top: 20px;
+}
+
+.form-group[b-f7ck71ukvm] {
+    margin-bottom: 15px; /* Adjust spacing between form groups */
+}
+
+    .form-group label[b-f7ck71ukvm] {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 1em;
+        color: #333;
+    }
+
+    .form-group input[b-f7ck71ukvm],
+    .form-group textarea[b-f7ck71ukvm] {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 1em;
+        box-sizing: border-box; /* Ensure padding and border are included in width calculation */
+    }
+
+    .form-group textarea[b-f7ck71ukvm] {
+        height: 120px;
+        resize: vertical; /* Allow vertical resizing of textarea */
+    }
+
+.text-right[b-f7ck71ukvm] {
+    text-align: right;
+}

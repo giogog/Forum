@@ -1,0 +1,114 @@
+﻿@using Microsoft.AspNetCore.Components.Authorization
+<div class="topic">
+    <h2>@Topic.Title</h2>
+    <p>@Topic.Body</p>
+    <div class="topic-footer">
+        <span>Posted by @Topic.AuthorFullName/@Topic.Username on @Topic.Created.ToString("dd MMM yyyy")</span>
+        <div class="topic-buttons">
+            <button @onclick="() => OnToggleComments.InvokeAsync(Topic.Id)">See Comments (@Topic.CommentNum)</button>
+            @if(Topic.Status == Status.Active)
+            {
+                <AuthorizeView>
+                    <Authorized>
+                        <button @onclick="() => OnToggleAddComment.InvokeAsync(Topic.Id)">Add Comment</button>
+                    </Authorized>
+                    <NotAuthorized>
+                        <button @onclick="NavigateToLogin">Add Comment</button>
+                    </NotAuthorized>
+                </AuthorizeView>
+            }
+
+        </div>
+    </div>
+    @if (ShowAddComment)
+    {
+        @if (Topic.Status == Status.Active)
+        {
+            <AuthorizeView>
+                <Authorized>
+
+                    <div class="add-comment">
+                        <textarea @bind="CommentBodies[Topic.Id]"></textarea>
+                        <button @onclick="() => OnSubmitComment.InvokeAsync(Topic.Id)">Submit</button>
+                    </div>
+                </Authorized>
+                <NotAuthorized>
+                </NotAuthorized>
+            </AuthorizeView>
+        }
+
+    }
+    @if (ShowComments)
+    {
+        <div class="comments">
+            @if (Topic.Comments.Any())
+            {
+                @foreach (var comment in Topic.Comments)
+                {
+                    <div class="comment">
+                        <div class="comment-header">
+                            <span>Comment by @comment.AuthorFullName</span>
+                        </div>
+                        @if (EditCommentBodies.ContainsKey(comment.Id))
+                        {
+                            <textarea @bind="EditCommentBodies[comment.Id]"></textarea>
+                            <div class="comment-buttons">
+                                <button @onclick="() => OnSubmitEditComment.InvokeAsync(comment.Id)">Submit</button>
+                                <button @onclick="() => OnCancelEdit.InvokeAsync(comment.Id)">Cancel</button>
+                            </div>
+                        }
+                        else
+                        {
+                            <p>@comment.Body</p>
+                            @if (Topic.Status == Status.Active)
+                            {
+                                <AuthorizeView>
+                                    <Authorized>
+                                        <div class="comment-footer">
+                                            @if (IsAuthenticated && UserId == comment.UserId)
+                                            {
+                                                <button @onclick="() => EditComment(comment)">Edit</button>
+                                                <button class="delete" @onclick="() => OnDeleteComment.InvokeAsync(comment.Id)">Delete</button>
+                                            }
+                                        </div>
+                                    </Authorized>
+                                    <NotAuthorized>
+                                    </NotAuthorized>
+                                </AuthorizeView>
+
+                            }
+
+                        }
+                    </div>
+                }
+            }
+            else
+            {
+                <p>No comments yet.</p>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public TopicWithContentResult Topic { get; set; }
+    [Parameter] public bool ShowComments { get; set; }
+    [Parameter] public bool ShowAddComment { get; set; }
+    [Parameter] public Dictionary<int, string> CommentBodies { get; set; }
+    [Parameter] public Dictionary<int, string> EditCommentBodies { get; set; }
+    [Parameter] public EventCallback<int> OnToggleComments { get; set; }
+    [Parameter] public EventCallback<int> OnToggleAddComment { get; set; }
+    [Parameter] public EventCallback<int> OnSubmitComment { get; set; }
+    [Parameter] public EventCallback<int> OnSubmitEditComment { get; set; }
+    [Parameter] public EventCallback<int> OnCancelEdit { get; set; }
+    [Parameter] public EventCallback<int> OnDeleteComment { get; set; }
+    [Parameter] public Action NavigateToLogin { get; set; }
+
+    [Parameter] public bool IsAuthenticated { get; set; }
+    [Parameter] public int? UserId { get; set; }
+
+    private void EditComment(CommentResult comment)
+    {
+        EditCommentBodies[comment.Id] = comment.Body;
+    }
+}

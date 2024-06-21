@@ -3,6 +3,7 @@ using AutoMapper;
 using Contracts;
 using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 
 namespace Application;
 
@@ -18,11 +19,12 @@ public class ServiceManager : IServiceManager
         RoleManager<Role> roleManager,
         ITokenGenerator tokenGenerator,
         IEmailSender emailSender,
-        IMapper mapper
+        IMapper mapper,
+        IConfiguration configuration
         )
     {
         _authorizationService = new (() => new AuthorizationService(roleManager, tokenGenerator, repositoryManager));
-        _topicService = new(() => new TopicService(repositoryManager, mapper));
+        _topicService = new(() => new TopicService(repositoryManager, mapper, configuration));
         _userService = new(() => new UserService(repositoryManager, mapper));
         _commentService = new(() => new CommentService(repositoryManager, mapper));
         _emailService = new(() => new EmailService(emailSender, repositoryManager, tokenGenerator));

@@ -14,11 +14,12 @@ public class TopicService : ITopicService
 
     public async Task<ApiResponse<Result>> AddTopic(CreateTopicModelDto createTopicModelDto)
     {
-        return await _httpRequestService.SendAsync<Result>(new ApiRequest(ApiType.POST, $"Topic/create-topic", createTopicModelDto));
+    
+        return await _httpRequestService.RequestAsync<Result>(new ApiRequest(ApiType.POST, $"Topic/create-topic", createTopicModelDto));
     }
 
-    public async Task<ApiResponse<IEnumerable<TopicWithContentResult>>> GetTopicsWithContent(int pageNum)
+    public async Task<PaginatedApiResponse<IEnumerable<TopicWithContentResult>>> GetTopicsWithContent(int page)
     {
-        return await _httpRequestService.SendAsync<IEnumerable<TopicWithContentResult>>(new ApiRequest(ApiType.GET, $"Topic/with-content/{pageNum}",null));
+        return await _httpRequestService.PaginatedRequestAsync<IEnumerable<TopicWithContentResult>>(new ApiRequest(ApiType.GET, $"Topic/with-content/{page}",null));
     }
 }

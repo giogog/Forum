@@ -10,7 +10,7 @@ public interface ITopicRepository
     Task UpdateTopicAsync(Topic topic);
     Task<Topic> GetTopicByIdAsync(int id);
     Task<IEnumerable<Topic>> GetTopicByUserIdAsync(int userId);
-    Task<IEnumerable<Topic>> GetAllTopicAsync();
     Task<IEnumerable<Topic>> GetAllTopicAsyncWithConditionAsync(Expression<Func<Topic, bool>> expression);
     Task<IEnumerable<Topic>> GetAllTopicWithContentAsync();
+    IQueryable<Topic> Topics();
 }

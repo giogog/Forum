@@ -9,11 +9,20 @@ public class ApiRequest(ApiType type, string endpoint, object data)
 }
 
 
+
 public record ApiResponse<T>
 {
     public string Message { get; set; }
     public bool IsSuccess { get; set; }
     public T? Result { get; set; }
     public int StatusCode { get; set; }
+}
+
+public record PaginatedApiResponse<T> : ApiResponse<T>
+{
+    public int SelectedPage { get; set; }
+    public int TotalPages { get; set; }
+    public int PageSize { get; set; }
+    public int ItemCount { get; set; }
 }
 

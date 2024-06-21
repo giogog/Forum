@@ -1,36 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\Geekster PC\\Desktop\\Programming\\MyForum\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{967A33F4-3A54-400B-8A51-0AA9B645C201}|Client\\Client.csproj|c:\\users\\geekster pc\\desktop\\programming\\myforum\\client\\components\\pages\\home.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{967A33F4-3A54-400B-8A51-0AA9B645C201}|Client\\Client.csproj|solutionrelative:client\\components\\pages\\home.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{967A33F4-3A54-400B-8A51-0AA9B645C201}|Client\\Client.csproj|c:\\users\\geekster pc\\desktop\\programming\\myforum\\client\\components\\pages\\home.razor.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{967A33F4-3A54-400B-8A51-0AA9B645C201}|Client\\Client.csproj|solutionrelative:client\\components\\pages\\home.razor.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{967A33F4-3A54-400B-8A51-0AA9B645C201}|Client\\Client.csproj|c:\\users\\geekster pc\\desktop\\programming\\myforum\\client\\models\\modeldtos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{967A33F4-3A54-400B-8A51-0AA9B645C201}|Client\\Client.csproj|solutionrelative:client\\models\\modeldtos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{9EBAE4D7-74EF-4395-B9AF-0FDC834AA55A}|API\\API.csproj|c:\\users\\geekster pc\\desktop\\programming\\myforum\\api\\controllers\\topiccontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9EBAE4D7-74EF-4395-B9AF-0FDC834AA55A}|API\\API.csproj|solutionrelative:api\\controllers\\topiccontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{967A33F4-3A54-400B-8A51-0AA9B645C201}|Client\\Client.csproj|c:\\users\\geekster pc\\desktop\\programming\\myforum\\client\\services\\controller\\topicservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{967A33F4-3A54-400B-8A51-0AA9B645C201}|Client\\Client.csproj|solutionrelative:client\\services\\controller\\topicservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{967A33F4-3A54-400B-8A51-0AA9B645C201}|Client\\Client.csproj|c:\\users\\geekster pc\\desktop\\programming\\myforum\\client\\contracts\\itopicservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{967A33F4-3A54-400B-8A51-0AA9B645C201}|Client\\Client.csproj|solutionrelative:client\\contracts\\itopicservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{967A33F4-3A54-400B-8A51-0AA9B645C201}|Client\\Client.csproj|c:\\users\\geekster pc\\desktop\\programming\\myforum\\client\\services\\httprequestservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{967A33F4-3A54-400B-8A51-0AA9B645C201}|Client\\Client.csproj|solutionrelative:client\\services\\httprequestservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -38,102 +9,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Home.razor.css",
-              "DocumentMoniker": "C:\\Users\\Geekster PC\\Desktop\\Programming\\MyForum\\Client\\Components\\Pages\\Home.razor.css",
-              "RelativeDocumentMoniker": "Client\\Components\\Pages\\Home.razor.css",
-              "ToolTip": "C:\\Users\\Geekster PC\\Desktop\\Programming\\MyForum\\Client\\Components\\Pages\\Home.razor.css",
-              "RelativeToolTip": "Client\\Components\\Pages\\Home.razor.css",
-              "ViewState": "AQIAALoAAAAAAAAAAADwv+IAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2024-06-21T12:16:31.77Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "TopicController.cs",
-              "DocumentMoniker": "C:\\Users\\Geekster PC\\Desktop\\Programming\\MyForum\\API\\Controllers\\TopicController.cs",
-              "RelativeDocumentMoniker": "API\\Controllers\\TopicController.cs",
-              "ToolTip": "C:\\Users\\Geekster PC\\Desktop\\Programming\\MyForum\\API\\Controllers\\TopicController.cs",
-              "RelativeToolTip": "API\\Controllers\\TopicController.cs",
-              "ViewState": "AQIAACwAAAAAAAAAAAAIwB0AAAAbAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-21T12:01:28.809Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ModelDtos.cs",
-              "DocumentMoniker": "C:\\Users\\Geekster PC\\Desktop\\Programming\\MyForum\\Client\\Models\\ModelDtos.cs",
-              "RelativeDocumentMoniker": "Client\\Models\\ModelDtos.cs",
-              "ToolTip": "C:\\Users\\Geekster PC\\Desktop\\Programming\\MyForum\\Client\\Models\\ModelDtos.cs",
-              "RelativeToolTip": "Client\\Models\\ModelDtos.cs",
-              "ViewState": "AQIAADoAAAAAAAAAAAAUwEkAAAAoAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-21T11:59:24.497Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Home.razor",
-              "DocumentMoniker": "C:\\Users\\Geekster PC\\Desktop\\Programming\\MyForum\\Client\\Components\\Pages\\Home.razor",
-              "RelativeDocumentMoniker": "Client\\Components\\Pages\\Home.razor",
-              "ToolTip": "C:\\Users\\Geekster PC\\Desktop\\Programming\\MyForum\\Client\\Components\\Pages\\Home.razor",
-              "RelativeToolTip": "Client\\Components\\Pages\\Home.razor",
-              "ViewState": "AQIAANcAAAAAAAAAAAAgwPAAAAAhAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-06-21T11:57:48.94Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "TopicService.cs",
-              "DocumentMoniker": "C:\\Users\\Geekster PC\\Desktop\\Programming\\MyForum\\Client\\Services\\Controller\\TopicService.cs",
-              "RelativeDocumentMoniker": "Client\\Services\\Controller\\TopicService.cs",
-              "ToolTip": "C:\\Users\\Geekster PC\\Desktop\\Programming\\MyForum\\Client\\Services\\Controller\\TopicService.cs",
-              "RelativeToolTip": "Client\\Services\\Controller\\TopicService.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAqwBgAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-21T11:57:34.03Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "ITopicService.cs",
-              "DocumentMoniker": "C:\\Users\\Geekster PC\\Desktop\\Programming\\MyForum\\Client\\Contracts\\ITopicService.cs",
-              "RelativeDocumentMoniker": "Client\\Contracts\\ITopicService.cs",
-              "ToolTip": "C:\\Users\\Geekster PC\\Desktop\\Programming\\MyForum\\Client\\Contracts\\ITopicService.cs",
-              "RelativeToolTip": "Client\\Contracts\\ITopicService.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAqwAQAAAAUAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-21T11:57:24.315Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "HttpRequestService.cs",
-              "DocumentMoniker": "C:\\Users\\Geekster PC\\Desktop\\Programming\\MyForum\\Client\\Services\\HttpRequestService.cs",
-              "RelativeDocumentMoniker": "Client\\Services\\HttpRequestService.cs",
-              "ToolTip": "C:\\Users\\Geekster PC\\Desktop\\Programming\\MyForum\\Client\\Services\\HttpRequestService.cs",
-              "RelativeToolTip": "Client\\Services\\HttpRequestService.cs",
-              "ViewState": "AQIAADwAAAAAAAAAAAAEwFEAAAAMAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-19T13:44:56.517Z",
-              "EditorCaption": ""
             }
           ]
         }

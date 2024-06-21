@@ -2,6 +2,7 @@
 using Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Net;
 
 namespace API.Controllers;
@@ -9,21 +10,23 @@ namespace API.Controllers;
 
 public class TopicController(IServiceManager _serviceManager) : ApiController(_serviceManager)
 {
-    [HttpGet]
-    public async Task<IActionResult> GetTopics()
+    [HttpGet("{page}")]
+    public async Task<IActionResult> GetTopics(int page)
     {
-        var topics = await _serviceManager.TopicService.GetTopics();
+        var topics = await _serviceManager.TopicService.GetTopics(page);
 
-        _response = new ApiResponse("Topics", true, topics, Convert.ToInt32(HttpStatusCode.OK));
+        
+
+        _response = new PaginatedApiResponse("Topics", true, topics, Convert.ToInt32(HttpStatusCode.OK), topics.SelectedPage, topics.TotalPages, topics.PageSize, topics.ItemCount);
         return StatusCode(_response.StatusCode, _response);
     }
-    //[Authorize(Roles = "User")]
-    [HttpGet("with-content/{pageNum}")]
-    public async Task<IActionResult> GetTopicsWithContent(int pageNum)
+    [Authorize(Roles = "User")]
+    [HttpGet("with-content/{page}")]
+    public async Task<IActionResult> GetTopicsWithContent(int page)
     {
-        var topics = await _serviceManager.TopicService.GetTopicsWithContent(pageNum);
-        
-        _response = new ApiResponse("Topics with Content", true, topics, Convert.ToInt32(HttpStatusCode.OK));
+        var pagedTopics = await _serviceManager.TopicService.GetTopicsWithContent(page);
+
+        _response =  new PaginatedApiResponse("Topics", true, pagedTopics, Convert.ToInt32(HttpStatusCode.OK), pagedTopics.SelectedPage, pagedTopics.TotalPages, pagedTopics.PageSize, pagedTopics.ItemCount);
         return StatusCode(_response.StatusCode, _response); 
     }
     [Authorize(Roles = "User")]
