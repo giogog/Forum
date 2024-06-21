@@ -1,16 +1,267 @@
 ﻿@page "/"
-@inject IUserService UserService
+@using Microsoft.AspNetCore.Components.Authorization
+@inject ITopicService TopicService
 @inject IAuthenticationService AuthService
 @inject IJwtService JwtService
-<PageTitle>Home</PageTitle>
+@inject ICommentService CommentService
+@inject NavigationManager Navigation
+@inject IJSRuntime JSRuntime;
+<PageTitle>Forum Topics</PageTitle>
+<AuthorizeView>
+    <Authorized>
+        <div class="create-topic">
+            <h2>Create a New Topic</h2>
+            <div class="create-topic-form">
+                <label for="title">Title</label>
+                <input id="title" @bind="createTopicModelDto.Title" placeholder="Enter topic title" />
 
-<h1>Home</h1>
+                <label for="body">Body</label>
+                <textarea id="body" @bind="createTopicModelDto.Body" placeholder="Enter topic body"></textarea>
 
-Welcome to your new app.
+                <button @onclick="SubmitTopic">Submit</button>
+            </div>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <p>Authorize to create topic</p>
+    </NotAuthorized>
+</AuthorizeView>
+
+@if (topicsWithContent != null && topicsWithContent.Any())
+{
+    foreach (var topic in topicsWithContent)
+    {
+        <div class="topic">
+            <h2>@topic.Title</h2>
+            <p>@topic.Body</p>
+            <div class="topic-footer">
+                <span>Posted by @topic.AuthorFullName on @topic.Created.ToString("dd MMM yyyy")</span>
+                <div class="topic-buttons">
+                    <button @onclick="() => ToggleComments(topic.Id)">See Comments (@topic.CommentNum)</button>
+                    <AuthorizeView>
+                        <Authorized>
+                            <button @onclick="() => ToggleAddComment(topic.Id)">Add Comment</button>
+                        </Authorized>
+                        <NotAuthorized>
+                            <button @onclick="() => NavigateToLogin()">Add Comment</button>
+                        </NotAuthorized>
+                    </AuthorizeView>
+                </div>
+            </div>
+            @if (showAddComment.Contains(topic.Id))
+            {
+                <AuthorizeView>
+                    <Authorized>
+                        <div class="add-comment">
+                            <textarea @bind="commentBodies[topic.Id]"></textarea>
+                            <button @onclick="() => SubmitComment(topic.Id)">Submit</button>
+                        </div>
+                    </Authorized>
+                    <NotAuthorized>
+                    </NotAuthorized>
+                </AuthorizeView>
+            }
+            @if (showComments.Contains(topic.Id))
+            {
+                <div class="comments">
+                    @if (topic.Comments.Any())
+                    {
+                        @foreach (var comment in topic.Comments)
+                        {
+                            <div class="comment">
+                                <div class="comment-header">
+                                    <span>Comment by @comment.AuthorFullName</span>
+                                </div>
+                                @if (editCommentBodies.ContainsKey(comment.Id))
+                                {
+                                    <textarea @bind="editCommentBodies[comment.Id]"></textarea>
+                                    <div class="comment-buttons">
+                                        <button @onclick="() => SubmitEditComment(comment.Id)">Submit</button>
+                                        <button @onclick="() => CancelEdit(comment.Id)">Cancel</button>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <p>@comment.Body</p>
+                                    <AuthorizeView>
+                                        <Authorized>
+                                            <div class="comment-footer">
+                                                @if (isAuthenticated && userId == comment.UserId)
+                                                {
+                                                    <button @onclick="() => EditComment(comment)">Edit</button>
+                                                    <button class="delete" @onclick="() => ConfirmDeleteComment(comment.Id)">Delete</button>
+                                                }
+                                            </div>
+                                        </Authorized>
+                                        <NotAuthorized>
+                                        </NotAuthorized>
+                                    </AuthorizeView>
+                                }
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p>No comments yet.</p>
+                    }
+                </div>
+            }
+        </div>
+    }
+}
 
 @code {
+    private IEnumerable<TopicWithContentResult>? topicsWithContent;
+    private HashSet<int> showComments = new HashSet<int>();
+    private HashSet<int> showAddComment = new HashSet<int>();
+    private Dictionary<int, string> commentBodies = new Dictionary<int, string>();
+    private Dictionary<int, string> editCommentBodies = new Dictionary<int, string>();
+    private CreateTopicModelDto createTopicModelDto { get; set; } = new();
+    private string newCommentBody;
+    private bool isAuthenticated;
+    private string? errorMessage;
+    private int? userId;
+
     protected override async Task OnInitializedAsync()
     {
+        var authState = await AuthService.GetAuthenticationStateAsync();
+        isAuthenticated = authState.User.Identity.IsAuthenticated;
+        if (isAuthenticated)
+        {
+            var user = authState.User;
+            userId = JwtService.GetIdFromClaims(user.Claims);
+        }
+        else
+        {
+            userId = null;
+        }
+        await LoadTopics();
+    }
+    private async Task CancelEdit(int commentId)
+    {
+        editCommentBodies.Remove(commentId);
+    }
 
+    private async Task LoadTopics()
+    {
+        var response = await TopicService.GetTopicsWithContent(1);
+        if (response.IsSuccess)
+        {
+            topicsWithContent = response.Result;
+        }
+        else
+        {
+            errorMessage = response.Message;
+        }
+    }
+
+    private void EditComment(CommentResult comment)
+    {
+        editCommentBodies[comment.Id] = comment.Body;
+    }
+
+    private async Task ConfirmDeleteComment(int commentId)
+    {
+        var confirmed = await JSRuntime.InvokeAsync<bool>("confirm", "Are you sure you want to delete this comment?");
+        if (confirmed)
+        {
+            await DeleteComment(commentId);
+        }
+    }
+
+    private async Task DeleteComment(int commentId)
+    {
+        var result = await CommentService.DeleteComment(commentId);
+        if (result.IsSuccess)
+        {
+            await LoadTopics();
+        }
+        else
+        {
+            errorMessage = result.Message;
+        }
+    }
+
+    private async Task SubmitEditComment(int commentId)
+    {
+        if (editCommentBodies.TryGetValue(commentId, out var editedBody) && !string.IsNullOrWhiteSpace(editedBody))
+        {
+            var result = await CommentService.EditComment(commentId, new UpdateCommentModelDto(editedBody));
+            if (result.IsSuccess)
+            {
+                editCommentBodies.Remove(commentId);
+                await LoadTopics();
+            }
+            else
+            {
+                errorMessage = result.Message;
+            }
+        }
+    }
+
+    private void ToggleComments(int topicId)
+    {
+        if (showComments.Contains(topicId))
+        {
+            showComments.Remove(topicId);
+        }
+        else
+        {
+            showComments.Add(topicId);
+        }
+    }
+
+    private void ToggleAddComment(int topicId)
+    {
+        if (showAddComment.Contains(topicId))
+        {
+            showAddComment.Remove(topicId);
+        }
+        else
+        {
+            showAddComment.Add(topicId);
+            if (!commentBodies.ContainsKey(topicId))
+            {
+                commentBodies[topicId] = string.Empty;
+            }
+        }
+    }
+
+    private void NavigateToLogin()
+    {
+        Navigation.NavigateTo("/login");
+    }
+
+    private async Task SubmitComment(int topicId)
+    {
+        if (commentBodies.TryGetValue(topicId, out var commentBody) && !string.IsNullOrWhiteSpace(commentBody))
+        {
+            var createCommentDto = new AddCommentModelDto(topicId, commentBody);
+            var result = await CommentService.AddComment(createCommentDto);
+            if (result.IsSuccess)
+            {
+                await LoadTopics();
+                commentBodies[topicId] = string.Empty;
+                showAddComment.Remove(topicId);
+            }
+            else
+            {
+                errorMessage = result.Message;
+            }
+        }
+    }
+
+    private async Task SubmitTopic()
+    {
+        var result = await TopicService.AddTopic(createTopicModelDto);
+        if (result.IsSuccess)
+        {
+            await LoadTopics();
+            createTopicModelDto = new CreateTopicModelDto();
+        }
+        else
+        {
+            errorMessage = result.Message;
+        }
     }
 }

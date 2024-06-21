@@ -65,4 +65,18 @@ public record ResetPasswordDto
     public string Token { get; set; }
     public string NewPassword { get; set; }
 }
+public record AddCommentModelDto(int TopicId, string Body);
 
+public record UpdateCommentModelDto(string Body);
+
+public record CreateTopicModelDto 
+{
+    public string Title { get; set; }   
+    public string Body { get; set; }
+    //public CreateTopicModelDto(string title, string body)
+    //{
+    //    Title = title; 
+    //    Body = body;
+    //}
+
+};

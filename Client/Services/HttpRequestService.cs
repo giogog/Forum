@@ -66,7 +66,7 @@ public class HttpRequestService<T> : IHttpRequestService<T>
                     break;
                 case ApiType.PATCH:
                     message.Method = HttpMethod.Patch;
-                    break;
+                    break; 
                 case ApiType.DELETE:
                     message.Method = HttpMethod.Delete;
                     break;
@@ -85,8 +85,6 @@ public class HttpRequestService<T> : IHttpRequestService<T>
                     return new ApiResponse<T>() { IsSuccess = false, Message = "Not Found" };
                 case HttpStatusCode.Forbidden:
                     return new ApiResponse<T>() { IsSuccess = false, Message = "Access denied" };
-                case HttpStatusCode.BadRequest:
-                    return new ApiResponse<T>() { IsSuccess = false, Message = "Invalid parameter" };
                 case HttpStatusCode.Unauthorized:
                     return new ApiResponse<T>() { IsSuccess = false, Message = "Unauthorized" };
                 case HttpStatusCode.InternalServerError:

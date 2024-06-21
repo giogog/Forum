@@ -31,9 +31,11 @@ public class CommentService : ICommentService
         _repositoryManager.CommentRepository.AddCommentAsync(comment);
         await _repositoryManager.SaveAsync();
     }
-    public async Task UpdateComment(int commentId,UpdateCommentDto commentDto)
+    public async Task UpdateComment(int userId,int commentId,UpdateCommentDto commentDto)
     {
         var comment = await _repositoryManager.CommentRepository.GetCommentByIdAsync(commentId);
+        if (comment.UserId != userId)
+            throw new RestrictedException("You cant update this comment");
         if (comment == null)
             throw new NotFoundException("Comment Not Found");
 
@@ -44,9 +46,11 @@ public class CommentService : ICommentService
         _repositoryManager.CommentRepository.UpdateCommentAsync(comment);
         await _repositoryManager.SaveAsync();
     }
-    public async Task DeleteComment(int commentId)
+    public async Task DeleteComment(int userId, int commentId)
     {
         var comment = await _repositoryManager.CommentRepository.GetCommentByIdAsync(commentId);
+        if (comment.UserId != userId)
+            throw new RestrictedException("You cant delete this comment");
         if (comment == null)
             throw new NotFoundException("Comment Not Found");
 

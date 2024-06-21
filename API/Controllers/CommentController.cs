@@ -23,7 +23,8 @@ public class CommentController(IServiceManager _serviceManager):ApiController(_s
     [HttpPut("update-comment/{commentId}")]
     public async Task<IActionResult> UpdateComment([FromBody] UpdateCommentDto commentDto,int commentId)
     {
-        await _serviceManager.CommentService.UpdateComment(commentId, commentDto);
+        var user = await _serviceManager.UserService.GetUserWithClaim(User);
+        await _serviceManager.CommentService.UpdateComment(user.Id, commentId, commentDto);
 
         _response = new ApiResponse("Comment updated Succesfully", true, null, Convert.ToInt32(HttpStatusCode.OK));
         return StatusCode(_response.StatusCode, _response);
@@ -33,7 +34,8 @@ public class CommentController(IServiceManager _serviceManager):ApiController(_s
     [HttpDelete("delete-comment/{commentId}")]
     public async Task<IActionResult> DeleteComment(int commentId)
     {
-        await _serviceManager.CommentService.DeleteComment(commentId);
+        var user = await _serviceManager.UserService.GetUserWithClaim(User);
+        await _serviceManager.CommentService.DeleteComment(user.Id, commentId);
 
         _response = new ApiResponse("Comment deleted Succesfully", true, null, Convert.ToInt32(HttpStatusCode.OK));
         return StatusCode(_response.StatusCode, _response);

@@ -37,7 +37,6 @@
         }
         else
         {
-            
             <form class="user-profile-container">
                 <h1>Edit Profile</h1>
                 <table class="edit-table">
@@ -53,14 +52,10 @@
                         <td><label for="username">Username:</label></td>
                         <td><input id="username" type="text" @bind="authorizedUserResult.UserName" /></td>
                     </tr>
-                    <tr>
-                        <td><label for="email">Email:</label></td>
-                        <td><input id="email" type="email" @bind="authorizedUserResult.Email" /></td>
-                    </tr>
                 </table>
                 <div class="form-buttons">
                     <button class="save-button" @onclick="Save">Save</button>
-                    <button class="abandon-button" @onclick="Abandon">Abandon</button>
+                    <button class="abandon-button" @onclick="Cancel">Cancel</button>
                 </div>
             </form>
         }
@@ -78,6 +73,11 @@
 
     protected override async Task OnInitializedAsync()
     {
+        await LoadUserData();
+    }
+
+    private async Task LoadUserData()
+    {
         var authState = await AuthService.GetAuthenticationStateAsync();
         if (authState.User.Identity.IsAuthenticated)
         {
@@ -89,7 +89,6 @@
                 authorizedUserResult = response.Result;
             }
         }
-
     }
 
     private void EnableEdit()
@@ -103,29 +102,15 @@
         if (!response.IsSuccess)
         {
             errorMessage = response.Message;
-
+            return;
         }
 
+        await LoadUserData(); // Refresh the user data after save
         isEditing = false;
-        if (response.IsSuccess)
-        {
-            NavigationManager.NavigateTo("/user");
-        }
-    }
-    private void CloseModal()
-    {
-        errorMessage = null;
-        if (isEditing)
-        {
-            isEditing = false;
-            StateHasChanged(); // Refresh the component to close the edit form
-        }
     }
 
-
-    private void Abandon()
+    private void Cancel()
     {
-        // Implement the abandon logic here
         isEditing = false;
     }
 }

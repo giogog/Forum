@@ -17,17 +17,17 @@ public class TopicController(IServiceManager _serviceManager) : ApiController(_s
         _response = new ApiResponse("Topics", true, topics, Convert.ToInt32(HttpStatusCode.OK));
         return StatusCode(_response.StatusCode, _response);
     }
-    [Authorize(Roles = "User")]
-    [HttpGet("with-content")]
-    public async Task<IActionResult> GetTopicsWithContent()
+    //[Authorize(Roles = "User")]
+    [HttpGet("with-content/{pageNum}")]
+    public async Task<IActionResult> GetTopicsWithContent(int pageNum)
     {
-        var topics = await _serviceManager.TopicService.GetTopicsWithContent();
-
+        var topics = await _serviceManager.TopicService.GetTopicsWithContent(pageNum);
+        
         _response = new ApiResponse("Topics with Content", true, topics, Convert.ToInt32(HttpStatusCode.OK));
-        return StatusCode(_response.StatusCode, _response);
+        return StatusCode(_response.StatusCode, _response); 
     }
     [Authorize(Roles = "User")]
-    [HttpPost("add-topic")]
+    [HttpPost("create-topic")]
     public async Task<IActionResult> AddTopic([FromBody] CreateTopicDto createTopicDto) 
     {
         var user = await _serviceManager.UserService.GetUserWithClaim(User);

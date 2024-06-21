@@ -2,6 +2,7 @@
 using Contracts;
 using Domain.Entities;
 using Domain.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Services;
 
@@ -26,15 +27,14 @@ public class TopicService : ITopicService
         return _mapper.Map<IEnumerable<TopicDto>>(topics);
     }
 
-    public async Task<IEnumerable<TopicWithContentDto>> GetTopicsWithContent()
+    public async Task<IEnumerable<TopicWithContentDto>> GetTopicsWithContent(int pageNum)
     {
         var topics = await _repositoryManager.TopicRepository.GetAllTopicWithContentAsync();
 
         if (!topics.Any())
             throw new NotFoundException("Topics Not Found");
 
-
-        return _mapper.Map<IEnumerable<TopicWithContentDto>>(topics);
+        return _mapper.Map<IEnumerable<TopicWithContentDto>>(topics).AsQueryable().AsNoTracking(); ;
     }
 
     public async Task CreateTopic(int userId,CreateTopicDto createTopicDto)

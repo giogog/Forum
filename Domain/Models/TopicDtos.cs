@@ -9,7 +9,6 @@ public record TopicWithContentDto
     public string AuthorFullName { get; init; }
     public State State { get; init; }
     public Status Status { get; init; }
-
     public IEnumerable<CommentDto> Comments { get; init; }
     public TopicWithContentDto() { }
 }
