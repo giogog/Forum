@@ -5,6 +5,7 @@ public record CommentDto
     public int UserId { get; init; }
     public string Body { get; set; }
     public string AuthorFullName { get; set; }
+    public string Username { get; set; }
     public CommentDto()
     {
 

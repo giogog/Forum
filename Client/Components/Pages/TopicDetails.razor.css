@@ -1,4 +1,5 @@
-.topic[b-54kd9alr4a] {
+﻿.topic {
+    position: relative;
     border: 1px solid #ccc;
     padding: 20px;
     margin-bottom: 15px;
@@ -8,42 +9,36 @@
     transition: transform 0.2s;
 }
 
-    .topic:hover[b-54kd9alr4a] {
+    .topic:hover {
         transform: translateY(-3px);
     }
 
-    .topic h2[b-54kd9alr4a] {
-        margin-top: 0;
-        font-family: 'Arial', sans-serif;
-        font-size: 1.5em;
-        color: #333;
-    }
-
-    .topic p[b-54kd9alr4a] {
-        font-family: 'Georgia', serif;
-        font-size: 1em;
-        color: #555;
-    }
-
-.topic-footer[b-54kd9alr4a] {
+.topic-header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-top: 15px;
+    justify-content: space-between;
 }
 
-    .topic-footer span[b-54kd9alr4a] {
-        font-size: 0.9em;
-        color: #888;
-    }
+.topic h2 {
+    margin-top: 0;
+    font-family: 'Arial', sans-serif;
+    font-size: 1.5em;
+    color: #333;
+}
 
-.topic-buttons[b-54kd9alr4a] {
+.topic p {
+    font-family: 'Georgia', serif;
+    font-size: 1em;
+    color: #555;
+}
+
+.topic-buttons {
     display: flex;
     gap: 10px;
     justify-content: flex-end;
 }
 
-    .topic-buttons button[b-54kd9alr4a] {
+    .topic-buttons button {
         padding: 8px 15px;
         font-size: 0.9em;
         color: #fff;
@@ -54,29 +49,54 @@
         transition: background-color 0.2s;
     }
 
-        .topic-buttons button:hover[b-54kd9alr4a] {
+        .topic-buttons button:hover {
             background-color: #0056b3;
         }
 
-.comments[b-54kd9alr4a] {
+.go-back {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 15px;
+    font-size: 1em; /* Slightly increased font size */
+    color: #333; /* Dark grey text color */
+    background-color: #f8f9fa; /* Light grey background color */
+    border: 1px solid #ddd; /* Light grey border */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-bottom: 20px;
+    text-decoration: none; /* Ensure no underline on link */
+}
+
+    .go-back:hover {
+        background-color: #e2e6ea; /* Slightly darker grey on hover */
+    }
+
+    .go-back .arrow {
+        font-size: 1.2em; /* Increased arrow icon size */
+        margin-right: 8px; /* Increased margin to better separate icon and text */
+        vertical-align: middle; /* Vertically align arrow with text */
+    }
+
+.comments {
     margin-top: 20px;
     background-color: #f9f9f9;
     padding: 15px;
     border-radius: 5px;
 }
 
-.comment[b-54kd9alr4a] {
+.comment {
     border-bottom: 1px solid #eee;
     padding: 10px 0;
     display: flex;
     flex-direction: column;
 }
 
-    .comment:last-child[b-54kd9alr4a] {
+    .comment:last-child {
         border-bottom: none;
     }
 
-.comment-header[b-54kd9alr4a] {
+.comment-header {
     font-size: 0.85em;
     color: #666;
     display: flex;
@@ -84,7 +104,7 @@
     margin-bottom: 10px;
 }
 
-.comment p[b-54kd9alr4a] {
+.comment p {
     font-family: 'Georgia', serif;
     font-size: 1em;
     color: #444;
@@ -92,7 +112,7 @@
     margin-right: 10px;
 }
 
-.comment textarea[b-54kd9alr4a] {
+.comment textarea {
     width: 100%;
     height: 100px;
     margin-bottom: 10px;
@@ -103,7 +123,7 @@
     border-radius: 5px;
 }
 
-.comment-footer[b-54kd9alr4a] {
+.comment-footer {
     font-size: 0.85em;
     color: #666;
     display: flex;
@@ -111,36 +131,7 @@
     gap: 5px;
 }
 
-    .comment-footer button[b-54kd9alr4a] {
-        padding: 5px 10px;
-        font-size: 0.8em;
-        color: #fff;
-        background-color: #28a745;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.2s;
-    }
-
-        .comment-footer button:hover[b-54kd9alr4a] {
-            background-color: #218838;
-        }
-
-        .comment-footer button.delete[b-54kd9alr4a] {
-            background-color: #dc3545;
-        }
-
-            .comment-footer button.delete:hover[b-54kd9alr4a] {
-                background-color: #c82333;
-            }
-
-.comment-buttons[b-54kd9alr4a] {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-}
-
-    .comment-buttons button[b-54kd9alr4a] {
+    .comment-footer button {
         padding: 5px 10px;
         font-size: 0.8em;
         color: #fff;
@@ -151,15 +142,63 @@
         transition: background-color 0.2s;
     }
 
-        .comment-buttons button:hover[b-54kd9alr4a] {
+        .comment-footer button:hover {
             background-color: #0056b3;
         }
 
-.add-comment[b-54kd9alr4a] {
+        .comment-footer button.delete {
+            background-color: #dc3545;
+        }
+
+            .comment-footer button.delete:hover {
+                background-color: #c82333;
+            }
+
+        .comment-footer button.edit {
+            background-color: #007bff;
+        }
+
+            .comment-footer button.edit:hover {
+                background-color: #0056b3;
+            }
+
+.comment-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+    .comment-buttons button {
+        padding: 5px 10px;
+        font-size: 0.8em;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+        .comment-buttons button.submit {
+            background-color: #28a745;
+        }
+
+            .comment-buttons button.submit:hover {
+                background-color: #218838;
+            }
+
+        .comment-buttons button.cancel {
+            background-color: #dc3545;
+        }
+
+            .comment-buttons button.cancel:hover {
+                background-color: #c82333;
+            }
+
+.add-comment {
     margin-top: 20px;
 }
 
-    .add-comment textarea[b-54kd9alr4a] {
+    .add-comment textarea {
         width: 100%;
         height: 120px;
         margin-bottom: 10px;
@@ -170,7 +209,7 @@
         border-radius: 5px;
     }
 
-    .add-comment button[b-54kd9alr4a] {
+    .add-comment button {
         padding: 8px 15px;
         font-size: 1em;
         color: #fff;
@@ -181,10 +220,6 @@
         transition: background-color 0.2s;
     }
 
-        .add-comment button:hover[b-54kd9alr4a] {
+        .add-comment button:hover {
             background-color: #0056b3;
         }
-
-
-
-

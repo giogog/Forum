@@ -23,13 +23,13 @@
 </EditForm>
 
 @code {
-    [Parameter] public EventCallback<CreateTopicModelDto> OnValidSubmit { get; set; }
-    private CreateTopicModelDto Topic { get; set; } = new CreateTopicModelDto();
+    [Parameter] public EventCallback<TopicModelDto> OnValidSubmit { get; set; }
+    private TopicModelDto Topic { get; set; } = new TopicModelDto();
 
     private async Task SubmitForm()
     {
         await OnValidSubmit.InvokeAsync(Topic); // Pass the Topic object to the parent component
-        Topic = new CreateTopicModelDto(); // Reset the form after submission
+        Topic = new TopicModelDto(); // Reset the form after submission
     }
 }
 

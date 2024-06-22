@@ -1,0 +1,221 @@
+﻿@page "/{LastPage:int}/topic/{TopicId:int}"
+@using Microsoft.AspNetCore.Components.Authorization
+@inject ITopicService TopicService
+@inject IAuthenticationService AuthService
+@inject IJwtService JwtService
+@inject ICommentService CommentService
+@inject NavigationManager Navigation
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Topic Details</PageTitle>
+
+@if (Topic != null)
+{
+    <div class="topic">
+        <button class="go-back" @onclick="GoBack">
+            <span class="arrow">&#8592;</span> <!-- Unicode left arrow -->
+            Go Back
+        </button>
+
+        <TopicInfo Topic="Topic" />
+
+        @if (showAddComment.Contains(TopicId))
+        {
+            @if (Topic.Status == Status.Active)
+            {
+                <AuthorizeView>
+                    <Authorized>
+                        <div class="add-comment">
+                            <label>Add Comment</label>
+                            <textarea @bind="commentBodies[TopicId]"> Add Comment</textarea>
+                            <button @onclick="() => SubmitComment(TopicId)">Submit</button>
+                        </div>
+                    </Authorized>
+                </AuthorizeView>
+            }
+        }
+
+
+        <div class="comments">
+            @if (Topic.Comments.Any())
+            {
+                @foreach (var comment in Topic.Comments)
+                {
+                    <div class="comment">
+                        <div class="comment-header">
+                            <span>Comment by @comment.AuthorFullName~@comment.Username</span>
+                        </div>
+                        @if (editCommentBodies.ContainsKey(comment.Id))
+                        {
+                            <textarea @bind="editCommentBodies[comment.Id]"></textarea>
+                            <div class="comment-buttons">
+                                <button class="submit" @onclick="() => SubmitEditComment(comment.Id)">Submit</button>
+                                <button class="cancel" @onclick="() => CancelEdit(comment.Id)">Cancel</button>
+                            </div>
+                        }
+                        else
+                        {
+                            <p>@comment.Body</p>
+                            @if (Topic.Status == Status.Active)
+                            {
+                                <AuthorizeView>
+                                    <Authorized>
+                                        @if (userId == comment.UserId)
+                                        {
+                                            <div class="comment-footer">
+                                                <button class="edit" @onclick="() => EditComment(comment)">Edit</button>
+                                                <button class="delete" @onclick="() => ConfirmDeleteComment(comment.Id)">Delete</button>
+                                            </div>
+                                        }
+                                    </Authorized>
+                                </AuthorizeView>
+                            }
+                        }
+
+                    </div>
+                }
+            }
+            else
+            {
+                <p>No comments yet.</p>
+            }
+        </div>
+    </div>
+}
+else
+{
+    <p>Loading...</p>
+}
+
+@code {
+    [Parameter] public int LastPage { get; set; }
+    [Parameter] public int TopicId { get; set; }
+
+    private TopicWithContentResult? Topic;
+    private HashSet<int> showAddComment = new HashSet<int>();
+    private Dictionary<int, string> commentBodies = new Dictionary<int, string>();
+    private Dictionary<int, string> editCommentBodies = new Dictionary<int, string>();
+    private string? errorMessage;
+    private bool isAuthenticated;
+    private int? userId;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        var authState = await AuthService.GetAuthenticationStateAsync();
+        isAuthenticated = authState.User.Identity.IsAuthenticated;
+        if (isAuthenticated)
+            userId = JwtService.GetIdFromClaims(authState.User.Claims);
+        else
+            userId = null;
+        showAddComment.Add(TopicId);
+        commentBodies[TopicId] = string.Empty;
+        await LoadTopicDetails();
+    }
+
+    private async Task LoadTopicDetails()
+    {
+        var response = await TopicService.GetTopicById(TopicId);
+        if (response.IsSuccess)
+        {
+            Topic = response.Result;
+        }
+        else
+        {
+            errorMessage = response.Message;
+        }
+    }
+
+    private void ToggleAddComment(int topicId)
+    {
+        if (showAddComment.Contains(topicId))
+        {
+            showAddComment.Remove(topicId);
+        }
+        else
+        {
+            showAddComment.Add(topicId);
+            if (!commentBodies.ContainsKey(topicId))
+            {
+                commentBodies[topicId] = string.Empty;
+            }
+        }
+    }
+
+    private void NavigateToLogin()
+    {
+        Navigation.NavigateTo("/login");
+    }
+    private void GoBack()
+    {
+        Navigation.NavigateTo($"/{LastPage}");
+    }
+
+    private async Task SubmitComment(int topicId)
+    {
+        if (commentBodies.TryGetValue(topicId, out var commentBody) && !string.IsNullOrWhiteSpace(commentBody))
+        {
+            var createCommentDto = new AddCommentModelDto(topicId, commentBody);
+            var result = await CommentService.AddComment(createCommentDto);
+            if (result.IsSuccess)
+            {
+                await LoadTopicDetails();
+                commentBodies[topicId] = string.Empty;
+                //showAddComment.Remove(topicId);
+            }
+            else
+            {
+                errorMessage = result.Message;
+            }
+        }
+    }
+
+    private void EditComment(CommentResult comment)
+    {
+        editCommentBodies[comment.Id] = comment.Body;
+    }
+
+    private async Task CancelEdit(int commentId)
+    {
+        editCommentBodies.Remove(commentId);
+    }
+
+    private async Task SubmitEditComment(int commentId)
+    {
+        if (editCommentBodies.TryGetValue(commentId, out var editedBody) && !string.IsNullOrWhiteSpace(editedBody))
+        {
+            var result = await CommentService.EditComment(commentId, new UpdateCommentModelDto(editedBody));
+            if (result.IsSuccess)
+            {
+                editCommentBodies.Remove(commentId);
+                await LoadTopicDetails();
+            }
+            else
+            {
+                errorMessage = result.Message;
+            }
+        }
+    }
+
+    private async Task ConfirmDeleteComment(int commentId)
+    {
+        var confirmed = await JSRuntime.InvokeAsync<bool>("confirm", "Are you sure you want to delete this comment?");
+        if (confirmed)
+        {
+            await DeleteComment(commentId);
+        }
+    }
+
+    private async Task DeleteComment(int commentId)
+    {
+        var result = await CommentService.DeleteComment(commentId);
+        if (result.IsSuccess)
+        {
+            await LoadTopicDetails();
+        }
+        else
+        {
+            errorMessage = result.Message;
+        }
+    }
+}

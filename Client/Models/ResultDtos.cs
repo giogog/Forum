@@ -37,6 +37,7 @@ public record AuthorizedUserResult : Result
 public record TopicWithContentResult : Result
 {
     public int Id { get; init; }
+    public int UserId { get; init; }
     public string Title { get; init; }
     public string Body { get; init; }
     public int CommentNum { get; init; }
@@ -53,5 +54,6 @@ public record CommentResult : Result
     public int UserId { get; init; }
     public string Body { get; set; }
     public string AuthorFullName { get; set; }
+    public string Username { get; set; }
 }
 

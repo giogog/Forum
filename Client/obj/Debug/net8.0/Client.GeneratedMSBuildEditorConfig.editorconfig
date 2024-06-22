@@ -58,6 +58,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xfSW1wb3J0cy5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Geekster PC/Desktop/Programming/MyForum/Client/Components/CreateTopicForm.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xDcmVhdGVUb3BpY0Zvcm0ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-8dcw5hfbu3
+
 [C:/Users/Geekster PC/Desktop/Programming/MyForum/Client/Components/Layout/MainLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTWFpbkxheW91dC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = b-4kdmjuawjh
@@ -66,18 +70,22 @@ build_metadata.AdditionalFiles.CssScope = b-4kdmjuawjh
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTmF2TWVudS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = b-b3bxtejbwi
 
-[C:/Users/Geekster PC/Desktop/Programming/MyForum/Client/Components/Pages/CreateTopicForm.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDcmVhdGVUb3BpY0Zvcm0ucmF6b3I=
-build_metadata.AdditionalFiles.CssScope = b-f7ck71ukvm
-
 [C:/Users/Geekster PC/Desktop/Programming/MyForum/Client/Components/Pages/Home.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xIb21lLnJhem9y
 build_metadata.AdditionalFiles.CssScope = b-yaa7x8nh74
 
-[C:/Users/Geekster PC/Desktop/Programming/MyForum/Client/Components/Pages/TopicComponent.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xUb3BpY0NvbXBvbmVudC5yYXpvcg==
-build_metadata.AdditionalFiles.CssScope = b-54kd9alr4a
+[C:/Users/Geekster PC/Desktop/Programming/MyForum/Client/Components/Pages/TopicDetails.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xUb3BpY0RldGFpbHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-o6xag9ubon
 
 [C:/Users/Geekster PC/Desktop/Programming/MyForum/Client/Components/Pages/User.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xVc2VyLnJhem9y
 build_metadata.AdditionalFiles.CssScope = b-pipe4x7x93
+
+[C:/Users/Geekster PC/Desktop/Programming/MyForum/Client/Components/TopicButtons.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xUb3BpY0J1dHRvbnMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-ycn0k8bglf
+
+[C:/Users/Geekster PC/Desktop/Programming/MyForum/Client/Components/TopicInfo.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xUb3BpY0luZm8ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-96kceafuin

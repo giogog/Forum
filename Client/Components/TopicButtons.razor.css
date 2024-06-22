@@ -1,0 +1,28 @@
+﻿.topic-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+    .topic-buttons button {
+        padding: 8px 15px;
+        font-size: 0.9em;
+        color: #fff;
+        background-color: #007bff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+        .topic-buttons button:hover {
+            background-color: #0056b3;
+        }
+
+    .topic-buttons .delete {
+        background-color: #dc3545;
+    }
+
+        .topic-buttons .delete:hover {
+            background-color: #c82333;
+        }

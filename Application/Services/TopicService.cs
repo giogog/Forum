@@ -34,7 +34,7 @@ public class TopicService : ITopicService
                 Id = t.Id,
                 State = t.State,
                 Status = t.Status
-            });
+            }).OrderByDescending(t => t.Status == Status.Active);
 
 
         if (!topicDtos.Any())
@@ -60,9 +60,9 @@ public class TopicService : ITopicService
                 Comments = _mapper.Map<IEnumerable<CommentDto>>(t.Comments),
                 Created = t.Created,
                 Id = t.Id,
-                State = t.State,
+                UserId = t.UserId,
                 Status = t.Status
-            });
+            }).OrderByDescending(t => t.Status == Status.Active);
 
 
         if (!topicDtos.Any())
@@ -137,5 +137,11 @@ public class TopicService : ITopicService
         await _repositoryManager.SaveAsync();
     }
 
-
+    public async Task<TopicWithContentDto> GetSingleTopicWithContent(int topicId)
+    {
+        var topic = await _repositoryManager.TopicRepository.GetTopicWithContentByIdAsync(topicId);
+        if (topic == null)
+            throw new NotFoundException("Topic not found");
+        return _mapper.Map<TopicWithContentDto>(topic);
+    }
 }

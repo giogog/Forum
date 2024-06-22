@@ -51,5 +51,7 @@ C:\Users\Geekster PC\Desktop\Programming\MyForum\Client\obj\Debug\net8.0\Client.
 C:\Users\Geekster PC\Desktop\Programming\MyForum\Client\obj\Debug\net8.0\Client.genruntimeconfig.cache
 C:\Users\Geekster PC\Desktop\Programming\MyForum\Client\obj\Debug\net8.0\ref\Client.dll
 C:\Users\Geekster PC\Desktop\Programming\MyForum\Client\obj\Debug\net8.0\scopedcss\Components\Pages\Home.razor.rz.scp.css
-C:\Users\Geekster PC\Desktop\Programming\MyForum\Client\obj\Debug\net8.0\scopedcss\Components\Pages\CreateTopicForm.razor.rz.scp.css
-C:\Users\Geekster PC\Desktop\Programming\MyForum\Client\obj\Debug\net8.0\scopedcss\Components\Pages\TopicComponent.razor.rz.scp.css
+C:\Users\Geekster PC\Desktop\Programming\MyForum\Client\obj\Debug\net8.0\scopedcss\Components\Pages\TopicDetails.razor.rz.scp.css
+C:\Users\Geekster PC\Desktop\Programming\MyForum\Client\obj\Debug\net8.0\scopedcss\Components\CreateTopicForm.razor.rz.scp.css
+C:\Users\Geekster PC\Desktop\Programming\MyForum\Client\obj\Debug\net8.0\scopedcss\Components\TopicInfo.razor.rz.scp.css
+C:\Users\Geekster PC\Desktop\Programming\MyForum\Client\obj\Debug\net8.0\scopedcss\Components\TopicButtons.razor.rz.scp.css

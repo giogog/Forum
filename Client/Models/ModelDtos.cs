@@ -69,14 +69,19 @@ public record AddCommentModelDto(int TopicId, string Body);
 
 public record UpdateCommentModelDto(string Body);
 
-public record CreateTopicModelDto 
+public record TopicModelDto
 {
-    public string Title { get; set; }   
-    public string Body { get; set; }
-    //public CreateTopicModelDto(string title, string body)
-    //{
-    //    Title = title; 
-    //    Body = body;
-    //}
+    public string Title { get; set; }
+    public string Body { get; set; } 
+
+
+};
+
+public record UpdateTopicModelDto(int id,string title, string body)
+{
+    public int Id { get; set; } = id;
+    public string Title { get; set; } = title;
+    public string Body { get; set; } = body;
+
 
 };

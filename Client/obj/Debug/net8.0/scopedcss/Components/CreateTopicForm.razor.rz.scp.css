@@ -1,6 +1,6 @@
 /* CreateTopicForm.razor.css */
 
-.create-topic[b-f7ck71ukvm] {
+.create-topic[b-8dcw5hfbu3] {
     border: 1px solid #ccc;
     padding: 20px;
     margin-bottom: 20px;
@@ -9,30 +9,30 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-    .create-topic h2[b-f7ck71ukvm] {
+    .create-topic h2[b-8dcw5hfbu3] {
         margin-top: 0;
         font-family: 'Arial', sans-serif;
         font-size: 1.5em;
         color: #333;
     }
 
-.create-topic-form[b-f7ck71ukvm] {
+.create-topic-form[b-8dcw5hfbu3] {
     margin-top: 20px;
 }
 
-.form-group[b-f7ck71ukvm] {
+.form-group[b-8dcw5hfbu3] {
     margin-bottom: 15px; /* Adjust spacing between form groups */
 }
 
-    .form-group label[b-f7ck71ukvm] {
+    .form-group label[b-8dcw5hfbu3] {
         display: block;
         margin-bottom: 8px;
         font-size: 1em;
         color: #333;
     }
 
-    .form-group input[b-f7ck71ukvm],
-    .form-group textarea[b-f7ck71ukvm] {
+    .form-group input[b-8dcw5hfbu3],
+    .form-group textarea[b-8dcw5hfbu3] {
         width: 100%;
         padding: 8px;
         border: 1px solid #ccc;
@@ -41,11 +41,11 @@
         box-sizing: border-box; /* Ensure padding and border are included in width calculation */
     }
 
-    .form-group textarea[b-f7ck71ukvm] {
+    .form-group textarea[b-8dcw5hfbu3] {
         height: 120px;
         resize: vertical; /* Allow vertical resizing of textarea */
     }
 
-.text-right[b-f7ck71ukvm] {
+.text-right[b-8dcw5hfbu3] {
     text-align: right;
 }

@@ -1,0 +1,28 @@
+.topic-buttons[b-ycn0k8bglf] {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+    .topic-buttons button[b-ycn0k8bglf] {
+        padding: 8px 15px;
+        font-size: 0.9em;
+        color: #fff;
+        background-color: #007bff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+        .topic-buttons button:hover[b-ycn0k8bglf] {
+            background-color: #0056b3;
+        }
+
+    .topic-buttons .delete[b-ycn0k8bglf] {
+        background-color: #dc3545;
+    }
+
+        .topic-buttons .delete:hover[b-ycn0k8bglf] {
+            background-color: #c82333;
+        }

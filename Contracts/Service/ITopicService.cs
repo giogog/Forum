@@ -4,6 +4,7 @@ namespace Contracts;
 
 public interface ITopicService
 {
+    Task<TopicWithContentDto> GetSingleTopicWithContent(int topicId);
     Task<PagedList<TopicDto>> GetTopics(int page);
     Task<PagedList<TopicWithContentDto>> GetTopicsWithContent(int page);
     Task CreateTopic(int userId,CreateTopicDto createTopicDto);

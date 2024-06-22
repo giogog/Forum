@@ -20,14 +20,23 @@ public class TopicController(IServiceManager _serviceManager) : ApiController(_s
         _response = new PaginatedApiResponse("Topics", true, topics, Convert.ToInt32(HttpStatusCode.OK), topics.SelectedPage, topics.TotalPages, topics.PageSize, topics.ItemCount);
         return StatusCode(_response.StatusCode, _response);
     }
-    [Authorize(Roles = "User")]
-    [HttpGet("with-content/{page}")]
+    //[Authorize(Roles = "User")]
+    [HttpGet("topics-with-content/{page}")]
     public async Task<IActionResult> GetTopicsWithContent(int page)
     {
         var pagedTopics = await _serviceManager.TopicService.GetTopicsWithContent(page);
 
         _response =  new PaginatedApiResponse("Topics", true, pagedTopics, Convert.ToInt32(HttpStatusCode.OK), pagedTopics.SelectedPage, pagedTopics.TotalPages, pagedTopics.PageSize, pagedTopics.ItemCount);
         return StatusCode(_response.StatusCode, _response); 
+    }
+    //[Authorize(Roles = "User")]
+    [HttpGet("topic-with-content/{topicId}")]
+    public async Task<IActionResult> GetTopicWithContent(int topicId)
+    {
+        var topic = await _serviceManager.TopicService.GetSingleTopicWithContent(topicId);
+
+        _response = new ApiResponse("Topics", true, topic, Convert.ToInt32(HttpStatusCode.OK));
+        return StatusCode(_response.StatusCode, _response);
     }
     [Authorize(Roles = "User")]
     [HttpPost("create-topic")]
