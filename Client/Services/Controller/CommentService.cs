@@ -17,6 +17,11 @@ public class CommentService:ICommentService
         return await _httpRequestService.RequestAsync<Result>(new ApiRequest(ApiType.POST, "Comment",addCommentModelDto));
     }
 
+    public async Task<ApiResponse<Result>> AddReply(AddCommentModelDto addCommentModelDto)
+    {
+        return await _httpRequestService.RequestAsync<Result>(new ApiRequest(ApiType.POST, "Reply", addCommentModelDto));
+    }
+
     public async Task<ApiResponse<Result>> DeleteComment(int commentId)
     {
         return await _httpRequestService.RequestAsync<Result>(new ApiRequest(ApiType.DELETE, $"Comment/delete-comment/{commentId}", null));

@@ -19,16 +19,36 @@ public class CommentService : ICommentService
     {
         
     }
-    public async Task CreateComment(int userId,CreateCommentDto commentDto)
+    public async Task CreateComment(int userId, CreateCommentDto commentDto)
     {
         var topic = await _repositoryManager.TopicRepository.GetTopicByIdAsync(commentDto.TopicId);
         if (topic == null)
-            throw  new NotFoundException("Topic Not Found");
+        {
+            throw new NotFoundException("Topic Not Found");
+        }
+
         if (topic.Status == Status.Inactive)
-            throw new RestrictedException("You cant comment on this post");
+        {
+            throw new RestrictedException("You can't comment on this post");
+        }
+
+        if (commentDto.ParentCommentId.HasValue)
+        {
+            var parentComment = await _repositoryManager.CommentRepository.GetCommentByIdAsync(commentDto.ParentCommentId.Value);
+            if (parentComment == null)
+            {
+                throw new NotFoundException("Parent Comment Not Found");
+            }
+        }
+
         var comment = _mapper.Map<Comment>(commentDto);
+
+        comment.Type = commentDto.ParentCommentId.HasValue ? CommentType.Reply : CommentType.Comment;
+
         comment.UserId = userId;
+
         _repositoryManager.CommentRepository.AddCommentAsync(comment);
+
         await _repositoryManager.SaveAsync();
     }
     public async Task UpdateComment(int userId,int commentId,UpdateCommentDto commentDto)

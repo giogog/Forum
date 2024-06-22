@@ -191,13 +191,22 @@ namespace API.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Body = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    Body = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ParentCommentId = table.Column<int>(type: "int", nullable: true),
+                    TopicId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
-                    TopicId = table.Column<int>(type: "int", nullable: false)
+                    Type = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Comment", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Comment_Comment_ParentCommentId",
+                        column: x => x.ParentCommentId,
+                        principalTable: "Comment",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Comment_Topic_TopicId",
                         column: x => x.TopicId,
@@ -226,9 +235,10 @@ namespace API.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "Banned", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "SecurityStamp", "Surname", "UserName" },
                 values: new object[,]
                 {
-                    { 1, 0, 0, "14428b8f-d84e-436e-9b94-7073d6a5f98f", "admin@gmail.com", true, true, null, "Admin", "ADMIN@GMAIL.COM", "ADMIN@GMAIL.COM", "AQAAAAIAAYagAAAAEMSCx8tuL/LxpmU3OOjmyCW1CAcOLm/WSYaGCy1ZwJ+Sh2fVRY65zLlO1u4n5t8Cog==", "555334455", null, "Admininistrator", "admin" },
-                    { 2, 0, 0, "3b6982db-0e43-470e-9ec6-f6d76e9eba62", "ani@gmail.com", true, true, null, "Ani", "ANI@GMAIL.COM", "ANI17", "AQAAAAIAAYagAAAAEAQFXG6FxQe4tp51CHkx0DuqKSL9nzvLUsK6jwKfpEKgzsK8QSTk+qNrVkrQQMAwYQ==", "555334456", null, "Magradze", "ani17" },
-                    { 3, 0, 0, "ef571e2b-cc5a-463d-836c-64af658d8848", "rezi@gmail.com", true, true, null, "Rezi", "Rezi@GMAIL.COM", "REZIREZI", "AQAAAAIAAYagAAAAEDhyIo48QwZqxDd3J7IniGDsHJqwKnm5F5jrZtRnj46yfzzaXgr0MRiYYMHm8VrsaA==", "555334457", null, "Magradze", "rezirezi" }
+                    { 1, 0, 0, "6726c1ec-53d4-4fcf-912d-83d1a8fd8fd8", "admin@gmail.com", true, true, null, "Admin", "ADMIN@GMAIL.COM", "ADMIN@GMAIL.COM", "AQAAAAIAAYagAAAAEKLgdjXfKGsDcs+q6aW0XLOQ9KCkS0vRBWhpP9wFOC3lBHJrpurYpyC0zEgnTrVdaQ==", "555334455", null, "Admininistrator", "admin" },
+                    { 2, 0, 0, "2fc2c34a-c8ca-4b63-836b-57de063ba850", "ani@gmail.com", true, true, null, "Ani", "ANI@GMAIL.COM", "ANI17", "AQAAAAIAAYagAAAAEPtrjWcqbKD1/pbZB57eDmVD36npibbdqB3XKQGsk98Q2m1BwPRJ8TttjE8eYSkbKA==", "555334456", null, "Magradze", "ani17" },
+                    { 3, 0, 0, "79ec3e0b-5e17-4963-9e8d-a0c11087b660", "rezi@gmail.com", true, true, null, "Rezi", "Rezi@GMAIL.COM", "REZIREZI", "AQAAAAIAAYagAAAAENG6wWEi+iXtZlpPEd4BHEraa9D4jsH8gbbI9fKNeuggv7VdupFv2VUsP1W69Te5Bg==", "555334457", null, "Magradze", "rezirezi" },
+                    { 4, 0, 0, "c7a9b408-6c8b-4ed0-91a1-109c19e8a494", "gogoladzegio12@gmail.com", true, true, null, "Giorgi", "GOGOLADZEGIO12@GMAIL.COM", "GIOGIO789", "AQAAAAIAAYagAAAAEBrVmI+bnSl2B+QK+Aiypzrswe6mqVztNChNZao42usdqRwwWnTR+tfafi0fOB34qQ==", "555334457", null, "Gogoladze", "Giogio789" }
                 });
 
             migrationBuilder.InsertData(
@@ -238,7 +248,8 @@ namespace API.Migrations
                 {
                     { -2, 1 },
                     { -1, 2 },
-                    { -1, 3 }
+                    { -1, 3 },
+                    { -1, 4 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -267,6 +278,11 @@ namespace API.Migrations
                 name: "IX_AspNetUserRoles_RoleId",
                 table: "AspNetUserRoles",
                 column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Comment_ParentCommentId",
+                table: "Comment",
+                column: "ParentCommentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comment_TopicId",

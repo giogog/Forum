@@ -63,9 +63,9 @@ public record ResetPasswordDto
 {
     public string Email { get; set; }
     public string Token { get; set; }
-    public string NewPassword { get; set; }
+    public string NewPassword { get; set; } 
 }
-public record AddCommentModelDto(int TopicId, string Body);
+public record AddCommentModelDto(int? ParentCommentId,int TopicId, string Body);
 
 public record UpdateCommentModelDto(string Body);
 

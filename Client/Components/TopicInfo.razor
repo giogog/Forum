@@ -10,7 +10,7 @@
         <div class="author-info">
             <span class="posted-by">Posted by @Topic.AuthorFullName</span>
             <span class="username">~ @Topic.Username</span>
-            <span class="posted-date">@Topic.Created.ToString("dd-MM-yyyy")</span>
+            <span class="posted-date">@Topic.Created.ToString("dd-MM-yyyy HH:mm")</span>
         </div>
     </div>
 </div>
@@ -18,3 +18,4 @@
 @code {
     [Parameter] public TopicWithContentResult Topic { get; set; }
 }
+ 

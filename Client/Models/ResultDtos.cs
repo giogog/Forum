@@ -52,8 +52,12 @@ public record CommentResult : Result
 {
     public int Id { get; init; }
     public int UserId { get; init; }
+    public int? ParentCommentId { get; init; }
     public string Body { get; set; }
     public string AuthorFullName { get; set; }
     public string Username { get; set; }
+    public DateTime Created { get; init; }
+    public CommentType Type { get; set; }
+
 }
 

@@ -67,6 +67,24 @@ public static class DataSeeder
                 AccessFailedCount = 0,
                 Name = "Rezi",
                 Surname = "Magradze"
+            },
+            new User
+            {
+                Id = 4,
+                UserName = "Giogio789",
+                NormalizedUserName = "GIOGIO789",
+                Email = "gogoladzegio12@gmail.com",
+                NormalizedEmail = "GOGOLADZEGIO12@GMAIL.COM",
+                EmailConfirmed = true,
+                PasswordHash = hasher.HashPassword(null, "Giuna1278"),
+                PhoneNumber = "555334457",
+                PhoneNumberConfirmed = false,
+                TwoFactorEnabled = false,
+                LockoutEnd = null,
+                LockoutEnabled = true,
+                AccessFailedCount = 0,
+                Name = "Giorgi",
+                Surname = "Gogoladze"
             }
         );
     }
@@ -84,7 +102,8 @@ public static class DataSeeder
         modelBuilder.Entity<UserRole>().HasData(
             new UserRole { RoleId = -2, UserId = 1 },
             new UserRole { RoleId = -1, UserId = 2 },
-            new UserRole { RoleId = -1, UserId = 3 }
+            new UserRole { RoleId = -1, UserId = 3 },
+            new UserRole { RoleId = -1, UserId = 4 }
         );
     }
 

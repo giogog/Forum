@@ -22,3 +22,5 @@ public enum Status
     Active = 0,
     Inactive = 1
 }
+
+public enum CommentType { Comment = 0, Reply = 1 }
