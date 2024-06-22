@@ -30,6 +30,7 @@ public class TopicRepository(ApplicationDataContext context) : BaseRepository<To
         .Include(t => t.Comments)
             .ThenInclude(c => c.User)
         .Include(t => t.User)
+        .Include(t=>t.Upvotes)
         .FirstOrDefaultAsync();
 
     public async Task<IEnumerable<Topic>> GetTopicByUserIdAsync(int userId) => 

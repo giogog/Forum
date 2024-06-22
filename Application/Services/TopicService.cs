@@ -24,12 +24,14 @@ public class TopicService : ITopicService
             .Include(t => t.Comments)
             .ThenInclude(c => c.User)
             .Include(t => t.User)
+            .Include(t => t.Upvotes)
             .Select(t => new TopicDto
             {
                 Title = t.Title,
                 Username = t.User.UserName,
                 AuthorFullName = $"{t.User.Name} {t.User.Surname}",
                 CommentNum = t.CommentNum,
+                UpvotesNum = t.UpvotesNum,
                 Created = t.Created,
                 Id = t.Id,
                 State = t.State,
@@ -50,6 +52,7 @@ public class TopicService : ITopicService
             .Include(t => t.Comments)
             .ThenInclude(c => c.User)
             .Include(t => t.User)
+            .Include(t=>t.Upvotes)
             .Select(t => new TopicWithContentDto
             {
                 Title = t.Title,
@@ -57,6 +60,7 @@ public class TopicService : ITopicService
                 AuthorFullName = $"{t.User.Name} {t.User.Surname}",
                 Body = t.Body,
                 CommentNum = t.CommentNum,
+                UpvotesNum = t.UpvotesNum,
                 Comments = _mapper.Map<IEnumerable<CommentDto>>(t.Comments),
                 Created = t.Created,
                 Id = t.Id,
@@ -101,14 +105,15 @@ public class TopicService : ITopicService
     public async Task DeleteTopic(int topicId)
     {
         var topic = await _repositoryManager.TopicRepository.GetTopicByIdAsync(topicId);
-        if (topic.Status == Status.Inactive)
-            throw new RestrictedException("You cant comment on this post");
         if (topic == null)
             throw new NotFoundException("Topic not found");
+        if (topic.Status == Status.Inactive)
+            throw new RestrictedException("You cant comment on this post");
+
 
         _repositoryManager.TopicRepository.DeleteTopicAsync(topic);
-
         await _repositoryManager.SaveAsync();
+
     }
     public async Task ChangeTopicState(int topicId, State state)
     {

@@ -28,6 +28,7 @@ public class GlobalExceptionHandlingMiddleware
 
         switch (exception)
         {
+
             case UsernameIsTakenException usernameIsTakenException:
                 apiResponse.StatusCode = Convert.ToInt32(HttpStatusCode.Forbidden);
                 apiResponse.IsSuccess = false;

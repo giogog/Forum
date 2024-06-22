@@ -22,6 +22,7 @@ builder.Services.AddScoped(typeof(IHttpRequestService<>), typeof(HttpRequestServ
 
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<ITopicService, TopicService>();
+builder.Services.AddScoped<IUpvoteService, UpvoteService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IJwtService, JwtService>();

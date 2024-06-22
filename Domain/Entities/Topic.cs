@@ -25,6 +25,8 @@ public class Topic
     public Status Status { get; set; } = Status.Active;
 
     public ICollection<Comment> Comments { get; set; }
+    public int UpvotesNum => Upvotes?.Count ?? 0;
+    public ICollection<Upvote> Upvotes { get; set; }
 
     [Required]
     public int UserId { get; set; }

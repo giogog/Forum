@@ -16,5 +16,11 @@ public class TopicConfiguration : IEntityTypeConfiguration<Topic>
             .HasForeignKey(c=>c.TopicId)
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired();
+
+        builder.HasMany(u => u.Upvotes)
+            .WithOne(t => t.Topic)
+            .HasForeignKey(t => t.TopicId)
+            .OnDelete(DeleteBehavior.Cascade)
+            .IsRequired();
     }
 }

@@ -142,6 +142,29 @@ namespace API.Migrations
                     b.ToTable("Topic", (string)null);
                 });
 
+            modelBuilder.Entity("Domain.Entities.Upvote", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("TopicId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TopicId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Upvote");
+                });
+
             modelBuilder.Entity("Domain.Entities.User", b =>
                 {
                     b.Property<int>("Id")
@@ -220,14 +243,14 @@ namespace API.Migrations
                             Id = 1,
                             AccessFailedCount = 0,
                             Banned = 0,
-                            ConcurrencyStamp = "6726c1ec-53d4-4fcf-912d-83d1a8fd8fd8",
+                            ConcurrencyStamp = "468fef88-c48e-4b11-b840-c50e05147aa0",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             Name = "Admin",
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKLgdjXfKGsDcs+q6aW0XLOQ9KCkS0vRBWhpP9wFOC3lBHJrpurYpyC0zEgnTrVdaQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHWt7u9roz1HItKAm5FVdEg1ra/aWad03aUSphxbhATD0wkZgBEGifmvLkTH2cw0OA==",
                             PhoneNumber = "555334455",
                             Surname = "Admininistrator",
                             UserName = "admin"
@@ -237,14 +260,14 @@ namespace API.Migrations
                             Id = 2,
                             AccessFailedCount = 0,
                             Banned = 0,
-                            ConcurrencyStamp = "2fc2c34a-c8ca-4b63-836b-57de063ba850",
+                            ConcurrencyStamp = "2e667a30-42e6-4077-9294-8b18cb23b0d5",
                             Email = "ani@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             Name = "Ani",
                             NormalizedEmail = "ANI@GMAIL.COM",
                             NormalizedUserName = "ANI17",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPtrjWcqbKD1/pbZB57eDmVD36npibbdqB3XKQGsk98Q2m1BwPRJ8TttjE8eYSkbKA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAED5Lhq3+fAFYQTbFu26o/6oOw2eKB/gZAHx/2RGpk1jKd2vkxfkqrm5d3sKMxbSD/A==",
                             PhoneNumber = "555334456",
                             Surname = "Magradze",
                             UserName = "ani17"
@@ -254,14 +277,14 @@ namespace API.Migrations
                             Id = 3,
                             AccessFailedCount = 0,
                             Banned = 0,
-                            ConcurrencyStamp = "79ec3e0b-5e17-4963-9e8d-a0c11087b660",
+                            ConcurrencyStamp = "d16d8939-7692-4c0f-a492-02af4fbc952c",
                             Email = "rezi@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             Name = "Rezi",
                             NormalizedEmail = "Rezi@GMAIL.COM",
                             NormalizedUserName = "REZIREZI",
-                            PasswordHash = "AQAAAAIAAYagAAAAENG6wWEi+iXtZlpPEd4BHEraa9D4jsH8gbbI9fKNeuggv7VdupFv2VUsP1W69Te5Bg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPhpwgXyqiQYoHcvlbKBS6s9bHtXrBz+QFFTR6Zus0fevVBo3OWLbhZaJcnvCdyBHg==",
                             PhoneNumber = "555334457",
                             Surname = "Magradze",
                             UserName = "rezirezi"
@@ -271,14 +294,14 @@ namespace API.Migrations
                             Id = 4,
                             AccessFailedCount = 0,
                             Banned = 0,
-                            ConcurrencyStamp = "c7a9b408-6c8b-4ed0-91a1-109c19e8a494",
+                            ConcurrencyStamp = "5e1daaad-e339-4f3e-8a65-9699e1073f69",
                             Email = "gogoladzegio12@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             Name = "Giorgi",
                             NormalizedEmail = "GOGOLADZEGIO12@GMAIL.COM",
                             NormalizedUserName = "GIOGIO789",
-                            PasswordHash = "AQAAAAIAAYagAAAAEBrVmI+bnSl2B+QK+Aiypzrswe6mqVztNChNZao42usdqRwwWnTR+tfafi0fOB34qQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMno1r9t9FS0xcdAEARmNfpbQw139Ri8gyxer5lWZ6ZXVhar4xxAyGPZDevZSaQiZA==",
                             PhoneNumber = "555334457",
                             Surname = "Gogoladze",
                             UserName = "Giogio789"
@@ -445,6 +468,23 @@ namespace API.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Upvote", b =>
+                {
+                    b.HasOne("Domain.Entities.Topic", "Topic")
+                        .WithMany("Upvotes")
+                        .HasForeignKey("TopicId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.User", null)
+                        .WithMany("Upvotes")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Topic");
+                });
+
             modelBuilder.Entity("Domain.Entities.UserRole", b =>
                 {
                     b.HasOne("Domain.Entities.Role", "Role")
@@ -513,6 +553,8 @@ namespace API.Migrations
             modelBuilder.Entity("Domain.Entities.Topic", b =>
                 {
                     b.Navigation("Comments");
+
+                    b.Navigation("Upvotes");
                 });
 
             modelBuilder.Entity("Domain.Entities.User", b =>
@@ -522,6 +564,8 @@ namespace API.Migrations
                     b.Navigation("Roles");
 
                     b.Navigation("Topics");
+
+                    b.Navigation("Upvotes");
                 });
 #pragma warning restore 612, 618
         }

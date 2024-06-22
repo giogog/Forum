@@ -856,6 +856,55 @@ textarea {
         .add-reply button:hover[b-o6xag9ubon] {
             background-color: #0056b3;
         }
+.edit-topic textarea[b-o6xag9ubon] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: 'Georgia', serif;
+    font-size: 1em;
+    color: #555;
+    transition: border-color 0.3s;
+}
+
+    .edit-topic textarea:focus[b-o6xag9ubon] {
+        border-color: #007bff;
+        outline: none;
+    }
+
+.edit-buttons[b-o6xag9ubon] {
+    display: flex;
+    gap: 10px;
+}
+
+    .edit-buttons .btn-submit[b-o6xag9ubon],
+    .edit-buttons .btn-cancel[b-o6xag9ubon] {
+        padding: 10px 15px;
+        font-size: 1em;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    .edit-buttons .btn-submit[b-o6xag9ubon] {
+        background-color: #28a745;
+        color: white;
+    }
+
+        .edit-buttons .btn-submit:hover[b-o6xag9ubon] {
+            background-color: #218838;
+        }
+
+    .edit-buttons .btn-cancel[b-o6xag9ubon] {
+        background-color: #dc3545;
+        color: white;
+    }
+
+        .edit-buttons .btn-cancel:hover[b-o6xag9ubon] {
+            background-color: #c82333;
+        }
 /* _content/Client/Components/Pages/User.razor.rz.scp.css */
 .user-profile-container[b-pipe4x7x93] {
     max-width: 600px;
@@ -938,9 +987,22 @@ textarea {
 /* _content/Client/Components/TopicButtons.razor.rz.scp.css */
 .topic-buttons[b-ycn0k8bglf] {
     display: flex;
-    gap: 10px;
-    justify-content: flex-end;
+    justify-content: space-between; /* Space between votes and actions */
+    align-items: center; /* Center vertically */
 }
+
+    .topic-buttons .actions[b-ycn0k8bglf] {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    /*.topic-buttons .votes {
+        display: flex;
+        align-items: center;
+        gap: 10px;*/ /* Space between upvote and downvote buttons */
+        /*margin: 0 auto;*/ /* Center the votes div */
+    /*}*/
 
     .topic-buttons button[b-ycn0k8bglf] {
         padding: 8px 15px;
@@ -964,6 +1026,89 @@ textarea {
         .topic-buttons .delete:hover[b-ycn0k8bglf] {
             background-color: #c82333;
         }
+
+    /* Styling for arrow buttons */
+    .topic-buttons .arrow-button[b-ycn0k8bglf] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px 15px;
+        margin: 8px; 
+        font-size: 1em;
+        color: #333;
+        background-color: #f8f9fa;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        text-decoration: none;
+    }
+
+        .topic-buttons .arrow-button:hover[b-ycn0k8bglf] {
+            background-color: #e2e6ea;
+        }
+
+        .topic-buttons .arrow-button .arrow[b-ycn0k8bglf] {
+            font-size: 1.2em;
+            vertical-align: middle;
+        }
+
+
+
+/*.topic-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    align-items: center;*/ /* Center vertically */
+/*}
+
+    .topic-buttons button {
+        padding: 8px 15px;
+        font-size: 0.9em;
+        color: #fff;
+        background-color: #007bff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+        .topic-buttons button:hover {
+            background-color: #0056b3;
+        }
+
+    .topic-buttons .delete {
+        background-color: #dc3545;
+    }
+
+        .topic-buttons .delete:hover {
+            background-color: #c82333;
+        }*/
+
+    /* Styling for arrow buttons */
+    /*.topic-buttons .arrow-button {
+        display: inline-flex;
+        align-items: center;
+        padding: 8px 15px;
+        font-size: 1em;
+        color: #333;
+        background-color: #f8f9fa;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        text-decoration: none;
+    }
+
+        .topic-buttons .arrow-button:hover {
+            background-color: #e2e6ea;
+        }
+
+        .topic-buttons .arrow-button .arrow {
+            font-size: 1.2em;
+            margin-right: 8px;
+            vertical-align: middle;
+        }*/
 /* _content/Client/Components/TopicInfo.razor.rz.scp.css */
 .topic-footer[b-96kceafuin] {
     margin-top: 15px;

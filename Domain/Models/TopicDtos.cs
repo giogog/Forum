@@ -6,6 +6,7 @@ public record TopicWithContentDto
     public string Title { get; init; }
     public string Body { get; init; }
     public int CommentNum { get; init; }
+    public int UpvotesNum { get; init; }
     public DateTime Created { get; init; }
     public string Username {  get; init; }
     public string AuthorFullName { get; init; }
@@ -19,6 +20,7 @@ public record TopicDto
     public int Id { get; init; }
     public string Title { get; init; }
     public int CommentNum { get; init; }
+    public int UpvotesNum { get; init; }
     public DateTime Created { get; init; }
     public string Username { get; init; }
     public string AuthorFullName { get; init; }

@@ -11,4 +11,5 @@ public class User : IdentityUser<int>
     public ICollection<Topic> Topics { get; set; }
     public ICollection<Comment> Comments { get; set; }
     public ICollection<UserRole> Roles { get; set; }
+    public ICollection<Upvote> Upvotes { get; set; }
 }

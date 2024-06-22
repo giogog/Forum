@@ -221,6 +221,32 @@ namespace API.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Upvote",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TopicId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Upvote", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Upvote_Topic_TopicId",
+                        column: x => x.TopicId,
+                        principalTable: "Topic",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Upvote_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
@@ -235,10 +261,10 @@ namespace API.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "Banned", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "SecurityStamp", "Surname", "UserName" },
                 values: new object[,]
                 {
-                    { 1, 0, 0, "6726c1ec-53d4-4fcf-912d-83d1a8fd8fd8", "admin@gmail.com", true, true, null, "Admin", "ADMIN@GMAIL.COM", "ADMIN@GMAIL.COM", "AQAAAAIAAYagAAAAEKLgdjXfKGsDcs+q6aW0XLOQ9KCkS0vRBWhpP9wFOC3lBHJrpurYpyC0zEgnTrVdaQ==", "555334455", null, "Admininistrator", "admin" },
-                    { 2, 0, 0, "2fc2c34a-c8ca-4b63-836b-57de063ba850", "ani@gmail.com", true, true, null, "Ani", "ANI@GMAIL.COM", "ANI17", "AQAAAAIAAYagAAAAEPtrjWcqbKD1/pbZB57eDmVD36npibbdqB3XKQGsk98Q2m1BwPRJ8TttjE8eYSkbKA==", "555334456", null, "Magradze", "ani17" },
-                    { 3, 0, 0, "79ec3e0b-5e17-4963-9e8d-a0c11087b660", "rezi@gmail.com", true, true, null, "Rezi", "Rezi@GMAIL.COM", "REZIREZI", "AQAAAAIAAYagAAAAENG6wWEi+iXtZlpPEd4BHEraa9D4jsH8gbbI9fKNeuggv7VdupFv2VUsP1W69Te5Bg==", "555334457", null, "Magradze", "rezirezi" },
-                    { 4, 0, 0, "c7a9b408-6c8b-4ed0-91a1-109c19e8a494", "gogoladzegio12@gmail.com", true, true, null, "Giorgi", "GOGOLADZEGIO12@GMAIL.COM", "GIOGIO789", "AQAAAAIAAYagAAAAEBrVmI+bnSl2B+QK+Aiypzrswe6mqVztNChNZao42usdqRwwWnTR+tfafi0fOB34qQ==", "555334457", null, "Gogoladze", "Giogio789" }
+                    { 1, 0, 0, "40bbc8ec-b2b5-4422-bff3-45ffdf21a034", "admin@gmail.com", true, true, null, "Admin", "ADMIN@GMAIL.COM", "ADMIN@GMAIL.COM", "AQAAAAIAAYagAAAAEARs65fBZle+Ytd9IstMediQIkdbN9kTFqgwBTdw28EEnnMfpfbeoBDTfIMERKHVJQ==", "555334455", null, "Admininistrator", "admin" },
+                    { 2, 0, 0, "2e869684-ca9e-4964-8ae2-cf0a35fc6e51", "ani@gmail.com", true, true, null, "Ani", "ANI@GMAIL.COM", "ANI17", "AQAAAAIAAYagAAAAEPNFKkY5a/GtQPv4GapBQX3/YQ8I0+owK1BeoHVOAS0WldqLSqUNxAZ8GkZJABYcdQ==", "555334456", null, "Magradze", "ani17" },
+                    { 3, 0, 0, "23a31be1-3d11-4f87-b158-ac3a4b1cfd9f", "rezi@gmail.com", true, true, null, "Rezi", "Rezi@GMAIL.COM", "REZIREZI", "AQAAAAIAAYagAAAAEL1nxNnFdPQ9wAftoBl+OLONyzGoUii4Lo1cC3UQyRO1mOZrZuc5p6C8aHFBwvM/2g==", "555334457", null, "Magradze", "rezirezi" },
+                    { 4, 0, 0, "83aa80c6-aa48-41e3-8376-696e1413c4b4", "gogoladzegio12@gmail.com", true, true, null, "Giorgi", "GOGOLADZEGIO12@GMAIL.COM", "GIOGIO789", "AQAAAAIAAYagAAAAEO2edh7awRxIWnMM286XFXIfcrI+LAbJ0WwQVPhusw39h36y5/rF1e8SjDWTRrmyRQ==", "555334457", null, "Gogoladze", "Giogio789" }
                 });
 
             migrationBuilder.InsertData(
@@ -300,6 +326,16 @@ namespace API.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Upvote_TopicId",
+                table: "Upvote",
+                column: "TopicId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Upvote_UserId",
+                table: "Upvote",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "EmailIndex",
                 table: "Users",
                 column: "NormalizedEmail");
@@ -332,6 +368,9 @@ namespace API.Migrations
 
             migrationBuilder.DropTable(
                 name: "Comment");
+
+            migrationBuilder.DropTable(
+                name: "Upvote");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

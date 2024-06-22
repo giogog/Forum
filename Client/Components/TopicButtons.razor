@@ -1,22 +1,42 @@
 ﻿@using Microsoft.AspNetCore.Components.Authorization
+
 <div class="topic-buttons">
-    <button @onclick="() => OnToggleComments.InvokeAsync(Topic.Id)">See Comments (@Topic.CommentNum)</button>
-    @if (Topic.Status == Status.Active)
-    {
-        <AuthorizeView>
-            <Authorized>
-                <button @onclick="() => OnToggleAddComment.InvokeAsync(Topic.Id)">Add Comment</button>
-                @if (UserId == Topic.UserId)
-                {
-                    <button @onclick="() => OnToggleEditTopic.InvokeAsync(new UpdateTopicModelDto(Topic.Id, Topic.Title, Topic.Body))">Edit</button>
-                    <button class="delete" @onclick="() => OnDeleteTopic.InvokeAsync(Topic.Id)">Delete</button>
-                }
-            </Authorized>
-            <NotAuthorized>
-                <button @onclick="NavigateToLogin">Add Comment</button>
-            </NotAuthorized>
-        </AuthorizeView>
-    }
+    <div class="votes">
+
+        <button class="arrow-button" @onclick="() => OnUpVote.InvokeAsync(Topic.Id)">
+            <span class="arrow">&#8593;</span> <!-- Unicode up arrow -->
+        </button>
+        <button class="arrow-button" @onclick="() => OnDownVote.InvokeAsync(Topic.Id)">
+            <span class="arrow">&#8595;</span> <!-- Unicode down arrow -->
+        </button>
+        <span class="arrow-button">@Topic.UpvotesNum</span>
+    </div>
+    <div class="actions">
+        @if (!InDetailedView)
+        {
+            <button @onclick="() => OnToggleComments.InvokeAsync(Topic.Id)">See Comments (@Topic.CommentNum)</button>
+        }
+        @if (Topic.Status == Status.Active)
+        {
+            <AuthorizeView>
+                <Authorized>
+                    @if (!InDetailedView)
+                    {
+                        <button @onclick="() => OnToggleAddComment.InvokeAsync(Topic.Id)">Add Comment</button>
+                    }
+
+                    @if (UserId == Topic.UserId)
+                    {
+                        <button @onclick="() => OnToggleEditTopic.InvokeAsync(new UpdateTopicModelDto(Topic.Id, Topic.Title, Topic.Body))">Edit</button>
+                        <button class="delete" @onclick="() => OnDeleteTopic.InvokeAsync(Topic.Id)">Delete</button>
+                    }
+                </Authorized>
+                <NotAuthorized>
+                    <button @onclick="NavigateToLogin">Add Comment</button>
+                </NotAuthorized>
+            </AuthorizeView>
+        }
+    </div>
 </div>
 
 @code {
@@ -25,6 +45,9 @@
     [Parameter] public EventCallback<int> OnToggleAddComment { get; set; }
     [Parameter] public EventCallback<UpdateTopicModelDto> OnToggleEditTopic { get; set; }
     [Parameter] public EventCallback<int> OnDeleteTopic { get; set; }
+    [Parameter] public EventCallback<int> OnUpVote { get; set; }
+    [Parameter] public EventCallback<int> OnDownVote { get; set; }
     [Parameter] public Action NavigateToLogin { get; set; }
     [Parameter] public int? UserId { get; set; }
+    [Parameter] public bool InDetailedView { get; set; }
 }

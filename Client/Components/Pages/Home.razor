@@ -4,6 +4,7 @@
 @inject IAuthenticationService AuthService
 @inject IJwtService JwtService
 @inject ICommentService CommentService
+@inject IUpvoteService UpvoteService
 @inject NavigationManager Navigation
 @inject IJSRuntime JSRuntime;
 
@@ -40,7 +41,8 @@
                 <TopicInfo Topic="topic" />
                 <TopicButtons Topic="topic"
                               OnToggleComments="GoToDetails" OnToggleAddComment="GoToDetails"
-                              NavigateToLogin="NavigateToLogin" OnDeleteTopic="ConfirmDeleteTopic" OnToggleEditTopic="EditTopic" UserId="userId" />
+                              NavigateToLogin="NavigateToLogin" OnDeleteTopic="ConfirmDeleteTopic" OnToggleEditTopic="EditTopic" 
+                              OnUpVote="UpVote" OnDownVote="DownVote" UserId="userId" InDetailedView="false" />
             }
 
 
@@ -79,6 +81,7 @@
     private string? errorMessage;
     private int? userId;
     private int totalPages;
+    private int UpVoteNum;
 
 
 
@@ -97,18 +100,20 @@
         await LoadTopics(urlPage);
     }
 
+
     private async Task LoadTopics(int page)
     {
         var response = await TopicService.GetTopicsWithContent(page);
         if (response.IsSuccess)
         {
-            topicsWithContent = response.Result;
+            topicsWithContent = response.Result.OrderByDescending(t => t.UpvotesNum).ToList();
             totalPages = response.TotalPages;
             urlPage = page;
+            
         }
-        else
+        else if(response.StatusCode == 404)
         {
-            errorMessage = response.Message;
+            topicsWithContent=null;
         }
     }
 
@@ -184,6 +189,30 @@
         if (result.IsSuccess)
         {
             await LoadTopics(urlPage);
+        }
+        else
+        {
+            errorMessage = result.Message;
+        }
+    }
+    private async Task UpVote(int topicId)
+    {
+        var result = await UpvoteService.Upvote(topicId);
+        if (result.IsSuccess)
+        {
+            //await LoadTopics(urlPage);
+        }
+        else
+        {
+            errorMessage = result.Message;
+        }
+    }
+    private async Task DownVote(int topicId)
+    {
+        var result = await UpvoteService.DownVote(topicId);
+        if (result.IsSuccess)
+        {
+            //await LoadTopics(urlPage);
         }
         else
         {

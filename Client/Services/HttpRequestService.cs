@@ -85,13 +85,13 @@ public class HttpRequestService<T> : IHttpRequestService<T>
             switch (apiResponse.StatusCode)
             {
                 case HttpStatusCode.NotFound:
-                    return new PaginatedApiResponse<T>() { IsSuccess = false, Message = "Not Found" };
+                    return new PaginatedApiResponse<T>() { IsSuccess = false, Message = "Not Found",StatusCode = (int)HttpStatusCode.NotFound };
                 case HttpStatusCode.Forbidden:
-                    return new PaginatedApiResponse<T>() { IsSuccess = false, Message = "Access denied" };
+                    return new PaginatedApiResponse<T>() { IsSuccess = false, Message = "Access denied", StatusCode = (int)HttpStatusCode.Forbidden };
                 case HttpStatusCode.Unauthorized:
-                    return new PaginatedApiResponse<T>() { IsSuccess = false, Message = "Unauthorized" };
+                    return new PaginatedApiResponse<T>() { IsSuccess = false, Message = "Unauthorized", StatusCode = (int)HttpStatusCode.Unauthorized };
                 case HttpStatusCode.InternalServerError:
-                    return new PaginatedApiResponse<T>() { IsSuccess = false, Message = "Internal server error" };
+                    return new PaginatedApiResponse<T>() { IsSuccess = false, Message = "Internal server error", StatusCode = (int)HttpStatusCode.InternalServerError };
                 default:
                     var apiContent = await apiResponse.Content.ReadAsStringAsync();
                     var result = JsonConvert.DeserializeObject<PaginatedApiResponse<T>>(apiContent);
@@ -120,13 +120,13 @@ public class HttpRequestService<T> : IHttpRequestService<T>
             switch (apiResponse.StatusCode)
             {
                 case HttpStatusCode.NotFound:
-                    return new ApiResponse<T>() { IsSuccess = false, Message = "Not Found" };
+                    return new ApiResponse<T>() { IsSuccess = false, Message = "Not Found", StatusCode = (int)HttpStatusCode.NotFound };
                 case HttpStatusCode.Forbidden:
-                    return new ApiResponse<T>() { IsSuccess = false, Message = "Access denied" };
+                    return new ApiResponse<T>() { IsSuccess = false, Message = "Access denied", StatusCode = (int)HttpStatusCode.Forbidden };
                 case HttpStatusCode.Unauthorized:
-                    return new ApiResponse<T>() { IsSuccess = false, Message = "Unauthorized" };
+                    return new ApiResponse<T>() { IsSuccess = false, Message = "Unauthorized", StatusCode = (int)HttpStatusCode.Unauthorized };
                 case HttpStatusCode.InternalServerError:
-                    return new ApiResponse<T>() { IsSuccess = false, Message = "Internal server error" };
+                    return new ApiResponse<T>() { IsSuccess = false, Message = "Internal server error", StatusCode = (int)HttpStatusCode.InternalServerError };
                 default:
                     var apiContent = await apiResponse.Content.ReadAsStringAsync();
                     var result = JsonConvert.DeserializeObject<ApiResponse<T>>(apiContent);
