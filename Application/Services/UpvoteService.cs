@@ -26,10 +26,15 @@ public class UpvoteService : IUpvoteService
             if (upvoted != null)
             {
                 //_logger.LogWarning("User {UserId} has already upvoted Topic {TopicId}", userId, topicId);
-                throw new RestrictedException("Already upvoted");
+                //throw new RestrictedException("Already upvoted");
+                await _repositoryManager.UpvoteRepository.DeleteUpvoteAsync(upvoted);
+            }
+            else
+            {
+                await _repositoryManager.UpvoteRepository.AddUpvoteAsync(new Upvote { UserId = userId, TopicId = topicId });
             }
 
-            await _repositoryManager.UpvoteRepository.AddUpvoteAsync(new Upvote { UserId = userId, TopicId = topicId });
+            
             await _repositoryManager.SaveAsync();
             await _repositoryManager.CommitTransactionAsync();
         }
@@ -54,7 +59,7 @@ public class UpvoteService : IUpvoteService
                 throw new RestrictedException("Topic is not upvoted");
             }
 
-            await _repositoryManager.UpvoteRepository.DeleteUpvoteAsync(upvoted);
+
             await _repositoryManager.SaveAsync();
             await _repositoryManager.CommitTransactionAsync();
         }

@@ -42,7 +42,7 @@
                 <TopicButtons Topic="topic"
                               OnToggleComments="GoToDetails" OnToggleAddComment="GoToDetails"
                               NavigateToLogin="NavigateToLogin" OnDeleteTopic="ConfirmDeleteTopic" OnToggleEditTopic="EditTopic" 
-                              OnUpVote="UpVote" OnDownVote="DownVote" UserId="userId" InDetailedView="false" />
+                              OnUpVote="UpVote"  UserId="userId" InDetailedView="false" />
             }
 
 
@@ -106,7 +106,7 @@
         var response = await TopicService.GetTopicsWithContent(page);
         if (response.IsSuccess)
         {
-            topicsWithContent = response.Result.OrderByDescending(t => t.UpvotesNum).ToList();
+            topicsWithContent = response.Result.OrderByDescending(t => t.UpvotesNum).ThenByDescending(t=>t.Created).ToList();
             totalPages = response.TotalPages;
             urlPage = page;
             
@@ -200,19 +200,7 @@
         var result = await UpvoteService.Upvote(topicId);
         if (result.IsSuccess)
         {
-            //await LoadTopics(urlPage);
-        }
-        else
-        {
-            errorMessage = result.Message;
-        }
-    }
-    private async Task DownVote(int topicId)
-    {
-        var result = await UpvoteService.DownVote(topicId);
-        if (result.IsSuccess)
-        {
-            //await LoadTopics(urlPage);
+            await LoadTopics(urlPage);
         }
         else
         {
@@ -223,216 +211,3 @@
 
 }
 
-
-@* @page "/"
-@using Microsoft.AspNetCore.Components.Authorization
-@inject ITopicService TopicService
-@inject IAuthenticationService AuthService
-@inject IJwtService JwtService
-@inject ICommentService CommentService
-@inject NavigationManager Navigation
-@inject IJSRuntime JSRuntime;
-
-<PageTitle>Forum Topics</PageTitle>
-
-<AuthorizeView>
-    <Authorized>
-        <CreateTopicForm OnValidSubmit="SubmitTopic" />
-    </Authorized>
-    <NotAuthorized>
-        <p>Authorize to create topic</p>
-    </NotAuthorized>
-</AuthorizeView>
-
-@if (topicsWithContent != null && topicsWithContent.Any())
-{
-    @foreach (var topic in topicsWithContent)
-    {
-        <TopicComponent Topic="topic" IsAuthenticated="isAuthenticated" UserId="userId"
-                        OnToggleComments="ToggleComments" OnToggleAddComment="ToggleAddComment"
-                        ShowComments="showComments.Contains(topic.Id)" ShowAddComment="showAddComment.Contains(topic.Id)"
-                        CommentBodies="commentBodies" OnSubmitComment="SubmitComment"
-                        EditCommentBodies="editCommentBodies" OnSubmitEditComment="SubmitEditComment"
-                        OnCancelEdit="CancelEdit" OnDeleteComment="ConfirmDeleteComment"
-                        NavigateToLogin="NavigateToLogin" />
-    }
-
-    <!-- Pagination controls -->
-    <nav aria-label="Topic navigation">
-        <ul class="pagination justify-content-center">
-            <li class="page-item @(currentPage == 1 ? "disabled" : "")">
-                <button class="page-link" disabled="@(currentPage == 1)" @onclick="@(currentPage == 1 ? null : (() => LoadTopics(currentPage - 1)))">Previous</button>
-            </li>
-
-            @for (int i = 1; i <= totalPages; i++)
-            {
-                int localPageNumber = i;
-                <li class="page-item @(currentPage == localPageNumber ? "active" : "")">
-                    <button class="page-link" @onclick="(() => LoadTopics(localPageNumber))">@localPageNumber</button>
-                </li>
-            }
-
-            <li class="page-item @(currentPage == totalPages ? "disabled" : "")">
-                <button class="page-link" disabled="@(currentPage == totalPages)" @onclick="@(currentPage == totalPages ? null : (() => LoadTopics(currentPage + 1)))">Next</button>
-            </li>
-        </ul>
-    </nav>
-
-}
-
-@code {
-    private IEnumerable<TopicWithContentResult>? topicsWithContent;
-    private HashSet<int> showComments = new HashSet<int>();
-    private HashSet<int> showAddComment = new HashSet<int>();
-    private Dictionary<int, string> commentBodies = new Dictionary<int, string>();
-    private Dictionary<int, string> editCommentBodies = new Dictionary<int, string>();
-    private bool isAuthenticated;
-    private string? errorMessage;
-    private int? userId;
-    private int currentPage = 1;
-    private int totalPages;
-
-    protected override async Task OnInitializedAsync()
-    {
-        var authState = await AuthService.GetAuthenticationStateAsync();
-        isAuthenticated = authState.User.Identity.IsAuthenticated;
-        if (isAuthenticated)
-            userId = JwtService.GetIdFromClaims(authState.User.Claims);
-        else
-            userId = null;
-
-        await LoadTopics(currentPage);
-    }
-
-    private async Task LoadTopics(int page)
-    {
-        var response = await TopicService.GetTopicsWithContent(page);
-        if (response.IsSuccess)
-        {
-            topicsWithContent = response.Result;
-            totalPages = response.TotalPages;
-            currentPage = page;
-        }
-        else
-        {
-            errorMessage = response.Message;
-        }
-    }
-
-    private void ToggleComments(int topicId)
-    {
-        if (showComments.Contains(topicId))
-        {
-            showComments.Remove(topicId);
-        }
-        else
-        {
-            showComments.Add(topicId);
-        }
-    }
-
-    private void ToggleAddComment(int topicId)
-    {
-        if (showAddComment.Contains(topicId))
-        {
-            showAddComment.Remove(topicId);
-        }
-        else
-        {
-            showAddComment.Add(topicId);
-            if (!commentBodies.ContainsKey(topicId))
-            {
-                commentBodies[topicId] = string.Empty;
-            }
-        }
-    }
-
-    private void NavigateToLogin()
-    {
-        Navigation.NavigateTo("/login");
-    }
-
-    private async Task SubmitComment(int topicId)
-    {
-        if (commentBodies.TryGetValue(topicId, out var commentBody) && !string.IsNullOrWhiteSpace(commentBody))
-        {
-            var createCommentDto = new AddCommentModelDto(topicId, commentBody);
-            var result = await CommentService.AddComment(createCommentDto);
-            if (result.IsSuccess)
-            {
-                await LoadTopics(currentPage);
-                commentBodies[topicId] = string.Empty;
-                showAddComment.Remove(topicId);
-            }
-            else
-            {
-                errorMessage = result.Message;
-            }
-        }
-    }
-
-    private void EditComment(CommentResult comment)
-    {
-        editCommentBodies[comment.Id] = comment.Body;
-    }
-
-    private async Task CancelEdit(int commentId)
-    {
-        editCommentBodies.Remove(commentId);
-    }
-
-    private async Task SubmitEditComment(int commentId)
-    {
-        if (editCommentBodies.TryGetValue(commentId, out var editedBody) && !string.IsNullOrWhiteSpace(editedBody))
-        {
-            var result = await CommentService.EditComment(commentId, new UpdateCommentModelDto(editedBody));
-            if (result.IsSuccess)
-            {
-                editCommentBodies.Remove(commentId);
-                await LoadTopics(currentPage);
-            }
-            else
-            {
-                errorMessage = result.Message;
-            }
-        }
-    }
-
-    private async Task ConfirmDeleteComment(int commentId)
-    {
-        var confirmed = await JSRuntime.InvokeAsync<bool>("confirm", "Are you sure you want to delete this comment?");
-        if (confirmed)
-        {
-            await DeleteComment(commentId);
-        }
-    }
-
-    private async Task DeleteComment(int commentId)
-    {
-        var result = await CommentService.DeleteComment(commentId);
-        if (result.IsSuccess)
-        {
-            await LoadTopics(currentPage);
-        }
-        else
-        {
-            errorMessage = result.Message;
-        }
-    }
-
-    private async Task SubmitTopic(CreateTopicModelDto topic)
-    {
-        var result = await TopicService.AddTopic(topic);
-        if (result.IsSuccess)
-        {
-            await LoadTopics(currentPage);
-            //topic = new CreateTopicModelDto();
-        }
-        else
-        {
-            errorMessage = result.Message;
-        }
-    }
-}
-
- *@

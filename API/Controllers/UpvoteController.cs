@@ -18,16 +18,5 @@ public class UpvoteController(IServiceManager _serviceManager) : ApiController(_
         return StatusCode(_response.StatusCode, _response);
 
     }
-    [Authorize(Roles = "User")]
-    [HttpDelete("{topicId}")]
-    public async Task<IActionResult> DownVote(int topicId)
-    {
-        var user = await _serviceManager.UserService.GetUserWithClaim(User);
-        await _serviceManager.UpvoteService.DownVote(user.Id, topicId);
-
-        _response = new ApiResponse("Topic Downvoted Succesfully", true, null, Convert.ToInt32(HttpStatusCode.OK));
-        return StatusCode(_response.StatusCode, _response);
-
-    }
 }
 

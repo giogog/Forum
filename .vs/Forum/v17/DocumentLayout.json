@@ -3,44 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\Geekster PC\\Desktop\\Programming\\MyForum\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{967A33F4-3A54-400B-8A51-0AA9B645C201}|Client\\Client.csproj|c:\\users\\geekster pc\\desktop\\programming\\myforum\\client\\components\\pages\\home.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{967A33F4-3A54-400B-8A51-0AA9B645C201}|Client\\Client.csproj|solutionrelative:client\\components\\pages\\home.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{86EEE25A-A4CF-4087-BAF5-B422B5309B8F}|Domain\\Domain.csproj|c:\\users\\geekster pc\\desktop\\programming\\myforum\\domain\\entities\\thread.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{86EEE25A-A4CF-4087-BAF5-B422B5309B8F}|Domain\\Domain.csproj|solutionrelative:domain\\entities\\thread.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{967A33F4-3A54-400B-8A51-0AA9B645C201}|Client\\Client.csproj|c:\\users\\geekster pc\\desktop\\programming\\myforum\\client\\components\\topicbuttons.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{967A33F4-3A54-400B-8A51-0AA9B645C201}|Client\\Client.csproj|solutionrelative:client\\components\\topicbuttons.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{86EEE25A-A4CF-4087-BAF5-B422B5309B8F}|Domain\\Domain.csproj|c:\\users\\geekster pc\\desktop\\programming\\myforum\\domain\\entities\\topic.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{86EEE25A-A4CF-4087-BAF5-B422B5309B8F}|Domain\\Domain.csproj|solutionrelative:domain\\entities\\topic.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{967A33F4-3A54-400B-8A51-0AA9B645C201}|Client\\Client.csproj|c:\\users\\geekster pc\\desktop\\programming\\myforum\\client\\components\\topicbuttons.razor.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{967A33F4-3A54-400B-8A51-0AA9B645C201}|Client\\Client.csproj|solutionrelative:client\\components\\topicbuttons.razor.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{967A33F4-3A54-400B-8A51-0AA9B645C201}|Client\\Client.csproj|c:\\users\\geekster pc\\desktop\\programming\\myforum\\client\\components\\topicinfo.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{967A33F4-3A54-400B-8A51-0AA9B645C201}|Client\\Client.csproj|solutionrelative:client\\components\\topicinfo.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{967A33F4-3A54-400B-8A51-0AA9B645C201}|Client\\Client.csproj|c:\\users\\geekster pc\\desktop\\programming\\myforum\\client\\components\\pages\\topicdetails.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{967A33F4-3A54-400B-8A51-0AA9B645C201}|Client\\Client.csproj|solutionrelative:client\\components\\pages\\topicdetails.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D3F024F4-0D7A-4466-8F3C-4B9FCB716823}|Application\\Application.csproj|c:\\users\\geekster pc\\desktop\\programming\\myforum\\application\\services\\topicservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D3F024F4-0D7A-4466-8F3C-4B9FCB716823}|Application\\Application.csproj|solutionrelative:application\\services\\topicservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{967A33F4-3A54-400B-8A51-0AA9B645C201}|Client\\Client.csproj|c:\\users\\geekster pc\\desktop\\programming\\myforum\\client\\components\\pages\\topicdetails.razor.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{967A33F4-3A54-400B-8A51-0AA9B645C201}|Client\\Client.csproj|solutionrelative:client\\components\\pages\\topicdetails.razor.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{9EBAE4D7-74EF-4395-B9AF-0FDC834AA55A}|API\\API.csproj|c:\\users\\geekster pc\\desktop\\programming\\myforum\\api\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{9EBAE4D7-74EF-4395-B9AF-0FDC834AA55A}|API\\API.csproj|solutionrelative:api\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{967A33F4-3A54-400B-8A51-0AA9B645C201}|Client\\Client.csproj|c:\\users\\geekster pc\\desktop\\programming\\myforum\\client\\models\\resultdtos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{967A33F4-3A54-400B-8A51-0AA9B645C201}|Client\\Client.csproj|solutionrelative:client\\models\\resultdtos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{967A33F4-3A54-400B-8A51-0AA9B645C201}|Client\\Client.csproj|c:\\users\\geekster pc\\desktop\\programming\\myforum\\client\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{967A33F4-3A54-400B-8A51-0AA9B645C201}|Client\\Client.csproj|solutionrelative:client\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{86EEE25A-A4CF-4087-BAF5-B422B5309B8F}|Domain\\Domain.csproj|c:\\users\\geekster pc\\desktop\\programming\\myforum\\domain\\entities\\comment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{86EEE25A-A4CF-4087-BAF5-B422B5309B8F}|Domain\\Domain.csproj|solutionrelative:domain\\entities\\comment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -50,145 +22,50 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 10,
+          "SelectedChildIndex": 2,
           "Children": [
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
-            },
-            {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "TopicService.cs",
-              "DocumentMoniker": "C:\\Users\\Geekster PC\\Desktop\\Programming\\MyForum\\Application\\Services\\TopicService.cs",
-              "RelativeDocumentMoniker": "Application\\Services\\TopicService.cs",
-              "ToolTip": "C:\\Users\\Geekster PC\\Desktop\\Programming\\MyForum\\Application\\Services\\TopicService.cs",
-              "RelativeToolTip": "Application\\Services\\TopicService.cs",
-              "ViewState": "AQIAABQAAAAAAAAAAAA4wEsAAAAIAAAA",
+              "DocumentIndex": 1,
+              "Title": "Topic.cs",
+              "DocumentMoniker": "C:\\Users\\Geekster PC\\Desktop\\Programming\\MyForum\\Domain\\Entities\\Topic.cs",
+              "RelativeDocumentMoniker": "Domain\\Entities\\Topic.cs",
+              "ToolTip": "C:\\Users\\Geekster PC\\Desktop\\Programming\\MyForum\\Domain\\Entities\\Topic.cs",
+              "RelativeToolTip": "Domain\\Entities\\Topic.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAB4AAAAOAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-22T22:16:46.961Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "launchSettings.json",
-              "DocumentMoniker": "C:\\Users\\Geekster PC\\Desktop\\Programming\\MyForum\\API\\Properties\\launchSettings.json",
-              "RelativeDocumentMoniker": "API\\Properties\\launchSettings.json",
-              "ToolTip": "C:\\Users\\Geekster PC\\Desktop\\Programming\\MyForum\\API\\Properties\\launchSettings.json",
-              "RelativeToolTip": "API\\Properties\\launchSettings.json",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAAAIAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-06-22T21:48:11.429Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "TopicDetails.razor.css",
-              "DocumentMoniker": "C:\\Users\\Geekster PC\\Desktop\\Programming\\MyForum\\Client\\Components\\Pages\\TopicDetails.razor.css",
-              "RelativeDocumentMoniker": "Client\\Components\\Pages\\TopicDetails.razor.css",
-              "ToolTip": "C:\\Users\\Geekster PC\\Desktop\\Programming\\MyForum\\Client\\Components\\Pages\\TopicDetails.razor.css",
-              "RelativeToolTip": "Client\\Components\\Pages\\TopicDetails.razor.css",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABYAAAAbAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2024-06-22T21:45:33.824Z",
+              "WhenOpened": "2024-06-23T12:47:00.376Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "TopicButtons.razor.css",
-              "DocumentMoniker": "C:\\Users\\Geekster PC\\Desktop\\Programming\\MyForum\\Client\\Components\\TopicButtons.razor.css",
-              "RelativeDocumentMoniker": "Client\\Components\\TopicButtons.razor.css",
-              "ToolTip": "C:\\Users\\Geekster PC\\Desktop\\Programming\\MyForum\\Client\\Components\\TopicButtons.razor.css",
-              "RelativeToolTip": "Client\\Components\\TopicButtons.razor.css",
-              "ViewState": "AQIAAAYAAAAAAAAAAAAAACsAAAAgAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2024-06-22T21:44:58.293Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "TopicDetails.razor",
-              "DocumentMoniker": "C:\\Users\\Geekster PC\\Desktop\\Programming\\MyForum\\Client\\Components\\Pages\\TopicDetails.razor",
-              "RelativeDocumentMoniker": "Client\\Components\\Pages\\TopicDetails.razor",
-              "ToolTip": "C:\\Users\\Geekster PC\\Desktop\\Programming\\MyForum\\Client\\Components\\Pages\\TopicDetails.razor",
-              "RelativeToolTip": "Client\\Components\\Pages\\TopicDetails.razor",
-              "ViewState": "AQIAAEsAAAAAAAAAAAAAAF0BAAAJAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-06-22T21:40:35.118Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "TopicInfo.razor",
-              "DocumentMoniker": "C:\\Users\\Geekster PC\\Desktop\\Programming\\MyForum\\Client\\Components\\TopicInfo.razor",
-              "RelativeDocumentMoniker": "Client\\Components\\TopicInfo.razor",
-              "ToolTip": "C:\\Users\\Geekster PC\\Desktop\\Programming\\MyForum\\Client\\Components\\TopicInfo.razor",
-              "RelativeToolTip": "Client\\Components\\TopicInfo.razor",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAAwAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-06-22T21:36:51.417Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "ResultDtos.cs",
-              "DocumentMoniker": "C:\\Users\\Geekster PC\\Desktop\\Programming\\MyForum\\Client\\Models\\ResultDtos.cs",
-              "RelativeDocumentMoniker": "Client\\Models\\ResultDtos.cs",
-              "ToolTip": "C:\\Users\\Geekster PC\\Desktop\\Programming\\MyForum\\Client\\Models\\ResultDtos.cs",
-              "RelativeToolTip": "Client\\Models\\ResultDtos.cs",
-              "ViewState": "AQIAABoAAAAAAAAAAAAswCsAAAAZAAAA",
+              "Title": "Comment.cs",
+              "DocumentMoniker": "C:\\Users\\Geekster PC\\Desktop\\Programming\\MyForum\\Domain\\Entities\\Comment.cs",
+              "RelativeDocumentMoniker": "Domain\\Entities\\Comment.cs",
+              "ToolTip": "C:\\Users\\Geekster PC\\Desktop\\Programming\\MyForum\\Domain\\Entities\\Comment.cs",
+              "RelativeToolTip": "Domain\\Entities\\Comment.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACIAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-22T21:34:49.744Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\Geekster PC\\Desktop\\Programming\\MyForum\\Client\\Program.cs",
-              "RelativeDocumentMoniker": "Client\\Program.cs",
-              "ToolTip": "C:\\Users\\Geekster PC\\Desktop\\Programming\\MyForum\\Client\\Program.cs",
-              "RelativeToolTip": "Client\\Program.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAB8AAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-22T21:33:20.777Z",
+              "WhenOpened": "2024-06-23T12:46:46.659Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Home.razor",
-              "DocumentMoniker": "C:\\Users\\Geekster PC\\Desktop\\Programming\\MyForum\\Client\\Components\\Pages\\Home.razor",
-              "RelativeDocumentMoniker": "Client\\Components\\Pages\\Home.razor",
-              "ToolTip": "C:\\Users\\Geekster PC\\Desktop\\Programming\\MyForum\\Client\\Components\\Pages\\Home.razor",
-              "RelativeToolTip": "Client\\Components\\Pages\\Home.razor",
-              "ViewState": "AQIAAKwAAAAAAAAAAAAuwMEAAAAJAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-06-22T21:32:32.168Z",
+              "Title": "Thread.cs",
+              "DocumentMoniker": "C:\\Users\\Geekster PC\\Desktop\\Programming\\MyForum\\Domain\\Entities\\Thread.cs",
+              "RelativeDocumentMoniker": "Domain\\Entities\\Thread.cs",
+              "ToolTip": "C:\\Users\\Geekster PC\\Desktop\\Programming\\MyForum\\Domain\\Entities\\Thread.cs",
+              "RelativeToolTip": "Domain\\Entities\\Thread.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACMAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-23T12:46:02.718Z",
               "EditorCaption": ""
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "TopicButtons.razor",
-              "DocumentMoniker": "C:\\Users\\Geekster PC\\Desktop\\Programming\\MyForum\\Client\\Components\\TopicButtons.razor",
-              "RelativeDocumentMoniker": "Client\\Components\\TopicButtons.razor",
-              "ToolTip": "C:\\Users\\Geekster PC\\Desktop\\Programming\\MyForum\\Client\\Components\\TopicButtons.razor",
-              "RelativeToolTip": "Client\\Components\\TopicButtons.razor",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAhAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-06-22T21:29:53.368Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
             }
           ]
         }

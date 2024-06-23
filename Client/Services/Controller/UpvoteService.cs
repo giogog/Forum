@@ -12,10 +12,7 @@ public class UpvoteService : IUpvoteService
         _httpRequestService = httpRequestService;
     }
 
-    public async Task<ApiResponse<Result>> DownVote(int topicId)
-    {
-        return await _httpRequestService.RequestAsync<Result>(new ApiRequest(ApiType.DELETE, $"Upvote/{topicId}", null));
-    }
+
 
     public async Task<ApiResponse<Result>> Upvote(int topicId)
     {

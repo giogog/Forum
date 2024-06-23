@@ -33,5 +33,6 @@ public class Comment
     [ForeignKey("UserId")]
     public User User { get; set; }
 
+    [EnumDataType(typeof(CommentType))]
     public CommentType Type { get; set; }
 }
