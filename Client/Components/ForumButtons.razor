@@ -1,0 +1,27 @@
+﻿@using Microsoft.AspNetCore.Components.Authorization
+
+<div class="forum-buttons">
+    <div class="actions">
+        @if (Forum.Status == Status.Active)
+        {
+            <AuthorizeView>
+                <Authorized>
+                    @if (UserId == Forum.UserId)
+                    {
+                        <button @onclick="() => OnToggleEditForum.InvokeAsync(new UpdateForumDto(Forum.Id,Forum.Title))">Edit</button>
+                        <button class="delete" @onclick="() => OnToggleDeleteForum.InvokeAsync(Forum.Id)">Delete</button>
+                    }
+                </Authorized>
+            </AuthorizeView>
+            <button @onclick="() => OnNavigateToForum.InvokeAsync(Forum.Id)">Go to Forum</button>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter] public ForumResult Forum { get; set; }
+    [Parameter] public EventCallback<int> OnToggleDeleteForum { get; set; }
+    [Parameter] public EventCallback<UpdateForumDto> OnToggleEditForum { get; set; }
+    [Parameter] public EventCallback<int> OnNavigateToForum { get; set; }
+    [Parameter] public int? UserId { get; set; }
+}

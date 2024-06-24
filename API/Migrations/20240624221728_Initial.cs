@@ -162,6 +162,29 @@ namespace API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Forum",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    State = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Forum", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Forum_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Topic",
                 columns: table => new
                 {
@@ -172,11 +195,18 @@ namespace API.Migrations
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
                     State = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    ForumId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Topic", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Topic_Forum_ForumId",
+                        column: x => x.ForumId,
+                        principalTable: "Forum",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Topic_Users_UserId",
                         column: x => x.UserId,
@@ -238,7 +268,7 @@ namespace API.Migrations
                         column: x => x.TopicId,
                         principalTable: "Topic",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Upvote_Users_UserId",
                         column: x => x.UserId,
@@ -252,6 +282,7 @@ namespace API.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
+                    { -3, null, "Moderator", "MODERATOR" },
                     { -2, null, "Admin", "ADMIN" },
                     { -1, null, "User", "USER" }
                 });
@@ -261,10 +292,10 @@ namespace API.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "Banned", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "SecurityStamp", "Surname", "UserName" },
                 values: new object[,]
                 {
-                    { 1, 0, 0, "40bbc8ec-b2b5-4422-bff3-45ffdf21a034", "admin@gmail.com", true, true, null, "Admin", "ADMIN@GMAIL.COM", "ADMIN@GMAIL.COM", "AQAAAAIAAYagAAAAEARs65fBZle+Ytd9IstMediQIkdbN9kTFqgwBTdw28EEnnMfpfbeoBDTfIMERKHVJQ==", "555334455", null, "Admininistrator", "admin" },
-                    { 2, 0, 0, "2e869684-ca9e-4964-8ae2-cf0a35fc6e51", "ani@gmail.com", true, true, null, "Ani", "ANI@GMAIL.COM", "ANI17", "AQAAAAIAAYagAAAAEPNFKkY5a/GtQPv4GapBQX3/YQ8I0+owK1BeoHVOAS0WldqLSqUNxAZ8GkZJABYcdQ==", "555334456", null, "Magradze", "ani17" },
-                    { 3, 0, 0, "23a31be1-3d11-4f87-b158-ac3a4b1cfd9f", "rezi@gmail.com", true, true, null, "Rezi", "Rezi@GMAIL.COM", "REZIREZI", "AQAAAAIAAYagAAAAEL1nxNnFdPQ9wAftoBl+OLONyzGoUii4Lo1cC3UQyRO1mOZrZuc5p6C8aHFBwvM/2g==", "555334457", null, "Magradze", "rezirezi" },
-                    { 4, 0, 0, "83aa80c6-aa48-41e3-8376-696e1413c4b4", "gogoladzegio12@gmail.com", true, true, null, "Giorgi", "GOGOLADZEGIO12@GMAIL.COM", "GIOGIO789", "AQAAAAIAAYagAAAAEO2edh7awRxIWnMM286XFXIfcrI+LAbJ0WwQVPhusw39h36y5/rF1e8SjDWTRrmyRQ==", "555334457", null, "Gogoladze", "Giogio789" }
+                    { 1, 0, 0, "9f86ffbb-ab70-472f-b04d-7c2f8831c9b3", "admin@gmail.com", true, true, null, "Admin", "ADMIN@GMAIL.COM", "ADMIN@GMAIL.COM", "AQAAAAIAAYagAAAAEGCWADiH5bAJNzUFIByseMh/TpUHlvi30N+q3qqzU7YKV319CxPV/SLHeJVIoptepA==", "555334455", null, "Admininistrator", "admin" },
+                    { 2, 0, 0, "a031e6ce-3b82-4472-a54e-33d69cd40aab", "ani@gmail.com", true, true, null, "Ani", "ANI@GMAIL.COM", "ANI17", "AQAAAAIAAYagAAAAECHJ2L++syqeoxUe5rN385uwKzEIkNl9WPFyycwDgXGeDU/UD+Sw3h2ujEN82nUMiA==", "555334456", null, "Magradze", "ani17" },
+                    { 3, 0, 0, "3c53c88a-3408-4e7f-bfe7-994731768c68", "rezi@gmail.com", true, true, null, "Rezi", "Rezi@GMAIL.COM", "REZIREZI", "AQAAAAIAAYagAAAAEIF78RWKZSoQkBxs0s+pWbu4Or2B/b9N4eTYKaw+fmm3S9sEFKrT9S91www1esFtEw==", "555334457", null, "Magradze", "rezirezi" },
+                    { 4, 0, 0, "851a5d94-f89d-49dd-8f58-80db6c63d741", "gogoladzegio12@gmail.com", true, true, null, "Giorgi", "GOGOLADZEGIO12@GMAIL.COM", "GIOGIO789", "AQAAAAIAAYagAAAAEEv//oBtthrWpwTO+82umbY0xPiNGqnOobVscwYX9d/YUstA11PvOxYVktal9NE6Mw==", "555334457", null, "Gogoladze", "Giogio789" }
                 });
 
             migrationBuilder.InsertData(
@@ -319,6 +350,16 @@ namespace API.Migrations
                 name: "IX_Comment_UserId",
                 table: "Comment",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Forum_UserId",
+                table: "Forum",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Topic_ForumId",
+                table: "Topic",
+                column: "ForumId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Topic_UserId",
@@ -377,6 +418,9 @@ namespace API.Migrations
 
             migrationBuilder.DropTable(
                 name: "Topic");
+
+            migrationBuilder.DropTable(
+                name: "Forum");
 
             migrationBuilder.DropTable(
                 name: "Users");

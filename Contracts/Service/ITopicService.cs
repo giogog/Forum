@@ -4,12 +4,13 @@ namespace Contracts;
 
 public interface ITopicService
 {
-    Task<TopicWithContentDto> GetSingleTopicWithContent(int topicId);
-    Task<PagedList<TopicDto>> GetTopics(int page);
-    Task<PagedList<TopicWithContentDto>> GetTopicsWithContent(int page);
+    Task<TopicDto> GetSingleTopic(int topicId);
+    Task<PagedList<TopicDto>> GetTopicsByPage(int forumId,int page);
+    Task<PagedList<TopicDto>> GetTopicsWithUserIdByPage(int userId, int page);
+    Task<PagedList<TopicDto>> GetPendingTopicsByPage(int page);
     Task CreateTopic(int userId,CreateTopicDto createTopicDto);
     Task UpdateTopic(int topicId, UpdateTopicDto updateTopicDto);
     Task DeleteTopic(int topicId);
-    Task ChangeTopicState(int topicId, State state);
     Task ChangeTopicStatus(int topicId, Status status);
+    Task ChangeTopicState(int topicId, State state);
 }

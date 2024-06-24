@@ -8,6 +8,30 @@
     background-color: #f9f9f9;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+.go-back[b-8dcw5hfbu3] {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 15px;
+    font-size: 1em;
+    color: #333;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-bottom: 20px;
+    text-decoration: none;
+}
+
+    .go-back:hover[b-8dcw5hfbu3] {
+        background-color: #e2e6ea;
+    }
+
+    .go-back .arrow[b-8dcw5hfbu3] {
+        font-size: 1.2em;
+        margin-right: 8px;
+        vertical-align: middle;
+    }
 
     .create-topic h2[b-8dcw5hfbu3] {
         margin-top: 0;

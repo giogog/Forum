@@ -37,7 +37,7 @@
 </div>
 
 @code {
-    [Parameter] public TopicWithContentResult Topic { get; set; }
+    [Parameter] public TopicResult Topic { get; set; }
     [Parameter] public EventCallback<int> OnToggleComments { get; set; }
     [Parameter] public EventCallback<int> OnToggleAddComment { get; set; }
     [Parameter] public EventCallback<UpdateTopicModelDto> OnToggleEditTopic { get; set; }

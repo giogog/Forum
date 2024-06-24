@@ -47,7 +47,7 @@ public class UserController(IServiceManager _serviceManager) : ApiController(_se
     }
 
     [Authorize(Roles = "Admin")]
-    [HttpPut("{userId}/{ban}")]
+    [HttpPatch("{userId}/{ban}")]
     public async Task<IActionResult> BanUser(int userId ,Ban ban)
     {
         await _serviceManager.UserService.UserBanStatusChange(userId, ban);

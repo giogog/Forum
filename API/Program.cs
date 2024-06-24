@@ -19,7 +19,7 @@ builder.Services.ConfigureRepositoryManager();
 builder.Services.ConfigureServiceManager();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.ConfigureBackGroundService();
+//builder.Services.ConfigureBackGroundService();
 builder.AddSwagger();
 
 var app = builder.Build();

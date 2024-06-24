@@ -71,6 +71,7 @@ public record UpdateCommentModelDto(string Body);
 
 public record TopicModelDto
 {
+    public int ForumId { get; set; }
     public string Title { get; set; }
     public string Body { get; set; } 
 
@@ -85,3 +86,10 @@ public record UpdateTopicModelDto(int id,string title, string body)
 
 
 };
+
+public record CreateForumModelDto 
+{ 
+
+    public string Title { get; set; }
+}
+public record UpdateForumDto(int Id,string Title);

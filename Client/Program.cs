@@ -21,6 +21,7 @@ builder.Services.AddScoped<ApiAuthenticationStateProvider>();
 builder.Services.AddScoped(typeof(IHttpRequestService<>), typeof(HttpRequestService<>));
 
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+builder.Services.AddScoped<IForumService, ForumService>();
 builder.Services.AddScoped<ITopicService, TopicService>();
 builder.Services.AddScoped<IUpvoteService, UpvoteService>();
 builder.Services.AddScoped<ICommentService, CommentService>();

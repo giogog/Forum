@@ -22,6 +22,10 @@ public class PagedList<T> : List<T>
     {
         var count = await source.CountAsync();
         var items = await source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+        if (!items.Any())
+        {
+            throw new NotFoundException("Items Not Found");
+        }
         return new PagedList<T>(items, count, pageNumber, pageSize);
     }
 

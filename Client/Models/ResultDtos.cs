@@ -34,20 +34,21 @@ public record AuthorizedUserResult : Result
     public string Email { get; set; }
 }
 
-public record TopicWithContentResult : Result
+public record TopicResult : Result
 {
     public int Id { get; init; }
     public int UserId { get; init; }
+    public int ForumId { get; set; }
     public string Title { get; init; }
     public string Body { get; init; }
-    public int CommentNum { get; init; }
-    public int UpvotesNum { get; init; }
+    public int? CommentNum { get; init; }
+    public int? UpvotesNum { get; init; }
     public DateTime Created { get; init; }
     public string Username { get; init; }
     public string AuthorFullName { get; init; }
-    public State State { get; init; }
+    public string? ForumTitle { get; init; }
     public Status Status { get; init; }
-    public List<CommentResult> Comments { get; init; }
+    public State State { get; init; }
 }
 public record CommentResult : Result
 {
@@ -60,5 +61,18 @@ public record CommentResult : Result
     public DateTime Created { get; init; }
     public CommentType Type { get; set; }
 
+}
+
+
+public record ForumResult : Result
+{
+    public int Id { get; init; }
+    public int UserId { get; init; }
+    public string Title { get; init; }
+    public int TopicNum { get; init; }
+    public DateTime Created { get; init; }
+    public string Username { get; init; }
+    public State State { get; init; }
+    public Status Status { get; init; }
 }
 

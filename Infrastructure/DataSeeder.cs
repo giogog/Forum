@@ -92,6 +92,7 @@ public static class DataSeeder
     public static void SeedRoles(this ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Role>().HasData(
+            new Role { Id = -3, Name = "Moderator", NormalizedName = "MODERATOR" },
             new Role { Id = -2, Name = "Admin", NormalizedName = "ADMIN" },
             new Role { Id = -1, Name = "User", NormalizedName = "USER" }
         );

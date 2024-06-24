@@ -37,6 +37,10 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasForeignKey(t => t.UserId)
             .OnDelete(DeleteBehavior.Restrict)
             .IsRequired();
+        builder.HasMany(u => u.Forums)
+            .WithOne(t => t.User)
+            .HasForeignKey(t => t.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
 
     }
 }

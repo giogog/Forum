@@ -16,21 +16,24 @@ public class ServiceManager : IServiceManager
     private readonly Lazy<ICommentService> _commentService;
     private readonly Lazy<IEmailService> _emailService;
     private readonly Lazy<IUpvoteService> _upvoteService;
+    private readonly Lazy<IForumService> _forumService;
     public ServiceManager(
         IRepositoryManager repositoryManager,
         RoleManager<Role> roleManager,
-        ITokenGenerator tokenGenerator,
+        ITokenGenerator tokenGenerator, 
         IEmailSender emailSender,
         IMapper mapper,
-        IConfiguration configuration
+        IConfiguration configuration,
+        ILoggerFactory loggerFactory
         )
     {
-        _authorizationService = new (() => new AuthorizationService(roleManager, tokenGenerator, repositoryManager));
-        _topicService = new(() => new TopicService(repositoryManager, mapper, configuration));
-        _userService = new(() => new UserService(repositoryManager, mapper));
-        _commentService = new(() => new CommentService(repositoryManager, mapper));
+        _authorizationService = new (() => new AuthorizationService(roleManager, tokenGenerator, repositoryManager, loggerFactory.CreateLogger<AuthorizationService>()));
+        _topicService = new(() => new TopicService(repositoryManager, mapper, configuration, loggerFactory.CreateLogger<TopicService>()));
+        _userService = new(() => new UserService(repositoryManager, mapper, loggerFactory.CreateLogger<UserService>()));
+        _commentService = new(() => new CommentService(repositoryManager, mapper, configuration, loggerFactory.CreateLogger<CommentService>()));
         _emailService = new(() => new EmailService(emailSender, repositoryManager, tokenGenerator));
-        _upvoteService = new(() => new UpvoteService(repositoryManager));   
+        _upvoteService = new(() => new UpvoteService(repositoryManager, loggerFactory.CreateLogger<UpvoteService>()));
+        _forumService = new(() => new ForumService(repositoryManager, mapper, configuration, loggerFactory.CreateLogger<ForumService>()));
     }
     public IAuthorizationService AuthorizationService => _authorizationService.Value;
     public ITopicService TopicService => _topicService.Value;
@@ -38,4 +41,5 @@ public class ServiceManager : IServiceManager
     public ICommentService CommentService => _commentService.Value;
     public IEmailService EmailService => _emailService.Value;
     public IUpvoteService UpvoteService => _upvoteService.Value;
+    public IForumService ForumService => _forumService.Value;
 }

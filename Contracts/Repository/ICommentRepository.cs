@@ -10,6 +10,6 @@ public interface ICommentRepository
     Task<Comment> GetCommentByIdAsync(int id);
     Task<IEnumerable<Comment>> GetCommentsByTopicIdAsync(int topicId);
     Task<IEnumerable<Comment>> GetCommentsByUserIdAsync(int userId);
-
+    IQueryable<Comment> Comments();
 
 }

@@ -20,7 +20,9 @@ public enum State
 public enum Status 
 { 
     Active = 0,
-    Inactive = 1
+    Inactive = 1,
+    Deleted = 2
 }
 
+public enum Ban { NotBanned = 0, Banned = 1 }
 public enum CommentType { Comment = 0, Reply = 1 }

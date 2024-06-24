@@ -7,4 +7,5 @@ public interface IUserService
     Task<ApiResponse<UserResult>> GetUserWithEmail(string email);
     Task<ApiResponse<AuthorizedUserResult>> GetAuthorizedUserData(int id);
     Task<ApiResponse<Result>> UpdateAuthrizedUserData(int id, AuthorizedUserResult authorizedUserResult);
+    Task<ApiResponse<Result>> BanUser(int id, Ban ban);
 }

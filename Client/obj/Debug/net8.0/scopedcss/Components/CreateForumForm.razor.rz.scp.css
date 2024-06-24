@@ -1,0 +1,49 @@
+.create-forum[b-kcxz1p11qs] {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+    .create-forum h2[b-kcxz1p11qs] {
+        margin-top: 0;
+        font-family: 'Arial', sans-serif;
+        font-size: 1.5em;
+        color: #333;
+    }
+
+.create-forum-form[b-kcxz1p11qs] {
+    margin-top: 20px;
+}
+
+.form-group[b-kcxz1p11qs] {
+    margin-bottom: 15px; /* Adjust spacing between form groups */
+}
+
+    .form-group label[b-kcxz1p11qs] {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 1em;
+        color: #333;
+    }
+
+    .form-group input[b-kcxz1p11qs],
+    .form-group textarea[b-kcxz1p11qs] {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 1em;
+        box-sizing: border-box; /* Ensure padding and border are included in width calculation */
+    }
+
+    .form-group textarea[b-kcxz1p11qs] {
+        height: 120px;
+        resize: vertical; /* Allow vertical resizing of textarea */
+    }
+
+.text-right[b-kcxz1p11qs] {
+    text-align: right;
+}

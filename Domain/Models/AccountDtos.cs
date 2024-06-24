@@ -4,7 +4,7 @@ public record LoginDto(string Username, string Password);
 
 
 public record RegisterDto(string Name, string Surname, string Username, string Email, string Password);
-public record LoginResponseDto(int id, string Username, string Token);
+public record LoginResponseDto(int Id, string Username, string Token);
 
-public record ResetPasswordDto(string email, string token, string NewPassword);
+public record ResetPasswordDto(string Email, string Token, string NewPassword);
 

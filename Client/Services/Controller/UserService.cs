@@ -22,4 +22,8 @@ public class UserService : IUserService
     {
         return await _request.RequestAsync<Result>(new ApiRequest(ApiType.PUT, $"User/with-id/{id}", authorizedUserResult));
     }
+    public async Task<ApiResponse<Result>> BanUser(int id, Ban ban)
+    {
+        return await _request.RequestAsync<Result>(new ApiRequest(ApiType.PATCH, $"User/{id}/{(int)ban}", null));
+    }
 }

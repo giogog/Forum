@@ -11,14 +11,15 @@ public class MappingProfile : Profile
         CreateMap<Topic, TopicDto>()
                     .ForMember(dest => dest.AuthorFullName, opt => opt.MapFrom(src => $"{src.User.Name} {src.User.Surname}"))
                     .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.User.UserName))
+                    .ForMember(dest => dest.ForumTitle, opt => opt.MapFrom(src => src.Forum.Title))
                     .ForMember(dest => dest.CommentNum, opt => opt.MapFrom(src => src.CommentNum));
 
-        CreateMap<Topic, TopicWithContentDto>()
-            .ForMember(dest => dest.AuthorFullName, opt => opt.MapFrom(src => $"{src.User.Name} {src.User.Surname}"))
+        CreateMap<Forum, ForumDto>()
             .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.User.UserName))
-            .ForMember(dest => dest.Comments, opt => opt.MapFrom(src => src.Comments));
-        // AutoMapper configuration
+            .ForMember(dest => dest.TopicNum, opt => opt.MapFrom(src => src.TopicNum));
 
+
+        CreateMap<CreateForumDto, Forum>();
 
         CreateMap<CreateTopicDto, Topic>();
 

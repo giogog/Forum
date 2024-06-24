@@ -27,8 +27,6 @@ public class TopicRepository(ApplicationDataContext context) : BaseRepository<To
 
     public async Task<Topic> GetTopicWithContentByIdAsync(int id) =>
     await FindByCondition(t => t.Id == id)
-        .Include(t => t.Comments)
-            .ThenInclude(c => c.User)
         .Include(t => t.User)
         .Include(t=>t.Upvotes)
         .FirstOrDefaultAsync();

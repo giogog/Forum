@@ -12,9 +12,13 @@ public class CommentService:ICommentService
         _httpRequestService = httpRequestService;
     }
 
+    public async Task<PaginatedApiResponse<IEnumerable<CommentResult>>> GetComments(int topicId,int page)
+    {
+        return await _httpRequestService.PaginatedRequestAsync<IEnumerable<CommentResult>>(new ApiRequest(ApiType.GET, $"Comment/{topicId}", page));
+    }
     public async Task<ApiResponse<Result>> AddComment(AddCommentModelDto addCommentModelDto)
     {
-        return await _httpRequestService.RequestAsync<Result>(new ApiRequest(ApiType.POST, "Comment",addCommentModelDto));
+        return await _httpRequestService.RequestAsync<Result>(new ApiRequest(ApiType.POST, "Comment/create",addCommentModelDto));
     }
 
     public async Task<ApiResponse<Result>> AddReply(AddCommentModelDto addCommentModelDto)
@@ -24,11 +28,11 @@ public class CommentService:ICommentService
 
     public async Task<ApiResponse<Result>> DeleteComment(int commentId)
     {
-        return await _httpRequestService.RequestAsync<Result>(new ApiRequest(ApiType.DELETE, $"Comment/delete-comment/{commentId}", null));
+        return await _httpRequestService.RequestAsync<Result>(new ApiRequest(ApiType.DELETE, $"Comment/delete/{commentId}", null));
     }
 
     public async Task<ApiResponse<Result>> EditComment(int commentId, UpdateCommentModelDto addCommentModelDto)
     {
-        return await _httpRequestService.RequestAsync<Result>(new ApiRequest(ApiType.PUT, $"Comment/update-comment/{commentId}", addCommentModelDto));
+        return await _httpRequestService.RequestAsync<Result>(new ApiRequest(ApiType.PUT, $"Comment/update/{commentId}", addCommentModelDto));
     }
 }

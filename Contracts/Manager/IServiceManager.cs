@@ -9,5 +9,6 @@ public interface IServiceManager
     IEmailService EmailService { get; }
     ICommentService CommentService { get; }
     IUpvoteService UpvoteService { get; }
+    IForumService ForumService { get; }
 
 }

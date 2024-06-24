@@ -16,10 +16,13 @@ public class CommentRepository(ApplicationDataContext context) : BaseRepository<
         await FindByCondition(c => c.Id == id).FirstOrDefaultAsync();
 
     public async Task<IEnumerable<Comment>> GetCommentsByTopicIdAsync(int topicId) => 
-        await FindByCondition(c => c.TopicId == topicId).ToArrayAsync();
+        await FindByCondition(c => c.TopicId == topicId)
+        .ToArrayAsync();
 
     public async Task<IEnumerable<Comment>> GetCommentsByUserIdAsync(int userId) => 
         await FindByCondition(c => c.UserId == userId).ToArrayAsync();
+
+    public IQueryable<Comment> Comments() => FindAll();
 
 
 }

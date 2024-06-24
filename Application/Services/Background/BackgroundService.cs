@@ -25,8 +25,8 @@ public class StatusBackgroundService : BackgroundService
                 {
                     if ((DateTime.Now - topic.Created).TotalDays >= 7)
                     {
-                        topic.Status = Status.Inactive;
-                        repositoryManager.TopicRepository.UpdateTopicAsync(topic);
+                        //topic.Status = Status.Inactive;
+                        //repositoryManager.TopicRepository.UpdateTopicAsync(topic);
                     }
                 }
 

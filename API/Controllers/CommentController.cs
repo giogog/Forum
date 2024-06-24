@@ -8,8 +8,17 @@ namespace API.Controllers;
 
 public class CommentController(IServiceManager _serviceManager):ApiController(_serviceManager)
 {
+    [HttpGet("{topicid}")]
+    public async Task<IActionResult> GetComments(int topicId,[FromBody]int page)
+    {
+        var topics = await _serviceManager.CommentService.GetCommentByPage(page,topicId);
+
+        _response = new PaginatedApiResponse("Comments", true, topics, Convert.ToInt32(HttpStatusCode.OK), topics.SelectedPage, topics.TotalPages, topics.PageSize, topics.ItemCount);
+        return StatusCode(_response.StatusCode, _response);
+    }
+
     [Authorize(Roles = "User")]
-    [HttpPost]
+    [HttpPost("create")]
     public async Task<IActionResult> CreateComment([FromBody]CreateCommentDto commentDto)
     {
         var user = await _serviceManager.UserService.GetUserWithClaim(User);
@@ -20,7 +29,7 @@ public class CommentController(IServiceManager _serviceManager):ApiController(_s
 
     }
     [Authorize(Roles = "User")]
-    [HttpPut("update-comment/{commentId}")]
+    [HttpPut("update/{commentId}")]
     public async Task<IActionResult> UpdateComment([FromBody] UpdateCommentDto commentDto,int commentId)
     {
         var user = await _serviceManager.UserService.GetUserWithClaim(User);
@@ -31,7 +40,7 @@ public class CommentController(IServiceManager _serviceManager):ApiController(_s
 
     }
     [Authorize(Roles = "User")]
-    [HttpDelete("delete-comment/{commentId}")]
+    [HttpDelete("delete/{commentId}")]
     public async Task<IActionResult> DeleteComment(int commentId)
     {
         var user = await _serviceManager.UserService.GetUserWithClaim(User);

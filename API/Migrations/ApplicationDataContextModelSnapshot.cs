@@ -61,6 +61,38 @@ namespace API.Migrations
                     b.ToTable("Comment");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Forum", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("State")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Forum", (string)null);
+                });
+
             modelBuilder.Entity("Domain.Entities.Role", b =>
                 {
                     b.Property<int>("Id")
@@ -93,6 +125,12 @@ namespace API.Migrations
                     b.HasData(
                         new
                         {
+                            Id = -3,
+                            Name = "Moderator",
+                            NormalizedName = "MODERATOR"
+                        },
+                        new
+                        {
                             Id = -2,
                             Name = "Admin",
                             NormalizedName = "ADMIN"
@@ -121,6 +159,9 @@ namespace API.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("ForumId")
+                        .HasColumnType("int");
+
                     b.Property<int>("State")
                         .HasColumnType("int");
 
@@ -136,6 +177,8 @@ namespace API.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ForumId");
 
                     b.HasIndex("UserId");
 
@@ -243,14 +286,14 @@ namespace API.Migrations
                             Id = 1,
                             AccessFailedCount = 0,
                             Banned = 0,
-                            ConcurrencyStamp = "468fef88-c48e-4b11-b840-c50e05147aa0",
+                            ConcurrencyStamp = "9f86ffbb-ab70-472f-b04d-7c2f8831c9b3",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             Name = "Admin",
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEHWt7u9roz1HItKAm5FVdEg1ra/aWad03aUSphxbhATD0wkZgBEGifmvLkTH2cw0OA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGCWADiH5bAJNzUFIByseMh/TpUHlvi30N+q3qqzU7YKV319CxPV/SLHeJVIoptepA==",
                             PhoneNumber = "555334455",
                             Surname = "Admininistrator",
                             UserName = "admin"
@@ -260,14 +303,14 @@ namespace API.Migrations
                             Id = 2,
                             AccessFailedCount = 0,
                             Banned = 0,
-                            ConcurrencyStamp = "2e667a30-42e6-4077-9294-8b18cb23b0d5",
+                            ConcurrencyStamp = "a031e6ce-3b82-4472-a54e-33d69cd40aab",
                             Email = "ani@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             Name = "Ani",
                             NormalizedEmail = "ANI@GMAIL.COM",
                             NormalizedUserName = "ANI17",
-                            PasswordHash = "AQAAAAIAAYagAAAAED5Lhq3+fAFYQTbFu26o/6oOw2eKB/gZAHx/2RGpk1jKd2vkxfkqrm5d3sKMxbSD/A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAECHJ2L++syqeoxUe5rN385uwKzEIkNl9WPFyycwDgXGeDU/UD+Sw3h2ujEN82nUMiA==",
                             PhoneNumber = "555334456",
                             Surname = "Magradze",
                             UserName = "ani17"
@@ -277,14 +320,14 @@ namespace API.Migrations
                             Id = 3,
                             AccessFailedCount = 0,
                             Banned = 0,
-                            ConcurrencyStamp = "d16d8939-7692-4c0f-a492-02af4fbc952c",
+                            ConcurrencyStamp = "3c53c88a-3408-4e7f-bfe7-994731768c68",
                             Email = "rezi@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             Name = "Rezi",
                             NormalizedEmail = "Rezi@GMAIL.COM",
                             NormalizedUserName = "REZIREZI",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPhpwgXyqiQYoHcvlbKBS6s9bHtXrBz+QFFTR6Zus0fevVBo3OWLbhZaJcnvCdyBHg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIF78RWKZSoQkBxs0s+pWbu4Or2B/b9N4eTYKaw+fmm3S9sEFKrT9S91www1esFtEw==",
                             PhoneNumber = "555334457",
                             Surname = "Magradze",
                             UserName = "rezirezi"
@@ -294,14 +337,14 @@ namespace API.Migrations
                             Id = 4,
                             AccessFailedCount = 0,
                             Banned = 0,
-                            ConcurrencyStamp = "5e1daaad-e339-4f3e-8a65-9699e1073f69",
+                            ConcurrencyStamp = "851a5d94-f89d-49dd-8f58-80db6c63d741",
                             Email = "gogoladzegio12@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             Name = "Giorgi",
                             NormalizedEmail = "GOGOLADZEGIO12@GMAIL.COM",
                             NormalizedUserName = "GIOGIO789",
-                            PasswordHash = "AQAAAAIAAYagAAAAEMno1r9t9FS0xcdAEARmNfpbQw139Ri8gyxer5lWZ6ZXVhar4xxAyGPZDevZSaQiZA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEv//oBtthrWpwTO+82umbY0xPiNGqnOobVscwYX9d/YUstA11PvOxYVktal9NE6Mw==",
                             PhoneNumber = "555334457",
                             Surname = "Gogoladze",
                             UserName = "Giogio789"
@@ -457,13 +500,32 @@ namespace API.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Forum", b =>
+                {
+                    b.HasOne("Domain.Entities.User", "User")
+                        .WithMany("Forums")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Domain.Entities.Topic", b =>
                 {
+                    b.HasOne("Domain.Entities.Forum", "Forum")
+                        .WithMany("Topics")
+                        .HasForeignKey("ForumId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Domain.Entities.User", "User")
                         .WithMany("Topics")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Forum");
 
                     b.Navigation("User");
                 });
@@ -545,6 +607,11 @@ namespace API.Migrations
                     b.Navigation("Replies");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Forum", b =>
+                {
+                    b.Navigation("Topics");
+                });
+
             modelBuilder.Entity("Domain.Entities.Role", b =>
                 {
                     b.Navigation("Users");
@@ -560,6 +627,8 @@ namespace API.Migrations
             modelBuilder.Entity("Domain.Entities.User", b =>
                 {
                     b.Navigation("Comments");
+
+                    b.Navigation("Forums");
 
                     b.Navigation("Roles");
 

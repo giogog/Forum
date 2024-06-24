@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Domain.Models;
 
 namespace Domain.Entities;
@@ -17,7 +18,6 @@ public class Topic
     public DateTime Created { get; set; } = DateTime.Now;
 
     public int CommentNum => Comments?.Count ?? 0;
-
     [EnumDataType(typeof(State))]
     public State State { get; set; } = State.Pending;
 
@@ -30,6 +30,11 @@ public class Topic
 
     [Required]
     public int UserId { get; set; }
-
+    [ForeignKey("UserId")]
     public User User { get; set; }
+
+    [Required]
+    public int ForumId { get; set; }
+    public Forum Forum { get; set; }
+
 }

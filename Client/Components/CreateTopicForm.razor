@@ -3,6 +3,10 @@
 
 <EditForm Model="@Topic" OnValidSubmit="@SubmitForm">
     <div class="create-topic">
+        <button class="go-back" @onclick="()=>OnNavigateBack.InvokeAsync()">
+            <span class="arrow">&#8592;</span> <!-- Unicode left arrow -->
+            Go Back
+        </button>
         <h2>Create a New Topic</h2>
         <div class="create-topic-form">
             <div class="form-group">
@@ -24,6 +28,7 @@
 
 @code {
     [Parameter] public EventCallback<TopicModelDto> OnValidSubmit { get; set; }
+    [Parameter] public EventCallback OnNavigateBack { get; set; }
     private TopicModelDto Topic { get; set; } = new TopicModelDto();
 
     private async Task SubmitForm()

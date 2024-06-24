@@ -7,6 +7,9 @@ public interface ITopicService
     Task<ApiResponse<Result>> AddTopic(TopicModelDto createTopicModelDto);
     Task<ApiResponse<Result>> EditTopic(UpdateTopicModelDto createTopicModelDto);
     Task<ApiResponse<Result>> DeleteTopic(int topicId);
-    Task<PaginatedApiResponse<IEnumerable<TopicWithContentResult>>> GetTopicsWithContent(int page);
-    Task<ApiResponse<TopicWithContentResult>> GetTopicById(int id);
+    Task<ApiResponse<Result>> ChangeTopicStatus(int topicId, Status status);
+    Task<PaginatedApiResponse<IEnumerable<TopicResult>>> GetTopics(int forumId,int page);
+    Task<PaginatedApiResponse<IEnumerable<TopicResult>>> GetTopicsWithUser(int userId, int page);
+    Task<PaginatedApiResponse<IEnumerable<TopicResult>>> GetPendingTopics(int page);
+    Task<ApiResponse<TopicResult>> GetTopicById(int id);
 }
