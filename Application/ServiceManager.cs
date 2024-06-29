@@ -19,7 +19,6 @@ public class ServiceManager : IServiceManager
     private readonly Lazy<IForumService> _forumService;
     public ServiceManager(
         IRepositoryManager repositoryManager,
-        RoleManager<Role> roleManager,
         ITokenGenerator tokenGenerator, 
         IEmailSender emailSender,
         IMapper mapper,
@@ -27,9 +26,9 @@ public class ServiceManager : IServiceManager
         ILoggerFactory loggerFactory
         )
     {
-        _authorizationService = new (() => new AuthorizationService(roleManager, tokenGenerator, repositoryManager, loggerFactory.CreateLogger<AuthorizationService>()));
+        _authorizationService = new (() => new AuthorizationService(tokenGenerator, repositoryManager, loggerFactory.CreateLogger<AuthorizationService>()));
         _topicService = new(() => new TopicService(repositoryManager, mapper, configuration, loggerFactory.CreateLogger<TopicService>()));
-        _userService = new(() => new UserService(repositoryManager, mapper, loggerFactory.CreateLogger<UserService>()));
+        _userService = new(() => new UserService(repositoryManager, mapper, loggerFactory.CreateLogger<UserService>(),configuration));
         _commentService = new(() => new CommentService(repositoryManager, mapper, configuration, loggerFactory.CreateLogger<CommentService>()));
         _emailService = new(() => new EmailService(emailSender, repositoryManager, tokenGenerator));
         _upvoteService = new(() => new UpvoteService(repositoryManager, loggerFactory.CreateLogger<UpvoteService>()));

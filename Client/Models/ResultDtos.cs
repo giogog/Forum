@@ -28,10 +28,13 @@ public record UserResult:Result
 }
 public record AuthorizedUserResult : Result
 {
+    public int Id { get; init; }
     public string Name { get; set; }
     public string Surname { get; set; }
     public string UserName { get; set; }
     public string Email { get; set; }
+    public Ban Banned { get; set; }
+    public string[] Roles { get; set; } 
 }
 
 public record TopicResult : Result

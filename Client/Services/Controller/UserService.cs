@@ -26,4 +26,16 @@ public class UserService : IUserService
     {
         return await _request.RequestAsync<Result>(new ApiRequest(ApiType.PATCH, $"User/{id}/{(int)ban}", null));
     }
+    public async Task<PaginatedApiResponse<IEnumerable<AuthorizedUserResult>>> GetUsers(int page)
+    {
+        return await _request.PaginatedRequestAsync<IEnumerable<AuthorizedUserResult>>(new ApiRequest(ApiType.GET, $"User/users/{page}", null));
+    }
+    public async Task<ApiResponse<Result>> ChangeUserModeratorStatus(int userId)
+    {
+        return await _request.RequestAsync<Result>(new ApiRequest(ApiType.POST, $"User/moderator/{userId}", null));
+    }
+    public async Task<ApiResponse<IEnumerable<string>>> GetUserRoles(int userId)
+    {
+        return await _request.RequestAsync<IEnumerable<string>>(new ApiRequest(ApiType.GET, $"User/users/{userId}", null));
+    }
 }

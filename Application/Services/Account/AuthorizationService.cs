@@ -10,18 +10,15 @@ namespace Application.Services
 {
     public class AuthorizationService : IAuthorizationService
     {
-        private readonly RoleManager<Role> _roleManager;
         private readonly ITokenGenerator _tokenGenerator;
         private readonly IRepositoryManager _repositoryManager;
         private readonly ILogger<AuthorizationService> _logger;
 
         public AuthorizationService(
-            RoleManager<Role> roleManager,
             ITokenGenerator tokenGenerator,
             IRepositoryManager repositoryManager,
             ILogger<AuthorizationService> logger)
         {
-            _roleManager = roleManager;
             _tokenGenerator = tokenGenerator;
             _repositoryManager = repositoryManager;
             _logger = logger;
@@ -104,6 +101,11 @@ namespace Application.Services
                 _logger.LogWarning("Email not confirmed for user {Username}.", loginDto.Username);
                 return IdentityResult.Failed(new IdentityError { Code = "MailIsNotConfirmed", Description = "Please confirm your email." });
             }
+            if (user.Banned == Ban.Banned)
+            {
+                _logger.LogWarning("{Username} Is banned.", loginDto.Username);
+                return IdentityResult.Failed(new IdentityError { Code = "Ban", Description = "User is banned." });
+            }
 
             return IdentityResult.Success;
         }
@@ -114,7 +116,7 @@ namespace Application.Services
 
             try
             {
-                if (await _roleManager.RoleExistsAsync(newRole))
+                if (await _repositoryManager.UserRepository.UserRoleExists(newRole))
                 {
                     _logger.LogWarning("Role {Role} already exists.", newRole);
                     await _repositoryManager.RollbackTransactionAsync();
@@ -127,7 +129,7 @@ namespace Application.Services
                     NormalizedName = newRole.ToUpper(),
                 };
 
-                var result = await _roleManager.CreateAsync(role);
+                var result = await _repositoryManager.UserRepository.CreateUserRole(role);
                 if (!result.Succeeded)
                 {
                     _logger.LogError("Failed to create role {Role}: {Errors}", newRole, result.Errors);
@@ -181,7 +183,8 @@ namespace Application.Services
 
         private async Task<IdentityResult> AssignRoleToUser(User user, string roleName)
         {
-            if (!await _roleManager.RoleExistsAsync(roleName))
+
+            if (!await _repositoryManager.UserRepository.UserRoleExists(roleName))
             {
                 _logger.LogError("Role {Role} does not exist.", roleName);
                 return IdentityResult.Failed(new IdentityError { Code = "RoleNotExists", Description = "Role does not exist." });

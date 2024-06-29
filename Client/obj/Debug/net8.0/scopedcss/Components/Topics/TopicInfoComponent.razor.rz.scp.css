@@ -1,0 +1,49 @@
+.topic-footer[b-kvdaqrtwzv] {
+    margin-top: 15px;
+}
+
+.author-info[b-kvdaqrtwzv] {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+    .author-info .posted-by[b-kvdaqrtwzv], .author-info .username[b-kvdaqrtwzv], .author-info .posted-date[b-kvdaqrtwzv] {
+        font-size: 0.9em;
+        color: #888;
+    }
+
+    .author-info .username[b-kvdaqrtwzv] {
+        font-style: italic;
+        margin-left: 5px;
+    }
+
+    .author-info .posted-date[b-kvdaqrtwzv] {
+        margin-top: 5px;
+        font-size: 0.85em;
+        color: #aaa;
+    }
+
+.topic-status[b-kvdaqrtwzv] {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 0.9em;
+    color: #888;
+    background-color: #f0f0f0;
+    padding: 5px 10px;
+    border-radius: 5px;
+    z-index: 1;
+}
+
+.topic-state[b-kvdaqrtwzv] {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 0.9em;
+    color: #888;
+    background-color: #f0f0f0;
+    padding: 5px 10px;
+    border-radius: 5px;
+    z-index: 1;
+}

@@ -4,6 +4,7 @@ using Domain.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
+using System.Data;
 using System.Linq.Expressions;
 using System.Security.Claims;
 
@@ -12,10 +13,23 @@ namespace Infrastructure.Repository;
 public class UserRepository:IUserRepository
 {
     private readonly UserManager<User> _userManager;
+    private readonly RoleManager<Role> _roleManager;
 
-    public UserRepository(UserManager<User> userManager) => _userManager = userManager;
+    public UserRepository(UserManager<User> userManager, RoleManager<Role> roleManager) 
+    {
+        _userManager = userManager;
+        _roleManager = roleManager;
+
+    }
 
     public async Task<IdentityResult> AddToRole(User user, string roles) => await _userManager.AddToRoleAsync(user, roles);
+    public async Task<bool> UserRoleExists(string roleName) => await _roleManager.RoleExistsAsync(roleName);
+
+    public async Task<IdentityResult> CreateUserRole(Role role) => await _roleManager.CreateAsync(role);
+    public async Task<IdentityResult> DeleteUserRole(User user,string role) => await _userManager.RemoveFromRoleAsync(user,role);
+    public async Task<Role> FindUserRolebyName(string role) => await _roleManager.FindByNameAsync(role);
+    public async Task<Role> FindUserRoleById(string role) => await _roleManager.FindByIdAsync(role);
+    public async Task<string> GetRoleName(Role role) => await _roleManager.GetRoleNameAsync(role);
 
     public async Task<bool> CheckPassword(User user, string password) => await _userManager.CheckPasswordAsync(user, password);
 
@@ -39,6 +53,7 @@ public class UserRepository:IUserRepository
             throw new RestrictedException("This user is banned.");
         }
     }
+    public IQueryable<User> Users() => _userManager.Users;
 
 
 }

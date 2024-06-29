@@ -1,4 +1,8 @@
-﻿.user-profile-container {
+﻿.user {
+    margin: 0 auto;
+    padding: 20px;
+}
+.user-profile-container {
     max-width: 600px;
     margin: 0 auto;
     padding: 20px;

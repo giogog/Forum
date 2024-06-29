@@ -25,9 +25,13 @@ public class TopicService : ITopicService
         return await _httpRequestService.RequestAsync<TopicResult>(new ApiRequest(ApiType.GET, $"Topic/topic/{id}", null));
     }
 
-    public async Task<PaginatedApiResponse<IEnumerable<TopicResult>>> GetTopics(int forumId,int page)
+    public async Task<PaginatedApiResponse<IEnumerable<TopicResult>>> GetTopicsByForum(int forumId,int page)
     {
         return await _httpRequestService.PaginatedRequestAsync<IEnumerable<TopicResult>>(new ApiRequest(ApiType.GET, $"Topic/{forumId}/{page}",null));
+    }
+    public async Task<PaginatedApiResponse<IEnumerable<TopicResult>>> GetAllTopics(int page)
+    {
+        return await _httpRequestService.PaginatedRequestAsync<IEnumerable<TopicResult>>(new ApiRequest(ApiType.GET, $"Topic/topics/{page}", null));
     }
 
     public async Task<PaginatedApiResponse<IEnumerable<TopicResult>>> GetPendingTopics(int page)

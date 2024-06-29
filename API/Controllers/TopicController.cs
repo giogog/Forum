@@ -11,15 +11,24 @@ namespace API.Controllers;
 public class TopicController(IServiceManager _serviceManager) : ApiController(_serviceManager)
 {
     [HttpGet("{forumId}/{page}")]
-    public async Task<IActionResult> GetTopics(int forumId, int page)
+    public async Task<IActionResult> GetTopicsByForum(int forumId, int page)
     {
-        var topics = await _serviceManager.TopicService.GetTopicsByPage(forumId,page);
+        var topics = await _serviceManager.TopicService.GetForumTopicsByPage(forumId,page);
 
         _response = new PaginatedApiResponse("Topics", true, topics, Convert.ToInt32(HttpStatusCode.OK), topics.SelectedPage, topics.TotalPages, topics.PageSize, topics.ItemCount);
         return StatusCode(_response.StatusCode, _response);
     }
 
-    [Authorize(Roles = "User")]
+    [HttpGet("topics/{page}")]
+    public async Task<IActionResult> GetAllTopics(int page)
+    {
+        var topics = await _serviceManager.TopicService.GetAllTopicsByPage(page);
+
+        _response = new PaginatedApiResponse("All Topics", true, topics, Convert.ToInt32(HttpStatusCode.OK), topics.SelectedPage, topics.TotalPages, topics.PageSize, topics.ItemCount);
+        return StatusCode(_response.StatusCode, _response);
+    }
+
+    [Authorize]
     [HttpGet("user/{userId}/{page}")]
     public async Task<IActionResult> GetTopicsWithUserId(int userId, int page)
     {
@@ -29,7 +38,7 @@ public class TopicController(IServiceManager _serviceManager) : ApiController(_s
         return StatusCode(_response.StatusCode, _response);
     }
 
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,Moderator")]
     [HttpGet("pending/{page}")]
     public async Task<IActionResult> GetPendingTopics(int page)
     {
@@ -49,7 +58,7 @@ public class TopicController(IServiceManager _serviceManager) : ApiController(_s
     }
 
 
-    [Authorize(Roles = "User")]
+    [Authorize]
     [HttpPost("create")]
     public async Task<IActionResult> AddTopic([FromBody] CreateTopicDto createTopicDto) 
     {
@@ -61,7 +70,7 @@ public class TopicController(IServiceManager _serviceManager) : ApiController(_s
     }
 
 
-    [Authorize(Roles = "User")]
+    [Authorize]
     [HttpPut("update/{topicId}")]
     public async Task<IActionResult> UpdateTopic([FromBody] UpdateTopicDto updateTopicDto, int topicId)
     {
@@ -69,7 +78,7 @@ public class TopicController(IServiceManager _serviceManager) : ApiController(_s
         _response = new ApiResponse("Topic Updated Successfully", true, null, Convert.ToInt32(HttpStatusCode.OK));
         return StatusCode(_response.StatusCode, _response);
     }
-    [Authorize(Roles = "User")]
+    [Authorize]
     [HttpDelete("delete/{topicId}")]
     public async Task<IActionResult> DeleteTopic(int topicId)
     {
@@ -80,7 +89,7 @@ public class TopicController(IServiceManager _serviceManager) : ApiController(_s
     }
 
 
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,Moderator")]
     [HttpPatch("change-topic-status/{topicId}/{status}")]
     public async Task<IActionResult> ChangeTopicStatus(int topicId, Status status) 
     {
@@ -89,8 +98,8 @@ public class TopicController(IServiceManager _serviceManager) : ApiController(_s
         return StatusCode(_response.StatusCode, _response);
     }
 
-    [Authorize(Roles = "Admin")]
-    [HttpPatch("change-topic-state/{topicId}/{status}")]
+    [Authorize(Roles = "Admin,Moderator")]
+    [HttpPatch("change-topic-state/{topicId}/{state}")]
     public async Task<IActionResult> ChangeTopicState(int topicId, State state)
     {
         await _serviceManager.TopicService.ChangeTopicState(topicId, state);

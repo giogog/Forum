@@ -46,7 +46,7 @@ public class ForumController(IServiceManager _serviceManager) : ApiController(_s
     }
 
 
-    [Authorize(Roles = "User")]
+    [Authorize]
     [HttpPost("create")]
     public async Task<IActionResult> CreateForum([FromBody] CreateForumDto createForumDto)
     {
@@ -67,7 +67,7 @@ public class ForumController(IServiceManager _serviceManager) : ApiController(_s
         return StatusCode(_response.StatusCode, _response);
     }
 
-    [Authorize(Roles = "User")]
+    [Authorize]
     [HttpPatch("delete-from-user/{forumId}")]
     public async Task<IActionResult> DeletForumFromUser(int forumId)
     {
@@ -77,7 +77,7 @@ public class ForumController(IServiceManager _serviceManager) : ApiController(_s
         return StatusCode(_response.StatusCode, _response);
     }
 
-    [Authorize(Roles = "User")]
+    [Authorize]
     [HttpPut("update/{forumId}")]
     public async Task<IActionResult> UpdateForum([FromBody]UpdateForumDto updateForumDto , int forumId)
     {

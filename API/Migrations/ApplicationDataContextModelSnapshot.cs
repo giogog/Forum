@@ -219,7 +219,7 @@ namespace API.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<int>("Banned")
+                    b.Property<int>("Ban")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")

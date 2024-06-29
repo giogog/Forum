@@ -68,6 +68,7 @@ public class ForumService:IForumService
     public async Task<PagedList<ForumDto>> GetAllForumsByPage(int page)
     {
         var forums = _repositoryManager.ForumRepository.Forums()
+            .Where(t => t.State != State.Pending)
             .Include(f => f.Topics)
             .Include(f => f.User)
             .Select(f => new ForumDto
@@ -163,10 +164,10 @@ public class ForumService:IForumService
                 _logger.LogWarning("Forum {ForumId} not found", forumId);
                 throw new NotFoundException("Topic not found");
             }
-            if(topic.Status != Status.Deleted)
-            {
-                throw new InvalidArgumentException("This post is not deleted");
-            }
+            //if(topic.Status != Status.Deleted)
+            //{
+            //    throw new InvalidArgumentException("This post is not deleted");
+            //}
 
             await _repositoryManager.ForumRepository.DeleteForumAsync(topic);
             await _repositoryManager.SaveAsync();

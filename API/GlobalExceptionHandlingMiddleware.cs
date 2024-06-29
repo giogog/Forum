@@ -1,5 +1,7 @@
 ﻿using API;
 using System.Net;
+using System.Security.Claims;
+using System.Security.Principal;
 
 
 public class GlobalExceptionHandlingMiddleware
@@ -14,7 +16,19 @@ public class GlobalExceptionHandlingMiddleware
     {
         try
         {
+           
             await _next.Invoke(context);
+            //var claims = context.User.Identities.First().Claims;
+            //if(claims.Where(c=>c.Type.Contains("Ban")).Any())
+            //{
+            //    string status = claims.Where(c => c.Type == "Ban").First()?.Value;
+            //    if (status.Contains("Banned"))
+            //    {
+            //        await HandleException(context, new NotValidUserException("User is banned"));
+            //    }
+            //}
+
+            
         }
         catch (Exception ex)
         {
@@ -48,7 +62,7 @@ public class GlobalExceptionHandlingMiddleware
                 apiResponse.Result = null;
                 break;
             case InvalidArgumentException invalidArgumentException:
-                apiResponse.StatusCode = Convert.ToInt32(HttpStatusCode.Unauthorized);
+                apiResponse.StatusCode = Convert.ToInt32(HttpStatusCode.Forbidden);
                 apiResponse.IsSuccess = false;
                 apiResponse.Message = invalidArgumentException.Message;
                 apiResponse.Result = null;

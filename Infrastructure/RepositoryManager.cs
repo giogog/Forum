@@ -15,10 +15,10 @@ public class RepositoryManager : IRepositoryManager
     private readonly Lazy<ITopicRepository> _topicRepository;
     private readonly Lazy<IUpvoteRepository> _upvoteRepository;
     private readonly Lazy<IForumRepository> _forumRepository;
-    public RepositoryManager(ApplicationDataContext context,UserManager<User> userManager)
+    public RepositoryManager(ApplicationDataContext context,UserManager<User> userManager, RoleManager<Role> roleManager)
     {
         _context = context;
-        _userRepository = new(() => new UserRepository(userManager));
+        _userRepository = new(() => new UserRepository(userManager, roleManager));
         _commentRepository = new(() => new CommentRepository(context));
         _topicRepository = new(() => new TopicRepository(context));
         _upvoteRepository = new(() => new UpvoteRepository(context));

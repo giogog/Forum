@@ -1,6 +1,15 @@
 ﻿<div class="forum-header">
     <h2>@Forum.Title</h2>
-    <span class="forum-status">@Forum.Status</span>
+
+    @if (Page == "Home")
+    {
+        <span class="topic-state">@Forum.Status</span>
+    }
+    else
+    {
+        <span class="topic-state">@Forum.State | @Forum.Status</span>
+
+    }
 </div>
 <div class="forum-footer">
     <div class="author-info">
@@ -10,4 +19,5 @@
 </div>
 @code {
     [Parameter] public ForumResult Forum { get; set; }
+    [Parameter] public string Page { get; set; }
 }

@@ -2,6 +2,7 @@
 using Client.Contracts;
 using Client.Models;
 using Microsoft.AspNetCore.Components.Authorization;
+using System.Security.Claims;
 
 namespace Client.Services
 {
@@ -23,9 +24,9 @@ namespace Client.Services
 
 
 
-        public void MarkUserAsAuthenticated(string username)
+        public void MarkUserAsAuthenticated(ICollection<Claim> claims)
         {
-            ((ApiAuthenticationStateProvider)_authenticationStateProvider).MarkUserAsAuthenticated(username);
+            ((ApiAuthenticationStateProvider)_authenticationStateProvider).MarkUserAsAuthenticated(claims);
         }
 
         public async Task Logout()

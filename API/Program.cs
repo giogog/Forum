@@ -14,8 +14,9 @@ builder.ConfigureJwtOptions();
 builder.Services.ConfigureMongoDb(builder.Configuration);
 builder.Services.GeneralConfiguration(builder.Configuration);
 builder.Services.ConfigureAutomapper();
-builder.Services.AddIdentityService(builder.Configuration);
 builder.Services.ConfigureRepositoryManager();
+builder.Services.AddIdentityService(builder.Configuration);
+
 builder.Services.ConfigureServiceManager();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

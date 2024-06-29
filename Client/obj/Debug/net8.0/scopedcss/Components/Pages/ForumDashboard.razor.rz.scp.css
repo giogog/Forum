@@ -1,0 +1,47 @@
+.topic[b-5wph7wuysh] {
+    padding: 20px;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.topic-buttons[b-5wph7wuysh] {
+    display: flex;
+    justify-content: flex-end; /* Adjust alignment */
+    align-items: center; /* Center vertically */
+}
+
+    .topic-buttons .actions[b-5wph7wuysh] {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .topic-buttons .votes[b-5wph7wuysh] {
+        display: flex;
+        align-items: center;
+        gap: 10px; /* Space between upvote and downvote buttons */
+        margin: 0 auto; /* Center the votes div */
+    }
+
+    .topic-buttons button[b-5wph7wuysh] {
+        padding: 8px 15px;
+        font-size: 0.9em;
+        color: #fff;
+        background-color: #007bff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+        .topic-buttons button:hover[b-5wph7wuysh] {
+            background-color: #0056b3;
+        }
+
+    .topic-buttons .delete[b-5wph7wuysh] {
+        background-color: #dc3545;
+    }
+
+        .topic-buttons .delete:hover[b-5wph7wuysh] {
+            background-color: #c82333;
+        }

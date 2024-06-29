@@ -10,6 +10,8 @@ public interface IUserService
     Task<UserDto> GetUserWithEmail(string email);
     Task<AuthorizedUserDto> GetAuthorizedUserData(int id);
     Task UpdateAuthorizedUser(int id, AuthorizedUserDto authorizedUserDto);
-    Task<IEnumerable<UserDto>> GetUsers();
+    Task<PagedList<AuthorizedUserDto>> GetUsers(int page);
     Task UserBanStatusChange(int userId, Ban ban);
+    Task UserModeratorStatus(int userId, string role);
+    Task<IEnumerable<string>> GetUserRoles(int userId);
 } 

@@ -5,7 +5,6 @@
 @inject IAccountService AccountService
 @inject IJwtService jwtService
 @inject NavigationManager Navigation
-
 <h1>Log in</h1>
 <div class="row">
     <div class="col-md-4">
@@ -35,7 +34,6 @@
         </section>
     </div>
 </div>
-
 @code {
     private string? errorMessage;
 
@@ -49,17 +47,14 @@
 
         if (loginResult.IsSuccess)
         {
-            AuthService.MarkUserAsAuthenticated(Input.Username!);
+
 
             var token = loginResult.Result.Token;
             await jwtService.SetAuthToken(token);
-
-            var role = jwtService.GetRoleFromToken(token);
-            if (role == "User")
-            {
-                StateHasChanged();
-                Navigation.NavigateTo("/");
-            }
+            var claims = jwtService.GetClaimsFromToken(token);
+            AuthService.MarkUserAsAuthenticated(claims.ToList());
+            StateHasChanged();
+            Navigation.NavigateTo("/");
             
         }
         else

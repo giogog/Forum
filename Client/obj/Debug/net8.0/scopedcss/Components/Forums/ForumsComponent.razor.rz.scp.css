@@ -1,0 +1,116 @@
+.forum[b-fr9bycas3c] {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.forum-header[b-fr9bycas3c] {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.forum h2[b-fr9bycas3c] {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    font-size: 1.5em;
+    color: #333;
+}
+
+.forum p[b-fr9bycas3c] {
+    font-family: 'Georgia', serif;
+    font-size: 1em;
+    color: #555;
+}
+
+.edit-forum textarea[b-fr9bycas3c] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: 'Georgia', serif;
+    font-size: 1em;
+    color: #555;
+    transition: border-color 0.3s;
+}
+
+    .edit-forum textarea:focus[b-fr9bycas3c] {
+        border-color: #007bff;
+        outline: none;
+    }
+
+.edit-buttons[b-fr9bycas3c] {
+    display: flex;
+    gap: 10px;
+}
+
+    .edit-buttons .btn-submit[b-fr9bycas3c],
+    .edit-buttons .btn-cancel[b-fr9bycas3c] {
+        padding: 10px 15px;
+        font-size: 1em;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    .edit-buttons .btn-submit[b-fr9bycas3c] {
+        background-color: #28a745;
+        color: white;
+    }
+
+        .edit-buttons .btn-submit:hover[b-fr9bycas3c] {
+            background-color: #218838;
+        }
+
+    .edit-buttons .btn-cancel[b-fr9bycas3c] {
+        background-color: #dc3545;
+        color: white;
+    }
+
+        .edit-buttons .btn-cancel:hover[b-fr9bycas3c] {
+            background-color: #c82333;
+        }
+
+
+.forum-buttons[b-fr9bycas3c] {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 10px;
+}
+
+    .forum-buttons .actions[b-fr9bycas3c] {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .forum-buttons button[b-fr9bycas3c] {
+        padding: 8px 15px;
+        font-size: 0.9em;
+        color: #fff;
+        background-color: #007bff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+        .forum-buttons button:hover[b-fr9bycas3c] {
+            background-color: #0056b3;
+        }
+
+    .forum-buttons .delete[b-fr9bycas3c] {
+        background-color: #dc3545;
+    }
+
+        .forum-buttons .delete:hover[b-fr9bycas3c] {
+            background-color: #c82333;
+        }

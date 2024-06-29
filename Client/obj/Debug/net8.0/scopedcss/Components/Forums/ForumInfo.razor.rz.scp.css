@@ -1,37 +1,49 @@
 
-.forum-header[b-4pgoxtcrxx] {
+.forum-header[b-aavebd17ou] {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
 }
-.forum-footer[b-4pgoxtcrxx] {
+.forum-footer[b-aavebd17ou] {
     margin-top: 15px;
 }
 
-.author-info[b-4pgoxtcrxx] {
+.author-info[b-aavebd17ou] {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
 }
 
-    .author-info .posted-by[b-4pgoxtcrxx], .author-info .username[b-4pgoxtcrxx], .author-info .posted-date[b-4pgoxtcrxx] {
+    .author-info .posted-by[b-aavebd17ou], .author-info .username[b-aavebd17ou], .author-info .posted-date[b-aavebd17ou] {
         font-size: 0.9em;
         color: #888;
     }
 
-    .author-info .username[b-4pgoxtcrxx] {
+    .author-info .username[b-aavebd17ou] {
         font-style: italic;
         margin-left: 5px;
     }
 
-    .author-info .posted-date[b-4pgoxtcrxx] {
+    .author-info .posted-date[b-aavebd17ou] {
         margin-top: 5px;
         font-size: 0.85em;
         color: #aaa;
     }
 
-.forum-status[b-4pgoxtcrxx] {
+.topic-status[b-aavebd17ou] {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 0.9em;
+    color: #888;
+    background-color: #f0f0f0;
+    padding: 5px 10px;
+    border-radius: 5px;
+    z-index: 1;
+}
+
+.topic-state[b-aavebd17ou] {
     position: absolute;
     top: 10px;
     right: 10px;

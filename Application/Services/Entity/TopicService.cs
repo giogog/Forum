@@ -23,8 +23,34 @@ namespace Application.Services
             _pageSize = Int32.Parse(configuration["AppSettings:PageSize"]);
             _logger = logger;
         }
+        public async Task<PagedList<TopicDto>> GetAllTopicsByPage(int page)
+        {
+            _logger.LogInformation("Fetching all topics for page {Page}", page);
 
-        public async Task<PagedList<TopicDto>> GetTopicsByPage(int forumId, int page)
+            var topicDtos = _repositoryManager.TopicRepository.Topics()
+                .Where(t=>t.State != State.Pending)
+                .Include(t => t.User)
+                .Include(t => t.Upvotes)
+                .Select(t => new TopicDto
+                {
+                    Title = t.Title,
+                    UserId = t.UserId,
+                    ForumId = t.ForumId,
+                    Body = t.Body,
+                    Username = t.User.UserName,
+                    AuthorFullName = $"{t.User.Name} {t.User.Surname}",
+                    UpvotesNum = t.UpvotesNum,
+                    Created = t.Created,
+                    Id = t.Id,
+                    Status = t.Status,
+                    State = t.State
+
+                })
+                .OrderByDescending(t => t.Status == Status.Active);
+
+            return await PagedList<TopicDto>.CreateAsync(topicDtos, page, _pageSize);
+        }
+        public async Task<PagedList<TopicDto>> GetForumTopicsByPage(int forumId, int page)
         {
             _logger.LogInformation("Fetching topics for page {Page}", page);
 
@@ -61,6 +87,7 @@ namespace Application.Services
                 .Where(t => t.UserId == userId)
                 .Include(t => t.Forum)
                 .Include(t => t.User)
+                .Include(t => t.Upvotes)
                 .Select(t => new TopicDto
                 {
                     Title = t.Title,
@@ -70,6 +97,7 @@ namespace Application.Services
                     Username = t.User.UserName,
                     AuthorFullName = $"{t.User.Name} {t.User.Surname}",
                     ForumTitle = t.Forum.Title,
+                    UpvotesNum=t.UpvotesNum,
                     Created = t.Created,
                     Id = t.Id,
                     Status = t.Status,
@@ -283,5 +311,7 @@ namespace Application.Services
                 throw;
             }
         }
+
+
     }
 }

@@ -12,4 +12,5 @@ public interface IJwtService
     string GetRoleFromClaims(IEnumerable<Claim> claims);
     string GetUsernameFromClaims(IEnumerable<Claim> claims);
     int GetIdFromClaims(IEnumerable<Claim> claims);
+    IEnumerable<Claim>? GetClaimsFromToken(string token);
 }

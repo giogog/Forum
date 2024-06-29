@@ -104,7 +104,8 @@ public static class DataSeeder
             new UserRole { RoleId = -2, UserId = 1 },
             new UserRole { RoleId = -1, UserId = 2 },
             new UserRole { RoleId = -1, UserId = 3 },
-            new UserRole { RoleId = -1, UserId = 4 }
+            new UserRole { RoleId = -1, UserId = 4 },
+            new UserRole { RoleId = -3, UserId = 4 }
         );
     }
 

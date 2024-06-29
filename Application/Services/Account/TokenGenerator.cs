@@ -35,17 +35,18 @@ public class TokenGenerator : ITokenGenerator
         return await _userManager.GeneratePasswordResetTokenAsync(user);
     }
 
+    
     public async Task<string> GenerateToken(User user)
     {
-
         var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.NameId, user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
-                new Claim(JwtRegisteredClaimNames.Email,user.Email)
+                new Claim(JwtRegisteredClaimNames.Email,user.Email),
+                new Claim("Ban",user.Banned.ToString())
 
             };
-
+        
         var roles = await _userManager.GetRolesAsync(user);
 
         claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));

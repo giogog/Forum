@@ -7,6 +7,8 @@
 @inject NavigationManager Navigation
 @inject IJSRuntime JSRuntime
 
+
+
 <PageTitle>Forum Topics</PageTitle>
 <AuthorizeView>
     <Authorized>
@@ -16,44 +18,12 @@
         <p>Please log in to create a topic.</p>
     </NotAuthorized>
 </AuthorizeView>
-
 @if (ForumTopics != null && ForumTopics.Any())
 {
-    @foreach (var topic in ForumTopics)
-    {
-        <div class="topic">
-            @if (EditTopicBodies.ContainsKey(topic.Id))
-            {
-                <div class="edit-topic">
-                    <textarea class="edit-title" @bind="EditTopicTitles[topic.Id]"></textarea>
-                    <textarea class="edit-body" @bind="EditTopicBodies[topic.Id]"></textarea>
-                    <div class="edit-buttons">
-                        <button class="btn-submit" @onclick="() => SubmitTopicEdit(topic.Id)">Submit</button>
-                        <button class="btn-cancel" @onclick="() => CancelTopicEdit(topic.Id)">Cancel</button>
-                    </div>
-                </div>
-            }
-            else
-            {
-                <TopicInfo Topic="topic" />
-                <TopicButtons Topic="topic"
-                              OnToggleComments="NavigateToTopicDetails" OnToggleAddComment="NavigateToTopicDetails"
-                              NavigateToLogin="NavigateToLogin" OnDeleteTopic="ConfirmDeleteTopic" OnToggleEditTopic="StartTopicEdit"
-                              OnUpVote="UpVoteTopic" UserId="UserId" InDetailedView="false" />
-            }
-        </div>
-    }
+    <TopicsComponent ForumTopics="ForumTopics" OnLoadTopics="LoadTopics" Page="Topics" Url="@Url" />
+    <PaginationNav TotalPages="TotalPages" CurrentPage="TopicPage" OnPageChanged="PageChange" />
+}
 
-    <PaginationNav TotalPages="TotalPages" CurrentPage="TopicPage" OnPageChanged="LoadPage" />
-}
-else if (ErrorMessage != null)
-{
-    <p>@ErrorMessage</p>
-}
-else
-{
-    <p>No topics found.</p>
-}
 
 @code {
     [Parameter] public int ForumPage { get; set; }
@@ -61,58 +31,36 @@ else
     [Parameter] public int TopicPage { get; set; }
 
     private IEnumerable<TopicResult>? ForumTopics;
-    private Dictionary<int, string> EditTopicTitles = new();
-    private Dictionary<int, string> EditTopicBodies = new();
-    private bool IsAuthenticated;
-    private string? ErrorMessage;
-    private int? UserId;
     private int TotalPages;
+    private string Url;
 
     protected override async Task OnInitializedAsync()
     {
         if (TopicPage == 0)
             TopicPage = 1;
-
-        var authState = await AuthService.GetAuthenticationStateAsync();
-        IsAuthenticated = authState.User.Identity.IsAuthenticated;
-        UserId = IsAuthenticated ? JwtService.GetIdFromClaims(authState.User.Claims) : (int?)null;
-
-        await LoadTopics(TopicPage);
+        Url = $"/{ForumPage}/{ForumId}/topics/{TopicPage}";
+        await LoadTopics();
     }
 
-    private async Task LoadTopics(int page)
+    private async Task LoadTopics()
     {
-        var response = await TopicService.GetTopics(ForumId, page);
+        var response = await TopicService.GetTopicsByForum(ForumId, TopicPage);
         if (response.IsSuccess)
         {
             ForumTopics = response.Result.OrderByDescending(t => t.UpvotesNum).ThenByDescending(t => t.Created).ToList();
             TotalPages = response.TotalPages;
-            TopicPage = page;
+
         }
         else if (response.StatusCode == 404)
         {
             ForumTopics = null;
         }
-        else
-        {
-            ErrorMessage = response.Message;
-        }
     }
 
-    private void NavigateToTopicDetails(int topicId)
+    private async Task PageChange(int page)
     {
-        Navigation.NavigateTo($"/{ForumPage}/{ForumId}/topics/{TopicPage}/topic/{topicId}");
-    }
-
-    private void NavigateToLogin()
-    {
-        Navigation.NavigateTo("/login");
-    }
-
-    private async Task LoadPage(int page)
-    {
-        Navigation.NavigateTo($"/{ForumPage}/{ForumId}/topics/{page}");
-        await LoadTopics(page);
+        TopicPage = page;
+        await LoadTopics();
     }
 
     private async Task SubmitNewTopic(TopicModelDto newTopic)
@@ -121,298 +69,12 @@ else
         var result = await TopicService.AddTopic(newTopic);
         if (result.IsSuccess)
         {
-            await LoadTopics(TopicPage);
-        }
-        else
-        {
-            ErrorMessage = result.Message;
+            await LoadTopics();
         }
     }
 
-    private void StartTopicEdit(UpdateTopicModelDto topic)
+    private void NavigateBack()
     {
-        EditTopicTitles[topic.Id] = topic.Title;
-        EditTopicBodies[topic.Id] = topic.Body;
+        Navigation.NavigateTo($"/{ForumPage}");
     }
-
-    private void CancelTopicEdit(int topicId)
-    {
-        EditTopicBodies.Remove(topicId);
-    }
-
-    private async Task SubmitTopicEdit(int topicId)
-    {
-        if (EditTopicTitles.TryGetValue(topicId, out var editedTitle) && !string.IsNullOrEmpty(editedTitle) && EditTopicBodies.TryGetValue(topicId, out var editedBody) && !string.IsNullOrEmpty(editedBody))
-        {
-            var result = await TopicService.EditTopic(new UpdateTopicModelDto(topicId, editedTitle, editedBody));
-            if (result.IsSuccess)
-            {
-                EditTopicBodies.Remove(topicId);
-                await LoadTopics(TopicPage);
-            }
-            else
-            {
-                ErrorMessage = result.Message;
-            }
-        }
-    }
-
-    private async Task ConfirmDeleteTopic(int topicId)
-    {
-        var confirmed = await JSRuntime.InvokeAsync<bool>("confirm", "Are you sure you want to delete this topic?");
-        if (confirmed)
-        {
-            await DeleteTopic(topicId);
-        }
-    }
-
-    private async Task DeleteTopic(int topicId)
-    {
-        var result = await TopicService.DeleteTopic(topicId);
-        if (result.IsSuccess)
-        {
-            await LoadTopics(TopicPage);
-        }
-        else
-        {
-            ErrorMessage = result.Message;
-        }
-    }
-
-    private async Task UpVoteTopic(int topicId)
-    {
-        var result = await UpvoteService.Upvote(topicId);
-        if (result.IsSuccess)
-        {
-            await LoadTopics(TopicPage);
-        }
-        else
-        {
-            ErrorMessage = result.Message;
-        }
-    }
-        private void NavigateBack()
-        {
-            Navigation.NavigateTo($"/{ForumPage}");
-        }
 }
-
-@* @page "/{ForumPage:int}/{ForumId:int}/topics/{TopicPage:int?}"
-@using Microsoft.AspNetCore.Components.Authorization
-@inject ITopicService TopicService
-@inject IAuthenticationService AuthService
-@inject IJwtService JwtService
-@inject ICommentService CommentService
-@inject IUpvoteService UpvoteService
-@inject NavigationManager Navigation
-@inject IJSRuntime JSRuntime;
-
-<PageTitle>Forum Topics</PageTitle>
-
-<AuthorizeView>
-    <Authorized>
-        <CreateTopicForm OnValidSubmit="SubmitTopic" />
-    </Authorized>
-    <NotAuthorized>
-        <p>Authorize to create topic</p>
-    </NotAuthorized>
-</AuthorizeView>
-
-@if (topicsWithContent != null && topicsWithContent.Any())
-{
-    @foreach (var topic in topicsWithContent)
-    {
-        <div class="topic">
-
-            @if (editTopicBodies.ContainsKey(topic.Id))
-            {
-                <div class="edit-topic">
-                    <textarea class="edit-title" @bind="editTopicTitles[topic.Id]"></textarea>
-                    <textarea class="edit-body" @bind="editTopicBodies[topic.Id]"></textarea>
-                    <div class="edit-buttons">
-                        <button class="btn-submit" @onclick="() => SubmitEditTopic(topic.Id)">Submit</button>
-                        <button class="btn-cancel" @onclick="() => CancelEditTopic(topic.Id)">Cancel</button>
-                    </div>
-                </div>
-            }
-            else
-            {
-                <TopicInfo Topic="topic" />
-                <TopicButtons Topic="topic"
-                              OnToggleComments="GoToDetails" OnToggleAddComment="GoToDetails"
-                              NavigateToLogin="NavigateToLogin" OnDeleteTopic="ConfirmDeleteTopic" OnToggleEditTopic="EditTopic"
-                              OnUpVote="UpVote" UserId="userId" InDetailedView="false" />
-            }
-
-
-        </div>
-    }
-
-    <!-- Pagination controls -->
-    <nav aria-label="Topic navigation">
-        <ul class="pagination justify-content-center">
-            <li class="page-item @(TopicPage == 1 ? "disabled" : "")">
-                <button class="page-link" disabled="@(TopicPage == 1)" @onclick="@(TopicPage == 1 ? null : (() => NavigateToPage(TopicPage - 1)))">Previous</button>
-            </li>
-
-            @for (int i = 1; i <= totalPages; i++)
-            {
-                int localPageNumber = i;
-                <li class="page-item @(TopicPage == localPageNumber ? "active" : "")">
-                    <button class="page-link" @onclick="(() => NavigateToPage(localPageNumber))">@localPageNumber</button>
-                </li>
-            }
-
-            <li class="page-item @(TopicPage == totalPages ? "disabled" : "")">
-                <button class="page-link" disabled="@(TopicPage == totalPages)" @onclick="@(TopicPage == totalPages ? null : (() => NavigateToPage(TopicPage + 1)))">Next</button>
-            </li>
-        </ul>
-    </nav>
-
-}
-
-@code {
-    [Parameter] public int ForumPage { get; set; }
-    [Parameter] public int ForumId { get; set; }
-    [Parameter] public int TopicPage { get; set; }
-    private IEnumerable<TopicResult>? topicsWithContent;
-    private Dictionary<int, string> editTopicTitles = new Dictionary<int, string>();
-    private Dictionary<int, string> editTopicBodies = new Dictionary<int, string>();
-    private bool isAuthenticated;
-    private string? errorMessage;
-    private int? userId;
-    private int totalPages;
-    private int UpVoteNum;
-
-
-
-    protected override async Task OnInitializedAsync()
-    {
-        if (TopicPage == 0)
-            TopicPage = 1;
-
-        var authState = await AuthService.GetAuthenticationStateAsync();
-        isAuthenticated = authState.User.Identity.IsAuthenticated;
-        if (isAuthenticated)
-            userId = JwtService.GetIdFromClaims(authState.User.Claims);
-        else
-            userId = null;
-
-        await LoadTopics(TopicPage);
-    }
-
-
-    private async Task LoadTopics(int page)
-    {
-        var response = await TopicService.GetTopics(ForumId, page);
-        if (response.IsSuccess)
-        {
-            topicsWithContent = response.Result.OrderByDescending(t => t.UpvotesNum).ThenByDescending(t => t.Created).ToList();
-            totalPages = response.TotalPages;
-            TopicPage = page;
-
-        }
-        else if (response.StatusCode == 404)
-        {
-            topicsWithContent = null;
-        }
-    }
-
-    private void GoToDetails(int topicId)
-    {
-       
-        Navigation.NavigateTo($"/{ForumPage}/{ForumId}/topics/{TopicPage}/topic/{topicId}");
-    }
-
-
-    private void NavigateToLogin()
-    {
-        Navigation.NavigateTo("/login");
-    }
-
-    private async Task NavigateToPage(int page)
-    {
-        Navigation.NavigateTo($"/{ForumPage}/{ForumId}/topics/{page}");
-        await LoadTopics(page);
-    }
-
-
-    private async Task SubmitTopic(TopicModelDto topic)
-    {
-        topic.ForumId = ForumId;
-        var result = await TopicService.AddTopic(topic);
-        if (result.IsSuccess)
-        {
-            await LoadTopics(TopicPage);
-        }
-        else
-        {
-            errorMessage = result.Message;
-        }
-    }
-    private async Task EditTopic(UpdateTopicModelDto updateTopicModelDto)
-    {
-        editTopicTitles[updateTopicModelDto.Id] = updateTopicModelDto.Title;
-        editTopicBodies[updateTopicModelDto.Id] = updateTopicModelDto.body;
-    }
-
-    private async Task CancelEditTopic(int topicId)
-    {
-        editTopicBodies.Remove(topicId);
-    }
-
-    private async Task SubmitEditTopic(int topicId)
-    {
-        if (editTopicTitles.TryGetValue(topicId, out var editedTitle) && !string.IsNullOrEmpty(editedTitle) && editTopicBodies.TryGetValue(topicId, out var editedBody) && !string.IsNullOrEmpty(editedBody))
-        {
-            var result = await TopicService.EditTopic(new UpdateTopicModelDto(topicId, editedTitle, editedBody));
-            if (result.IsSuccess)
-            {
-                editTopicBodies.Remove(topicId);
-                await LoadTopics(TopicPage);
-            }
-            else
-            {
-                errorMessage = result.Message;
-            }
-        }
-    }
-
-    private async Task ConfirmDeleteTopic(int commentId)
-    {
-        var confirmed = await JSRuntime.InvokeAsync<bool>("confirm", "Are you sure you want to delete this Topic?");
-        if (confirmed)
-        {
-            await DeleteTopic(commentId);
-        }
-    }
-
-    private async Task DeleteTopic(int topicId)
-    {
-        var result = await TopicService.DeleteTopic(topicId);
-        if (result.IsSuccess)
-        {
-            await LoadTopics(TopicPage);
-        }
-        else
-        {
-            errorMessage = result.Message;
-        }
-    }
-    private async Task UpVote(int topicId)
-    {
-        var result = await UpvoteService.Upvote(topicId);
-        if (result.IsSuccess)
-        {
-            await LoadTopics(TopicPage);
-        }
-        else
-        {
-            errorMessage = result.Message;
-        }
-    }
-
-
-}
-
- *@

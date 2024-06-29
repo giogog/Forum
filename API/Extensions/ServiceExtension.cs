@@ -40,7 +40,7 @@ namespace API.Extensions
             var issuer = config.GetValue<string>("ApiSettings:JwtOptions:Issuer");
             var audience = config.GetValue<string>("ApiSettings:JwtOptions:Audience");
             string TokenKey = config["ApiSettings:JwtOptions:Secret"];
-
+            services.AddScoped<CustomJwtBearerEvents>();
             services.AddIdentity<User, Role>(option =>
             {
                 option.Password.RequireNonAlphanumeric = false;
@@ -59,6 +59,7 @@ namespace API.Extensions
             })
                 .AddJwtBearer(options =>
                 {
+                    
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = true,
@@ -70,6 +71,8 @@ namespace API.Extensions
                         ValidateLifetime = true,
                         ClockSkew = TimeSpan.Zero
                     };
+
+                    options.EventsType = typeof(CustomJwtBearerEvents);
                 });
 
             return services;

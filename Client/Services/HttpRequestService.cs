@@ -16,9 +16,11 @@ public class HttpRequestService<T> : IHttpRequestService<T>
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly IJwtService _jwtService;
     private readonly IAuthenticationService _authService;
+    private readonly ApiAuthenticationStateProvider _authStateProvider;
     private readonly string _url;
-    public HttpRequestService(IHttpClientFactory httpClientFactory,IConfiguration config, IJwtService jwtService,IAuthenticationService authService)
+    public HttpRequestService(IHttpClientFactory httpClientFactory,IConfiguration config, IJwtService jwtService,IAuthenticationService authService, ApiAuthenticationStateProvider authStateProvider)
     {
+        _authStateProvider = authStateProvider;
         this._jwtService = jwtService;
         this._authService = authService;
         _httpClientFactory = httpClientFactory;
@@ -89,6 +91,7 @@ public class HttpRequestService<T> : IHttpRequestService<T>
                 case HttpStatusCode.Forbidden:
                     return new PaginatedApiResponse<T>() { IsSuccess = false, Message = "Access denied", StatusCode = (int)HttpStatusCode.Forbidden };
                 case HttpStatusCode.Unauthorized:
+                    _authService.Logout();
                     return new PaginatedApiResponse<T>() { IsSuccess = false, Message = "Unauthorized", StatusCode = (int)HttpStatusCode.Unauthorized };
                 case HttpStatusCode.InternalServerError:
                     return new PaginatedApiResponse<T>() { IsSuccess = false, Message = "Internal server error", StatusCode = (int)HttpStatusCode.InternalServerError };

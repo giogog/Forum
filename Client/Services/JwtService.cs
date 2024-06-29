@@ -47,6 +47,11 @@ public class JwtService:IJwtService
         return claims.FirstOrDefault(c => c.Type == "role")?.Value;
 
     }
+    public IEnumerable<Claim>? GetClaimsFromToken(string token)
+    {
+        return ((ApiAuthenticationStateProvider)_authenticationStateProvider).ParseClaimsFromJwt(token);
+
+    }
     public string GetRoleFromClaims(IEnumerable<Claim> claims) 
     { 
         return claims.FirstOrDefault(c => c.Type == "role")?.Value;

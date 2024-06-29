@@ -25,9 +25,10 @@ public class ApiAuthenticationStateProvider : AuthenticationStateProvider
     }
 
 
-    public void MarkUserAsAuthenticated(string username)
+    public void MarkUserAsAuthenticated(ICollection<Claim> claims)
     {
-        var authenticatedUser = new ClaimsPrincipal(new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, username) }, "apiauth"));
+        //claims.Add(new Claim(ClaimTypes.Name, username));
+        var authenticatedUser = new ClaimsPrincipal(new ClaimsIdentity(claims, "apiauth"));
         var authState = Task.FromResult(new AuthenticationState(authenticatedUser));
         NotifyAuthenticationStateChanged(authState);
     }
@@ -53,6 +54,12 @@ public class ApiAuthenticationStateProvider : AuthenticationStateProvider
         {
             return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
         }
+        var claims = ParseClaimsFromJwt(savedToken);
+        var banstatus = claims.FirstOrDefault(c => c.Type == "Ban")?.Value;
+        if (banstatus != null && banstatus == "Banned")
+        {
+            return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
+        } 
         if (TokenExpired(savedToken))
         {
             // If the token is expired, set the user to be anonymous (unauthenticated)

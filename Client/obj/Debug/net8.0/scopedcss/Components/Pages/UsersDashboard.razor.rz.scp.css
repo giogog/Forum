@@ -1,0 +1,107 @@
+.container[b-f63i6ho0c9] {
+    padding: 20px;
+    margin-bottom: 15px;
+}
+.user-footer[b-f63i6ho0c9] {
+    margin-top: 15px;
+}
+
+.user[b-f63i6ho0c9] {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.user-buttons[b-f63i6ho0c9] {
+    display: flex;
+    justify-content: flex-end; /* Adjust alignment */
+    align-items: center; /* Center vertically */
+}
+
+    .user-buttons .actions[b-f63i6ho0c9] {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .user-buttons .votes[b-f63i6ho0c9] {
+        display: flex;
+        align-items: center;
+        gap: 10px; /* Space between upvote and downvote buttons */
+        margin: 0 auto; /* Center the votes div */
+    }
+
+    .user-buttons button[b-f63i6ho0c9] {
+        padding: 8px 15px;
+        font-size: 0.9em;
+        color: #fff;
+        background-color: #007bff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+        .user-buttons button:hover[b-f63i6ho0c9] {
+            background-color: #0056b3;
+        }
+
+    .user-buttons .delete[b-f63i6ho0c9] {
+        background-color: #dc3545;
+    }
+
+        .user-buttons .delete:hover[b-f63i6ho0c9] {
+            background-color: #c82333;
+        }
+
+.author-info[b-f63i6ho0c9] {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+    .author-info .posted-by[b-f63i6ho0c9],
+    .author-info .username[b-f63i6ho0c9],
+    .author-info .posted-date[b-f63i6ho0c9] {
+        font-size: 0.9em;
+        color: #888;
+    }
+
+    .author-info .username[b-f63i6ho0c9] {
+        font-style: italic;
+        margin-left: 5px;
+    }
+
+    .author-info .posted-date[b-f63i6ho0c9] {
+        margin-top: 5px;
+        font-size: 0.85em;
+        color: #aaa;
+    }
+
+.user-status[b-f63i6ho0c9] {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 0.9em;
+    color: #888;
+    background-color: #f0f0f0;
+    padding: 5px 10px;
+    border-radius: 5px;
+    z-index: 1;
+}
+
+.user-state[b-f63i6ho0c9] {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 0.9em;
+    color: #888;
+    background-color: #f0f0f0;
+    padding: 5px 10px;
+    border-radius: 5px;
+    z-index: 1;
+}
